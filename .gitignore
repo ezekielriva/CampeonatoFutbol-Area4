@@ -1,4 +1,3 @@
-manifest/cache/
-manifest/logs/
-manifest/tmp/
-install-log.txt
+app/cache/
+app/logs/
+app/tmp/
