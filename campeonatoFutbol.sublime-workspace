@@ -283,6 +283,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "src/Area4/CampeonatoBundle/Entity/Jugador.php",
+			"settings":
+			{
+				"buffer_size": 4904,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Area4/CampeonatoBundle/Entity/Partido.php",
+			"settings":
+			{
+				"buffer_size": 9788,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Packages/Python/Python.sublime-build",
 	"command_palette":
@@ -328,6 +344,26 @@
 	},
 	"file_history":
 	[
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Entity/Jugador.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Entity/Campeonato.php",
+		"/home/html/CampeonatoFutbol-Area4/app/config/config.yml",
+		"/home/html/CampeonatoFutbol-Area4/src/FOS/UserBundle/Model/User.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Controller/CategoriaController.php",
+		"/home/html/CampeonatoFutbol-Area4/src/FOS/UserBundle/Document/User.php",
+		"/home/html/CampeonatoFutbol-Area4/src/FOS/UserBundle/Resources/views/layout.html.twig",
+		"/home/html/CampeonatoFutbol-Area4/src/FOS/UserBundle/Form/Type/RegistrationFormType.php",
+		"/home/html/CampeonatoFutbol-Area4/src/FOS/UserBundle/Resources/translations/FOSUserBundle.es.yml",
+		"/home/html/CampeonatoFutbol-Area4/src/FOS/UserBundle/Controller/RegistrationController.php",
+		"/home/html/CampeonatoFutbol-Area4/app/AppKernel.php",
+		"/home/html/CampeonatoFutbol-Area4/app/autoload.php",
+		"/home/html/CampeonatoFutbol-Area4/app/config/security.yml",
+		"/home/html/CampeonatoFutbol-Area4/app/config/routing_dev.yml",
+		"/home/html/CampeonatoFutbol-Area4/app/config/routing.yml",
+		"/home/html/CampeonatoFutbol-Area4/src/FOS/UserBundle/Form/Model/CheckPassword.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Ezekielriva/Bundle/UsuarioBundle/Controller/RegistroController.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Ezekielriva/Bundle/UsuarioBundle/Controller/DefaultController.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Ezekielriva/Bundle/UsuarioBundle/UsuarioBundle.php",
+		"/home/html/CampeonatoFutbol-Area4/src/SiteStaticBundle/Controller/DefaultController.php",
 		"/home/ezekielriva/Sources/DiseñoSistemas/TP1/Alumno.py",
 		"/home/ezekielriva/Sources/DiseñoSistemas/TP1/Curso.py",
 		"/home/ezekielriva/Sources/DiseñoSistemas/TP1/Materia.py",
@@ -435,27 +471,7 @@
 		"/home/html/atah/src/Area4/ContableBundle/Controller/ComprobanteController.php",
 		"/home/html/atah/src/Area4/CampeonatoBundle/Form/ArbitroType.php",
 		"/home/html/atah/src/Area4/CampeonatoBundle/Form/agregarJugadorPartidoType.php",
-		"/home/html/atah/src/Area4/CampeonatoBundle/Form/SelectArbitroType.php",
-		"/home/html/atah/src/Area4/CampeonatoBundle/Controller/ArbitroController.php",
-		"/home/html/atah/src/Area4/CampeonatoBundle/Form/novedadType.php",
-		"/home/html/atah/app/Resources/TwigBundle/views/Exception/error.html.twig",
-		"/home/html/atah/vendor/symfony/src/Symfony/Bundle/TwigBundle/Controller/ExceptionController.php",
-		"/home/html/atah/src/Area4/ContableBundle/Controller/GrupoFamiliarController.php",
-		"/home/html/atah/app/Resources/TwigBundle/views/Exception/traces.html.twig",
-		"/home/html/atah/vendor/symfony/src/Symfony/Bundle/TwigBundle/Resources/views/Exception/exception.css.twig",
-		"/home/html/atah/vendor/symfony/src/Symfony/Bundle/TwigBundle/Resources/views/Exception/error.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Resources/views/GrupoFamiliar/BuscarGrupoFamiliar2.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Resources/views/GrupoFamiliar/BuscarGrupoFamiliar.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Resources/views/GrupoFamiliar/listarJugadores.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Resources/views/GrupoFamiliar/show.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Entity/GrupoFamiliar.php",
-		"/home/html/atah/src/Area4/ContableBundle/Resources/views/GrupoFamiliar/index.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Resources/views/GrupoFamiliar/addJugador.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Entity/Documento.php",
-		"/home/html/atah/src/Area4/ContableBundle/Entity/Items.php",
-		"/home/html/atah/src/Area4/ContableBundle/Resources/views/GrupoFamiliar/new.html.twig",
-		"/home/html/atah/src/Area4/ContableBundle/Form/GrupoFamiliarType.php",
-		"/home/html/atah/app/Resources/Area4CampeonatoBundle/views/Equipo/show.html.twig"
+		"/home/html/atah/src/Area4/CampeonatoBundle/Form/SelectArbitroType.php"
 	],
 	"find":
 	{
@@ -466,6 +482,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			"/home/html/CampeonatoFutbol-Area4/src/Area4",
 			"/home/html/atah",
 			"*,/home/html/atah/vendor"
 		]
@@ -475,6 +492,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Categoria",
 			"		",
 			"Alumno",
 			" :",
@@ -505,14 +523,69 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "src/Area4/CampeonatoBundle/Entity/Jugador.php",
+					"settings":
+					{
+						"buffer_size": 4904,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1161,
+								1161
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 427.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/Area4/CampeonatoBundle/Entity/Partido.php",
+					"settings":
+					{
+						"buffer_size": 9788,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2212,
+								2212
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1109.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 34.0
 	},
 	"input":
 	{
@@ -551,6 +624,14 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"user",
+				"src/FOS/UserBundle/Model/User.php"
+			],
+			[
+				"registrationform",
+				"src/FOS/UserBundle/Form/Type/RegistrationFormType.php"
+			],
 			[
 				"equipo",
 				"src/Area4/CampeonatoBundle/Entity/Equipo.php"
@@ -846,6 +927,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 262.0,
+	"side_bar_width": 289.0,
 	"status_bar_visible": true
 }
