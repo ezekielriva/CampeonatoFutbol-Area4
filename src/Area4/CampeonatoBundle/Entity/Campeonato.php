@@ -55,4 +55,74 @@ class Campeonato
         $this->equipo = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set provincia
+     *
+     * @param string $provincia
+     */
+    public function setProvincia($provincia)
+    {
+        $this->provincia = $provincia;
+    }
+
+    /**
+     * Get provincia
+     *
+     * @return string 
+     */
+    public function getProvincia()
+    {
+        return $this->provincia;
+    }
+
+    /**
+     * Add equipo
+     *
+     * @param Area4\CampeonatoBundle\Entity\Equipo $equipo
+     */
+    public function addEquipo(\Area4\CampeonatoBundle\Entity\Equipo $equipo)
+    {
+        $this->equipo[] = $equipo;
+    }
+
+    /**
+     * Get equipo
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getEquipo()
+    {
+        return $this->equipo;
+    }
 }

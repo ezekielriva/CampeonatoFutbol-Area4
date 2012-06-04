@@ -11,7 +11,8 @@ class EquipoType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('imagen','file')
+            ->add('colores')
+            //->add('imagen','file')
         ;
     }
 

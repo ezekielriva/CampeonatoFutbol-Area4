@@ -12,19 +12,12 @@ class JugadorType extends AbstractType {
 
 	public function buildForm(FormBuilder $builder, array $options) {
 		$builder
+                    ->add('dni',"text",array(
+                            'required' => true,
+                        ))
                     ->add('nombre')
                     ->add('apellido')
-                    ->add('direccion')
-                    ->add('dni')
-                    ->add('telefono')
-                    ->add('fechanac', null, array(
-                    'years' => range(1900, date('Y')),
-                    'label' => 'Fecha de nacimiento',
-                    ))
-                    ->add('sexo','choice',array(
-                        'choices' => $this->getDefaultChoices('sexo'),
-                    ))
-                    ->add('foto','file', array(
+               /*     ->add('foto','file', array(
                         'required' => false,
                     ))
                     ->add('email','email', array(
@@ -43,7 +36,7 @@ class JugadorType extends AbstractType {
                     ->add('color','choice',array(
                         'choices' => EquipoRepository::getColores(),
                     ))
-                    ->add('Categoria')
+                    ->add('Categoria')*/
 		;
 	}
 

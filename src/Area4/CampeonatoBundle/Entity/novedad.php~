@@ -32,8 +32,8 @@ class novedad {
      */
     private $minuto;
     /**
-     * @ORM\ManyToOne(targetEntity="Jugador")
-     * @ORM\JoinColumn(name="Jugador_id", referencedColumnName="id")
+     * @ ORM\ManyToOne(targetEntity="Jugador")
+     * @ ORM\JoinColumn(name="Jugador_id", referencedColumnName="id")
      */
     private $Jugador;
     /**

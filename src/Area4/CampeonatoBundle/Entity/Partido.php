@@ -50,11 +50,12 @@ class Partido
     private $fase;
 
     /**
-     * @var Equipo
+     * @var Equipo_has_Partido
      *
-     * @ORM\ManyToMany(targetEntity="Equipo", mappedBy="partido")
+     * @ORM\ManyToOne(targetEntity="Equipo_has_Partido")
+     * @ORM\JoinColumn(name="equipo_has_partido", referencedColumnName="partido_id")
      */
-    private $equipo;
+    private $equipo_has_partido;
 
     /**
      * @var Arbitro
@@ -68,7 +69,137 @@ class Partido
 
     public function __construct()
     {
-        $this->equipo = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->equipo_has_partido = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param string $fecha
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return string 
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set diahora
+     *
+     * @param datetime $diahora
+     */
+    public function setDiahora($diahora)
+    {
+        $this->diahora = $diahora;
+    }
+
+    /**
+     * Get diahora
+     *
+     * @return datetime 
+     */
+    public function getDiahora()
+    {
+        return $this->diahora;
+    }
+
+    /**
+     * Set lugar
+     *
+     * @param string $lugar
+     */
+    public function setLugar($lugar)
+    {
+        $this->lugar = $lugar;
+    }
+
+    /**
+     * Get lugar
+     *
+     * @return string 
+     */
+    public function getLugar()
+    {
+        return $this->lugar;
+    }
+
+    /**
+     * Set fase
+     *
+     * @param string $fase
+     */
+    public function setFase($fase)
+    {
+        $this->fase = $fase;
+    }
+
+    /**
+     * Get fase
+     *
+     * @return string 
+     */
+    public function getFase()
+    {
+        return $this->fase;
+    }
+
+    /**
+     * Set equipo_has_partido
+     *
+     * @param Area4\CampeonatoBundle\Entity\Equipo_has_Partido $equipoHasPartido
+     */
+    public function setEquipoHasPartido(\Area4\CampeonatoBundle\Entity\Equipo_has_Partido $equipoHasPartido)
+    {
+        $this->equipo_has_partido = $equipoHasPartido;
+    }
+
+    /**
+     * Get equipo_has_partido
+     *
+     * @return Area4\CampeonatoBundle\Entity\Equipo_has_Partido 
+     */
+    public function getEquipoHasPartido()
+    {
+        return $this->equipo_has_partido;
+    }
+
+    /**
+     * Set arbitroDni
+     *
+     * @param Area4\CampeonatoBundle\Entity\Arbitro $arbitroDni
+     */
+    public function setArbitroDni(\Area4\CampeonatoBundle\Entity\Arbitro $arbitroDni)
+    {
+        $this->arbitroDni = $arbitroDni;
+    }
+
+    /**
+     * Get arbitroDni
+     *
+     * @return Area4\CampeonatoBundle\Entity\Arbitro 
+     */
+    public function getArbitroDni()
+    {
+        return $this->arbitroDni;
+    }
 }

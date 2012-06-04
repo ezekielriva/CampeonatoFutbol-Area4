@@ -54,6 +54,7 @@ class JugadorController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($id);
+        
         /* @var $entity Jugador */
         if (!$entity) {
             throw $this->createNotFoundException('No se encontro el Jugador buscado.');
@@ -64,6 +65,24 @@ class JugadorController extends Controller {
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
+        );
+    }
+    /**
+     * Finds and displays a Jugador entity.
+     * @Template("Area4CampeonatoBundle:Jugador:show.html.twig")
+     */
+    public function showByUserAction($id){
+        //die($id."");
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('No se encontro el Jugador buscado.');
+        }
+        //var_dump($entity); die;
+        return array(
+            'entity' => $entity,
+            //'delete_form' => $deleteForm->createView(),
         );
     }
 

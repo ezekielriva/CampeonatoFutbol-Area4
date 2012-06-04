@@ -7,420 +7,69 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Area4\CampeonatoBundle\Entity\Partido
  *
- * @ORM\Table(name="partido")
- * @ORM\Entity(repositoryClass="Area4\CampeonatoBundle\Entity\PartidoRepository")
+ * @ORM\Table(name="Partido")
+ * @ORM\Entity
  */
-class Partido {
-
+class Partido
+{
     /**
      * @var integer $id
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
     /**
-     * @var date $dia
+     * @var string $fecha
      *
-     * @ORM\Column(name="dia", type="date")
-     */
-    private $dia;
-    /**
-     * @var time $hora
-     *
-     * @ORM\Column(name="hora", type="time")
-     */
-    private $hora;
-    /**
-     * @var integer $fecha
-     *
-     * @ORM\Column(name="fecha", type="integer")
+     * @ORM\Column(name="fecha", type="string", length=45, nullable=false)
      */
     private $fecha;
-    /**
-     * @var Equipo $local
-     *
-     * @orm\ManyToOne(targetEntity="Equipo", inversedBy="locales")
-     * @orm\JoinColumn(name="local", referencedColumnName="id")
-     */
-    private $local;
-    /**
-     * @ORM\Column(type="text", nullable="true", length=2)
-     */
-    private $bloqueLocal;
-    /**
-     * @ORM\Column(type="text", nullable="true", length=10)
-     */
-    private $colorLocal;
-    /**
-     * @var Equipo $visitante
-     * @orm\ManyToOne(targetEntity="Equipo", inversedBy="visitantes" )
-     * @orm\JoinColumn(name="visitante", referencedColumnName="id")
-     */
-    private $visitante;
-    /**
-     * @ORM\Column(type="text", nullable="false", length=2)
-     */
-    private $bloqueVisitante;
-    /**
-     * @ORM\Column(type="text", nullable="true", length=10)
-     */
-    private $colorVisitante;
-    /**
-     * @var integer $resultadol
-     *
-     * @ORM\Column(name="resultadol", type="integer")
-     */
-    private $resultadol;
-    /**
-     * @var integer $resultadov
-     *
-     * @ORM\Column(name="resultadov", type="integer")
-     */
-    private $resultadov;
-    /**
-     * @var string $estado
-     *
-     * @ORM\Column(name="estado", type="string", length=20)
-     */
-    private $estado;
-    /**
-     * @ORM\ManyToOne(targetEntity="Categoria")
-     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
-     * @var Categoria $Categoria
-     */
-    private $Categoria;
-    /**
-     * @ORM\OneToMany(targetEntity="novedad", mappedBy="Partido", cascade={"persist"})
-     */
-    private $novedades;
-    /**
-     *  @ORM\ManyToMany(targetEntity="Arbitro", mappedBy="Partido")
-     */
-    private $Arbitro;
-    /**
-     * @ORM\ManyToMany(targetEntity="Jugador", inversedBy="Partido")
-     * @ ORM\JoinTable(name="partido_jugador",
-     *      joinColumns={@ORM\JoinColumn(name="partido_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="jugador_id", referencedColumnName="id")}
-     *      )
-     */
-    private $Jugador;
-    /**
-    * @ORM\ManyToOne(targetEntity="Campeonato")
-    * @ORM\JoinColumn(name="campeonato_id", referencedColumnName="id")
-    *
-    */
-    private $Campeonato;
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId() {
-        return $this->id;
-    }
 
     /**
-     * Set dia
+     * @var datetime $diahora
      *
-     * @param date $dia
+     * @ORM\Column(name="diaHora", type="datetime", nullable=false)
      */
-    public function setDia($dia) {
-        $this->dia = $dia;
-    }
+    private $diahora;
 
     /**
-     * Get dia
+     * @var string $lugar
      *
-     * @return date
+     * @ORM\Column(name="lugar", type="string", length=45, nullable=false)
      */
-    public function getDia() {
-        return $this->dia;
-    }
+    private $lugar;
 
     /**
-     * Set hora
+     * @var string $fase
      *
-     * @param time $hora
+     * @ORM\Column(name="fase", type="string", length=45, nullable=true)
      */
-    public function setHora($hora) {
-        $this->hora = $hora;
-    }
+    private $fase;
 
     /**
-     * Get hora
+     * @var Equipo_has_Partido
      *
-     * @return time
+     * @ORM\ManyToOne(targetEntity="Equipo_has_Partido")
+     * @ORM\JoinColumn(name="equipo_has_partido", referencedColumnName="partido_id")
      */
-    public function getHora() {
-        return $this->hora;
-    }
+    private $equipo_has_partido;
 
     /**
-     * Set fecha
+     * @var Arbitro
      *
-     * @param integer $fecha
+     * @ORM\ManyToOne(targetEntity="Arbitro")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Arbitro_dni", referencedColumnName="dni")
+     * })
      */
-    public function setFecha($fecha) {
-        $this->fecha = $fecha;
-    }
+    private $arbitroDni;
 
-    /**
-     * Get fecha
-     *
-     * @return integer
-     */
-    public function getFecha() {
-        return $this->fecha;
-    }
-
-    /**
-     * Set resultadol
-     *
-     * @param integer $resultadol
-     */
-    public function setResultadol($resultadol) {
-        $this->resultadol = $resultadol;
-    }
-
-    /**
-     * Get resultadol
-     *
-     * @return integer
-     */
-    public function getResultadol() {
-        return $this->resultadol;
-    }
-
-    /**
-     * Set resultadov
-     *
-     * @param integer $resultadov
-     */
-    public function setResultadov($resultadov) {
-        $this->resultadov = $resultadov;
-    }
-
-    /**
-     * Get resultadov
-     *
-     * @return integer
-     */
-    public function getResultadov() {
-        return $this->resultadov;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param string $estado
-     */
-    public function setEstado($estado) {
-        $this->estado = $estado;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return string
-     */
-    public function getEstado() {
-        return $this->estado;
-    }
-
-    /**
-     * Set local
-     *
-     * @param Area4\CampeonatoBundle\Entity\Equipo $local
-     */
-    public function setLocal(\Area4\CampeonatoBundle\Entity\Equipo $local) {
-        $this->local = $local;
-    }
-
-    /**
-     * Get local
-     *
-     * @return Area4\CampeonatoBundle\Entity\Equipo 
-     */
-    public function getLocal() {
-        return $this->local;
-    }
-
-    /**
-     * Set visitante
-     *
-     * @param Area4\CampeonatoBundle\Entity\Equipo $visitante
-     */
-    public function setVisitante(\Area4\CampeonatoBundle\Entity\Equipo $visitante) {
-        $this->visitante = $visitante;
-    }
-
-    /**
-     * Get visitante
-     *
-     * @return Area4\CampeonatoBundle\Entity\Equipo 
-     */
-    public function getVisitante() {
-        return $this->visitante;
-    }
-
-    /**
-     * Set campeonato
-     *
-     * @param Area4\CampeonatoBundle\Entity\Campeonato $campeonato
-     */
-    public function setCampeonato(\Area4\CampeonatoBundle\Entity\Campeonato $campeonato) {
-        $this->campeonato = $campeonato;
-    }
-
-    /**
-     * Get campeonato
-     *
-     * @return Area4\CampeonatoBundle\Entity\Campeonato 
-     */
-    public function getCampeonato() {
-        return $this->Campeonato;
-    }
-
-    /**
-     * Set Categoria
-     *
-     * @param Area4\CampeonatoBundle\Entity\Categoria $categoria
-     */
-    public function setCategoria(\Area4\CampeonatoBundle\Entity\Categoria $categoria) {
-        $this->Categoria = $categoria;
-    }
-
-    /**
-     * Get Categoria
-     *
-     * @return Area4\CampeonatoBundle\Entity\Categoria 
-     */
-    public function getCategoria() {
-        return $this->Categoria;
-    }
-
-    public function __construct() {
-        $this->novedades = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->Arbitro = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add novedades
-     *
-     * @param Area4\CampeonatoBundle\Entity\novedad $novedades
-     */
-    public function addnovedad(\Area4\CampeonatoBundle\Entity\novedad $novedades) {
-        $this->novedades[] = $novedades;
-    }
-
-    /**
-     * Get novedades
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getNovedades() {
-        return $this->novedades;
-    }
-
-    public function __toString() {
-        return $this->id . '';
-    }
-
-
-    /**
-     * Add Arbitro
-     *
-     * @param Area4\CampeonatoBundle\Entity\Arbitro $arbitro
-     */
-    public function addArbitro(\Area4\CampeonatoBundle\Entity\Arbitro $arbitro)
+    public function __construct()
     {
-        $this->Arbitro[] = $arbitro;
+        $this->equipo_has_partido = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-    /**
-     * Get Arbitro
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getArbitro()
-    {
-        return $this->Arbitro;
-    }
-
-    /**
-     * Add Jugador
-     * Antes de agregar un jugador me fijo si este se encuentra en 
-     * alguno de los Equipos de Partido. Y verifica que la Categoría 
-     * le permita jugar.
-     * @param Area4\CampeonatoBundle\Entity\Jugador $jugador
-     * @return -1 Si no esta el jugador en algun equipo del partido
-     *
-     */
-    public function addJugador(\Area4\CampeonatoBundle\Entity\Jugador $jugador)
-    {
-        if($this->local != null || $this->visitante != null){
-            $eq = $jugador->getEquipo()->last();
-            if( $eq->getId() == $this->local->getId() || $eq->getId() == $this->visitante->getId() ){
-                $cat = $this->Categoria;
-                $edad = intval($this->dia->format('Y')) - intval($jugador->getFechanac()->format('Y'));
-                if ($edad >= $cat->getEdadIni() && $edad <= $cat->getEdadFin())
-                    $this->Jugador[] = $jugador;   
-            }
-            else
-                return -1;
-        }
-    }
-
-    /**
-     * Get Jugador
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getJugador()
-    {
-        return $this->Jugador;
-    }
-
-    /**
-     * Set bloqueLocal
-     *
-     * @param text $bloqueLocal
-     */
-    public function setBloqueLocal($bloqueLocal)
-    {
-        $this->bloqueLocal = $bloqueLocal;
-    }
-
-    /**
-     * Get bloqueLocal
-     *
-     * @return text 
-     */
-    public function getBloqueLocal()
-    {
-        return $this->bloqueLocal;
-    }
-
-    /**
-     * Set bloqueVisitante
-     *
-     * @param text $bloqueVisitante
-     */
-    public function setBloqueVisitante($bloqueVisitante)
-    {
-        $this->bloqueVisitante = $bloqueVisitante;
-    }
-
-    /**
-     * Get bloqueVisitante
-     *
-     * @return text 
-     */
-    public function getBloqueVisitante()
-    {
-        return $this->bloqueVisitante;
-    }
+    
 }

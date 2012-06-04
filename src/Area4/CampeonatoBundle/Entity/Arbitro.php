@@ -36,4 +36,54 @@ class Arbitro
     private $apellido;
 
 
+
+    /**
+     * Get dni
+     *
+     * @return integer 
+     */
+    public function getDni()
+    {
+        return $this->dni;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set apellido
+     *
+     * @param string $apellido
+     */
+    public function setApellido($apellido)
+    {
+        $this->apellido = $apellido;
+    }
+
+    /**
+     * Get apellido
+     *
+     * @return string 
+     */
+    public function getApellido()
+    {
+        return $this->apellido;
+    }
 }
