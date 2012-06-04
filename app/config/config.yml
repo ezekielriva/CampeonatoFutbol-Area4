@@ -1,6 +1,8 @@
 imports:
     - { resource: parameters.ini }
     - { resource: security.yml }
+    area4_bundle:
+        resource: "@Area4UsuarioBundle/Resources/config/services.yml"
 
 framework:
     #esi:             ~
@@ -64,3 +66,5 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Area4\UsuarioBundle\Entity\Usuario
+
+#UsuarioBundle Configuration

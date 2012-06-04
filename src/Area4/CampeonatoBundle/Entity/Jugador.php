@@ -21,6 +21,7 @@ class Jugador
      * @ORM\Column(name="dni", type="integer", nullable=false)
      * @ORM\Id
      * @ ORM\GeneratedValue(strategy="IDENTITY")
+     * @Assert\NotBlank()
      */
     private $dni;
 
@@ -28,6 +29,7 @@ class Jugador
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=45, nullable=false)
+     * @Assert\NotBlank()
      */
     private $nombre;
 
@@ -35,6 +37,7 @@ class Jugador
      * @var string $apellido
      *
      * @ORM\Column(name="apellido", type="string", length=45, nullable=false)
+     * @Assert\NotBlank()
      */
     private $apellido;
 
@@ -45,6 +48,8 @@ class Jugador
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Equipo_id", referencedColumnName="id")
      * })
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Area4\CampeonatoBundle\Entity\Equipo")
      */
     private $equipo;
 
@@ -52,12 +57,14 @@ class Jugador
      * 
      * @ORM\OneToOne(targetEntity="Area4\UsuarioBundle\Entity\Usuario")
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Area4\UsuarioBundle\Entity\Usuario")
      * @var Usuario
      **/
     private $usuario;
 
     /**
-     * @ORM\Column(name="foto", type="string", length="255", nullable=true)
+     * @ ORM\Column(name="foto", type="string", length="255", nullable=true)
      **/
     private $foto;
     /**
@@ -158,5 +165,16 @@ class Jugador
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * toString
+     *
+     * @return string
+     * 
+     **/
+    public function __toString()
+    {
+        return sprintf("%d-%s, %s", $this->dni, $this->apellido, $this->nombre);
     }
 }

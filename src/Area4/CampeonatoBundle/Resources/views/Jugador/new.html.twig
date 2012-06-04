@@ -1,19 +1,16 @@
-{#<h1>Jugador creation</h1>
-
-<form action="{{ path('jugador_create') }}" method="post" {{ form_enctype(form) }}>
-    
-    <p>
-        <button type="submit">Create</button>
-    </p>
+{% form_theme form '::form_register.html.twig' %}
+<form action="{{ path('jugador_create') }}" method="post" {{ form_enctype(form) }} id="formJugadorNew">
+ 	<fieldset>
+		<legend>Datos del Jugador</legend>
+    	{{ form_widget(form) }}
+    </fieldset><br/>
 </form>
 
-<ul class="record_actions">
+{#<ul class="record_actions">
     <li>
         <a href="{{ path('jugador') }}">
             Back to the list
         </a>
     </li>
 </ul>#}
-{% form_theme form '::form_register.html.twig' %}
 
-{{ form_widget(form) }}

@@ -17,6 +17,7 @@ class JugadorType extends AbstractType {
                         ))
                     ->add('nombre')
                     ->add('apellido')
+                    ->add('equipo')
                /*     ->add('foto','file', array(
                         'required' => false,
                     ))
@@ -27,9 +28,7 @@ class JugadorType extends AbstractType {
                     ->add('ocupacion')
                     ->add('facebook')
                     ->add('observaciones')
-                    ->add('Equipo',null,array(
-                        'label' => 'Club'
-                    ))
+                    
                     ->add('bloque','choice',array(
                         'choices' => EquipoRepository::getBloques(),
                     ))

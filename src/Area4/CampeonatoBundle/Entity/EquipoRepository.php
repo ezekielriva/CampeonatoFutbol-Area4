@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class EquipoRepository extends EntityRepository
 {
-
 	static private $bloques = array(
 	 	'SB'=> 'Sin Bloque',
     	'A' => 'A', 

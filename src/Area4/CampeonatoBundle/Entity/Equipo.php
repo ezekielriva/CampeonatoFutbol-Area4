@@ -158,4 +158,14 @@ class Equipo
     {
         return $this->equipo_has_partido;
     }
+
+    /**
+     * toString
+     *
+     * @return string
+     **/
+    public function __toString ()
+    {
+        return $this->nombre;
+    }
 }

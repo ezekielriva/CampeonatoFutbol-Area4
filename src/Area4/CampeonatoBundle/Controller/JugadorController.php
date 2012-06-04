@@ -13,6 +13,9 @@ use Area4\CampeonatoBundle\Form\FiltroType;
 use MakerLabs\PagerBundle\Pager;
 use MakerLabs\PagerBundle\Adapter\ArrayAdapter;
 
+use Area4\UsuarioBundle\Entity\Usuario;
+use Area4\UsuarioBundle\Form\UsuarioType;
+
 /**
  * Jugador controller.
  *
@@ -89,54 +92,66 @@ class JugadorController extends Controller {
     /**
      * Displays a form to create a new Jugador entity.
      *
-     * @Route("/new", name="jugador_new")
-     * @ Secure(roles="ROLE_ANONYMOUS")
+     * @Route("/inscribirse", name="jugador_new")
      * @Template()
      */
-    public function newAction() {
-        $entity = new Jugador();
-        $form = $this->createForm(new JugadorType(), $entity);
+    public function registerJugadorAction() {
+        $jugador = new Jugador();
+        $usuario = new Usuario();
+
+        $formJugador = $this->createForm(new JugadorType(), $jugador);
+        $formUsuario = $this->container->get('fos_user.registration.form');
 
         return array(
-            'entity' => $entity,
-            'form' => $form->createView()
+            'formJugador' => $formJugador->createView(),
+            'formUsuario' => $formUsuario->createView(),
         );
     }
 
     /**
      * Creates a new Jugador entity.
      *
-     * @Route("/create", name="jugador_create")
+     * @Route("/crear", name="jugador_create")
      * @Method("post")
-     * @Template("Area4CampeonatoBundle:Jugador:new.html.twig")
+     * @Template("Area4CampeonatoBundle:Jugador:registerJugador.html.twig")
      */
     public function createAction() {
-        $entity = new Jugador();
+        $jugador = new Jugador();
+        $usuario = new Usuario();
+
         $request = $this->getRequest();
-        $form = $this->createForm(new JugadorType(), $entity);
-        $form->bindRequest($request); // Luego de esto, $entity ya tiene los valores del form
-        $em = $this->getDoctrine()->getEntityManager();
+        $formJugador = $this->createForm(new JugadorType(), $jugador);
+        $formUsuario = $this->container->get('fos_user.registration.form');
         
-        if(!is_null($entity->getDni()))
-            if($em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByDni($entity->getDni())){
-               $erro = $this->get('quark.errorhandler');
-               $erro->info('Ya se encuentra registrado');
-            }
-                
-        if ($form->isValid()) {
+        $formJugador->bindRequest($request); // Luego de esto, $entity ya tiene los valores del form
+        /** Propio del FOSUsrBundle **/
+        $formHandler = $this->container->get('fos_user.registration.form.handler');
+        $process = $formHandler->process(false);
+        $usuario = $formUsuario->getData();
+        $usuario->setUsername($jugador->getApellido()."-".$jugador->getNombre());
+        $usuario->setUsernameCanonical($jugador->getApellido()."-".$jugador->getNombre());
+
+        $jugador->setUsuario($usuario);
+        if($request->getMethod() === 'POST'){
+            $em = $this->getDoctrine()->getEntityManager();
+            //if ($formJugador->isValid()) {
             /** @todo Modifico el path por /atah/web/fotos = valor del asset!!,
              * cambiar al subir al servidor!!!!!
              */
-            $entity->setPath("/atah/web/img/fotos");
-            $entity->upload($this->get('kernel')->getRootDir() . "/../web/img/fotos");
-            $em->persist($entity);
+            //$jugador->setPath("/atah/web/img/fotos");
+            //$jugador->upload($this->get('kernel')->getRootDir() . "/../web/img/fotos");
+            $em->persist($usuario);
+            $em->persist($jugador);
             $em->flush();
-            return $this->render('::complete.html.twig');
+            return $this->render('Area4CampeonatoBundle:Jugador:confirmed.html.twig', array(
+                    'jugador' => $jugador,
+                ));
+            //}
         }
 
         return array(
-            'entity' => $entity,
-            'form' => $form->createView()
+            'formJugador' => $formJugador->createView(),
+            'formUsuario' => $formUsuario->createView(),
         );
     }
 
