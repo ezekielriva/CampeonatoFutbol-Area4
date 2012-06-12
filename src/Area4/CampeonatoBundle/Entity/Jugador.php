@@ -62,7 +62,12 @@ class Jugador
      * @var Usuario
      **/
     private $usuario;
-
+    /**
+     * @ORM\Column(name="fecha_nacimiento", type="date", nullable=false)
+     * @Assert\NotBlank()
+     * @var date
+     **/
+    private $fechadeNacimiento;
     /**
      * @ ORM\Column(name="foto", type="string", length="255", nullable=true)
      **/
@@ -74,7 +79,7 @@ class Jugador
      */
     public function setDni($dni)
     {
-        $this->dni = $dni;
+        $this->dni = str_replace(".", "", $dni);
     }
 
     /**
@@ -176,5 +181,25 @@ class Jugador
     public function __toString()
     {
         return sprintf("%d-%s, %s", $this->dni, $this->apellido, $this->nombre);
+    }
+
+    /**
+     * Set fechadeNacimiento
+     *
+     * @param date $fechadeNacimiento
+     */
+    public function setFechadeNacimiento($fechadeNacimiento)
+    {
+        $this->fechadeNacimiento = $fechadeNacimiento;
+    }
+
+    /**
+     * Get fechadeNacimiento
+     *
+     * @return date 
+     */
+    public function getFechadeNacimiento()
+    {
+        return $this->fechadeNacimiento;
     }
 }

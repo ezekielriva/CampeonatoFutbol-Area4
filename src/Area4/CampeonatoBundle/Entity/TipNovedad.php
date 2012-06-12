@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Area4\CampeonatoBundle\Entity\TipNovedadRepository")
-
  * @ORM\Entity
  */
 class TipNovedad

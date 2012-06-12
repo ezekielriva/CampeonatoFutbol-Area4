@@ -50,8 +50,15 @@ class Campeonato
      */
     private $equipo;
 
+    /**
+     * @ORM\Column(name="finalizo", type="integer", length=1, nullable=false)
+     */
+    private $finalizo;
+    
     public function __construct()
     {
+        $this->finalizo = 0;
+        $this->provincia = 'TUCUMAN';
         $this->equipo = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
@@ -93,7 +100,7 @@ class Campeonato
      */
     public function setProvincia($provincia)
     {
-        $this->provincia = $provincia;
+        $this->provincia = strtoupper($provincia);
     }
 
     /**
@@ -124,5 +131,39 @@ class Campeonato
     public function getEquipo()
     {
         return $this->equipo;
+    }
+
+    /**
+     * Set finalizo
+     *
+     * @param int $finalizo
+     */
+    public function setFinalizo($finalizo)
+    {
+        $this->finalizo = $finalizo;
+    }
+
+    /**
+     * Get finalizo
+     *
+     * @return boolean 
+     */
+    public function getFinalizo()
+    {
+        if ($this->finalizo === 0){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    /**
+     * toString
+     *
+     **/
+    public function __toString()
+    {
+        return $this->nombre;
     }
 }

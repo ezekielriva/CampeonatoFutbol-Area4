@@ -5,7 +5,6 @@
         <tr>
             <th>Id</th>
             <th>Nombre</th>
-            <th>Deporte</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -14,7 +13,6 @@
         <tr>
             <td><a href="{{ path('campeonato_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
-            <td>{{ entity.deporte }}</td>
             <td>
                 <ul>
                     <li>
@@ -22,6 +20,12 @@
                     </li>
                     <li>
                         <a href="{{ path('campeonato_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('inscripciones_abrir', { 'idCampeonato': entity.id }) }}">Abrir inscripciones</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('invitaciones_capitan', { 'idCampeonato': entity.id }) }}">Invitar equipos</a>
                     </li>
                 </ul>
             </td>

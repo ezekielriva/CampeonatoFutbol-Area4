@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Area4\CampeonatoBundle\Area4CampeonatoBundle(),
             new Area4\UsuarioBundle\Area4UsuarioBundle(),
+            new Area4\StaticBundle\Area4StaticBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

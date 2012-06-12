@@ -11,9 +11,6 @@ class CampeonatoType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('deporte')
-            ->add('Equipos')
-            ->add('Categorias')
         ;
     }
 

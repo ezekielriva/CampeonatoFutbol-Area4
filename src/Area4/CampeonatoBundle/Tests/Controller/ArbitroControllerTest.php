@@ -2,7 +2,7 @@
 
 namespace Area4\CampeonatoBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;//\PHPUnit_Framework_TestCase
 
 class ArbitroControllerTest extends WebTestCase
 {

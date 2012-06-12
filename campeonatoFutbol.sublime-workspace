@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"Usuario",
+				"UsuarioRepository"
+			],
+			[
+				"array",
+				"array"
+			],
+			[
+				"assert",
+				"assertEquals"
+			],
+			[
+				"form",
+				"formJugador"
+			],
+			[
+				"Jugador",
+				"JugadorType"
+			],
+			[
+				"arra",
+				"array"
+			],
+			[
+				"sub",
+				"substr_replace"
+			],
+			[
 				"Usuar",
 				"UsuarioBundle"
 			],
@@ -18,10 +46,6 @@
 			[
 				"if",
 				"if	if …"
-			],
-			[
-				"form",
-				"formUsuario"
 			],
 			[
 				"var",
@@ -360,34 +384,42 @@
 	"buffers":
 	[
 		{
-			"file": "src/Area4/UsuarioBundle/Security/Provider/UsuarioProvider.php",
+			"file": "src/Area4/CampeonatoBundle/Entity/Invitaciones.php",
 			"settings":
 			{
-				"buffer_size": 1038,
+				"buffer_size": 2716,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/Area4/UsuarioBundle/Resources/config/services.yml",
+			"file": "src/Area4/CampeonatoBundle/Controller/InvitacionesController.php",
 			"settings":
 			{
-				"buffer_size": 182,
+				"buffer_size": 6200,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/config/security.yml",
+			"file": "src/Area4/CampeonatoBundle/Resources/views/Invitaciones/invitacionCapitan.txt.twig",
 			"settings":
 			{
-				"buffer_size": 1650,
+				"buffer_size": 278,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/config/config.yml",
+			"file": "src/Area4/CampeonatoBundle/Form/InvitacionesType.php",
 			"settings":
 			{
-				"buffer_size": 1888,
+				"buffer_size": 742,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Area4/CampeonatoBundle/Resources/views/Invitaciones/new.html.twig",
+			"settings":
+			{
+				"buffer_size": 410,
 				"line_ending": "Unix"
 			}
 		}
@@ -436,29 +468,39 @@
 	},
 	"file_history":
 	[
-		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle/services.yml",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Resources/views/Jugador/new.html.twig",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Repository/UsuarioRepository.php",
+		"/home/html/CampeonatoFutbol-Area4/app/config/config.yml",
+		"/home/html/CampeonatoFutbol-Area4/app/config/parameters.ini",
+		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Model/User.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Entity/Jugador.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Form/JugadorType.php",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Resources/views/Jugador/registerJugador.html.twig",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Tests/Entity/JugadorTest.php",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Tests/Entity/JugadorFuncionalTest.php",
+		"/home/html/CampeonatoFutbol-Area4/app/config/routing_dev.yml",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Tests/Controller/ArbitroControllerTest.php",
+		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Tests/Model/UserTest.php",
+		"/home/html/atah/src/Area4/CampeonatoBundle/Entity/Jugador.php",
+		"/home/html/CampeonatoFutbol-Area4/app/config/security.yml",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Resources/config/services.yml",
+		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Security/Provider/UsuarioProvider.php",
+		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle/services.yml",
 		"/home/html/CampeonatoFutbol-Area4/web/css/iyc.css",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Resources/views/Jugador/confirmed.html.twig",
-		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Model/User.php",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Controller/JugadorController.php",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Controller/RegistrationController.php",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Entity/Usuario.php",
-		"/home/html/CampeonatoFutbol-Area4/app/config/security.yml",
 		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Entity/User.php",
 		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Document/User.php",
 		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Resources/views/Registration/confirmed.html.twig",
-		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Entity/Jugador.php",
-		"/home/html/CampeonatoFutbol-Area4/app/config/config.yml",
 		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/Sensio/Bundle/GeneratorBundle/Command/Validators.php",
 		"/home/html/CampeonatoFutbol-Area4/vendor/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/Controller.php",
 		"/home/html/CampeonatoFutbol-Area4/app/Resources/views/base_backend.html.twig",
 		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Form/Type/RegistrationFormType.php",
 		"/home/html/CampeonatoFutbol-Area4/app/Resources/views/form_register.html.twig",
-		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Resources/views/Jugador/new.html.twig",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Entity/Equipo.php",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Entity/EquipoRepository.php",
-		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Form/JugadorType.php",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Resources/views/Registration/register_content.html.twig",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Resources/views/Registration/register.html.twig",
 		"/home/html/CampeonatoFutbol-Area4/vendor/doctrine/lib/Doctrine/ORM/Internal/Hydration/HydrationException.php",
@@ -474,7 +516,6 @@
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Resources/views/Profile/show.html.twig",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Resources/config/routing.yml",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Area4UsuarioBundle.php",
-		"/home/html/CampeonatoFutbol-Area4/app/config/parameters.ini",
 		"/home/html/CampeonatoFutbol-Area4/vendor/bundles/FOS/UserBundle/Controller/RegistrationController.php",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/UsuarioBundle/Controller/ProfileController.php",
 		"/home/html/atah/src/Area4/CampeonatoBundle/Controller/JugadorController.php",
@@ -483,7 +524,6 @@
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Entity/Colores.php",
 		"/home/html/CampeonatoFutbol-Area4/vendor/symfony/tests/Symfony/Tests/Component/Validator/Constraints/AssertTrueValidatorTest.php",
 		"/home/html/CampeonatoFutbol-Area4/vendor/symfony/tests/Symfony/Tests/Component/Validator/Constraints/AssertFalseValidatorTest.php",
-		"/home/html/CampeonatoFutbol-Area4/app/config/routing_dev.yml",
 		"/home/html/CampeonatoFutbol-Area4/app/config/routing.yml",
 		"/home/html/CampeonatoFutbol-Area4/src/Area4/CampeonatoBundle/Resources/views/Jugador/show.html.twig",
 		"/home/html/atah/app/Resources/Area4CampeonatoBundle/views/Partido/edit.html.twig",
@@ -529,7 +569,6 @@
 		"/home/ezekielriva/Documentos/Area4/atah/usesCase",
 		"/home/html/atah/src/Area4/CampeonatoBundle/Entity/Equipo.php",
 		"/home/html/atah/src/Area4/CampeonatoBundle/Tests/Controller/PartidoControllerTest.php",
-		"/home/html/atah/src/Area4/CampeonatoBundle/Entity/Jugador.php",
 		"/home/html/atah/src/Area4/CampeonatoBundle/Entity/Categoria.php",
 		"/home/html/atah/src/Area4/CampeonatoBundle/Tests/Entity/JugadorTest.php",
 		"/home/html/atah/src/Acme/DemoBundle/Tests/Controller/DemoControllerTest.php",
@@ -556,14 +595,7 @@
 		"/home/html/atah/app/config/config.yml",
 		"/home/html/atah/vendor/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/Controller.php",
 		"/home/html/atah/web/css/atah.css",
-		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/Resources/config/services.xml",
-		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/Resources/views/ErrorHandler/index.html.twig",
-		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/Controller/DefaultController.php",
-		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/Controller/ErrorHandlerController.php",
-		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/Resources/views/Default/index.html.twig",
-		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/Entity/ErrorHandlerRepository.php",
-		"/home/html/atah/app/Resources/Area4CampeonatoBundle/views/Campeonato/index.html.twig",
-		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/DependencyInjection/QuarkErrorMExtension.php"
+		"/home/html/atah/src/Quark/Bundle/ErrorHandlerBundle/Resources/config/services.xml"
 	],
 	"find":
 	{
@@ -586,6 +618,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"inscripcion",
+			"Inscripcion",
+			"InscripcionController",
+			"Inscripcion",
 			"form.html.twig",
 			"\";",
 			" )",
@@ -608,6 +644,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"invitacion",
+			"Invitaciones",
+			"InvitacionesController",
+			"Invitaciones",
 			"QuarkErrorHandlerExtension",
 			"ErrorHandlerBundle",
 			"arbitro"
@@ -621,84 +661,84 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/Area4/UsuarioBundle/Security/Provider/UsuarioProvider.php",
+					"file": "src/Area4/CampeonatoBundle/Entity/Invitaciones.php",
 					"settings":
 					{
-						"buffer_size": 1038,
+						"buffer_size": 2716,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								270,
-								270
+								191,
+								191
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1232.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/Area4/UsuarioBundle/Resources/config/services.yml",
+					"file": "src/Area4/CampeonatoBundle/Controller/InvitacionesController.php",
 					"settings":
 					{
-						"buffer_size": 182,
+						"buffer_size": 6200,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								136,
-								136
+								2742,
+								2742
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/YAML/YAML.tmLanguage"
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 849.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/config/security.yml",
+					"file": "src/Area4/CampeonatoBundle/Resources/views/Invitaciones/invitacionCapitan.txt.twig",
 					"settings":
 					{
-						"buffer_size": 1650,
+						"buffer_size": 278,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								512,
-								512
+								142,
+								142
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/YAML/YAML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Twig/Syntaxes/HTML (Twig).tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -708,28 +748,54 @@
 				},
 				{
 					"buffer": 3,
-					"file": "app/config/config.yml",
+					"file": "src/Area4/CampeonatoBundle/Form/InvitacionesType.php",
 					"settings":
 					{
-						"buffer_size": 1888,
+						"buffer_size": 742,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1887,
-								1887
+								163,
+								163
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/YAML/YAML.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 796.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/Area4/CampeonatoBundle/Resources/views/Invitaciones/new.html.twig",
+					"settings":
+					{
+						"buffer_size": 410,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								79,
+								79
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Twig/Syntaxes/HTML (Twig).tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -779,6 +845,50 @@
 		"selected_items":
 		[
 			[
+				"paramet",
+				"app/config/parameters.ini"
+			],
+			[
+				"config.yml",
+				"app/config/config.yml"
+			],
+			[
+				"usuarioreposito",
+				"src/Area4/UsuarioBundle/Repository/UsuarioRepository.php"
+			],
+			[
+				"usuariorepo",
+				"src/Area4/UsuarioBundle/Repository/UsuarioRepository.php"
+			],
+			[
+				"new.htm",
+				"src/Area4/CampeonatoBundle/Resources/views/Jugador/new.html.twig"
+			],
+			[
+				"new.html.",
+				"src/Area4/CampeonatoBundle/Resources/views/Invitaciones/new.html.twig"
+			],
+			[
+				"invitacionest",
+				"src/Area4/CampeonatoBundle/Form/InvitacionesType.php"
+			],
+			[
+				"user.php",
+				"vendor/bundles/FOS/UserBundle/Model/User.php"
+			],
+			[
+				"jugadort",
+				"src/Area4/CampeonatoBundle/Form/JugadorType.php"
+			],
+			[
+				"jugadortyp",
+				"src/Area4/CampeonatoBundle/Form/JugadorType.php"
+			],
+			[
+				"jugado",
+				"src/Area4/CampeonatoBundle/Entity/Jugador.php"
+			],
+			[
 				"config",
 				"app/config/config.yml"
 			],
@@ -817,10 +927,6 @@
 			[
 				"usuario.",
 				"src/Area4/UsuarioBundle/Entity/Usuario.php"
-			],
-			[
-				"jugado",
-				"src/Area4/CampeonatoBundle/Entity/Jugador.php"
 			],
 			[
 				"config.",
@@ -959,10 +1065,6 @@
 				"app/Resources/Area4CampeonatoBundle/views/Partido/edicion.html.twig"
 			],
 			[
-				"jugadort",
-				"src/Area4/CampeonatoBundle/Form/JugadorType.php"
-			],
-			[
 				"jugadorrepo",
 				"src/Area4/CampeonatoBundle/Entity/JugadorRepository.php"
 			],
@@ -1099,10 +1201,6 @@
 				"src/Area4/ContableBundle/Resources/views/Comprobante/cobrarCuota.html.twig"
 			],
 			[
-				"usuariorepo",
-				"src/Area4/UsuarioBundle/Repository/UsuarioRepository.php"
-			],
-			[
 				"validation.yml",
 				"vendor/symfony/src/Symfony/Bundle/FrameworkBundle/Tests/DependencyInjection/Fixtures/TestBundle/Resources/config/validation.yml"
 			],
@@ -1165,6 +1263,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 279.0,
+	"side_bar_width": 280.0,
 	"status_bar_visible": true
 }

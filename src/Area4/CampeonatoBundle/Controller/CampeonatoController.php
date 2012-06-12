@@ -57,7 +57,7 @@ class CampeonatoController extends Controller
     /**
      * Displays a form to create a new Campeonato entity.
      *
-     * @Route("/new", name="campeonato_new")
+     * @Route("/nuevo", name="campeonato_new")
      * @Template()
      */
     public function newAction()

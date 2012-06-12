@@ -1,11 +1,11 @@
 <?php
 
 namespace Area4\CampeonatoBundle\Tests\Entity; 
-
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Validator\ValidatorFactory,
 	Area4\CampeonatoBundle\Entity\Jugador,
-	Area4\CampeonatoBundle\Entity\Equipo,
-	Area4\CampeonatoBundle\Entity\Categoria;
+	Area4\CampeonatoBundle\Form\JugadorType
+	;
 
 /**
 *  Test de la Entidad Jugador
@@ -13,12 +13,19 @@ use Symfony\Component\Validator\ValidatorFactory,
 * @TODO 
 * assertEquals($valor_esperado, $valor_obtenido, $mensaje)
 */
-class JugadorTest extends \PHPUnit_Framework_TestCase
+class JugadorTest extends WebTestCase
 {
 	private $validator; // ValidatorFactory
-	protected $equipo; // Equipo de prueba
-	protected $jugador; // Jugador de prueba
-	protected $categoria; // Categoria de prueba
+
+
+	protected function getUsuario()
+	{
+		return $this->getMock('Area4\UsuarioBundle\Entity\Usuario');
+	}
+	protected function getJugador()
+    {
+        return $this->getMock('Area4\CampeonatoBundle\Entity\Jugador');
+    }
 
 	/**
 	* Inicializador de las variables mocks 
@@ -26,27 +33,6 @@ class JugadorTest extends \PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->validator = ValidatorFactory::buildDefault()->getValidator();
-
-		// Seteamos equipo de prueba
-		$this->equipo = new Equipo();
-		$this->equipo->setNombre('Tucuman');
-		
-		// Seteamos categoria de prueba
-		$this->categoria = new Categoria();
-		$this->categoria->setNombre('Primera');
-		$this->categoria->setEdadIni(17);
-		$this->categoria->setEdadFin(90);
-	}
-	/**
-	* Test de validacion de la Entidad
-	*/
-	public function testValidation()
-	{
-		$jugador = new Jugador();
-
-		$errores = $this->validator->validate($jugador);
-		$error = $errores[0];
-		return array($errores, $error);
 	}
 	/**
 	* Test que prueba el ingreso de DNI sin Puntos
@@ -54,13 +40,10 @@ class JugadorTest extends \PHPUnit_Framework_TestCase
 	public function testDni()
 	{
 		$jugador = new Jugador();
+		$this->assertNull($jugador->getDni());
 		$jugador->setDni('31.369.357');
-		$errores = $this->validator->validate($jugador);
 
 		$this->assertEquals('31369357', $jugador->getDni(), 'No se quitaron los "." del DNI.');
-
-		$error = $errores[0];
-		return array($errores, $error);
 	}
 	/**
 	*
@@ -68,29 +51,50 @@ class JugadorTest extends \PHPUnit_Framework_TestCase
 	public function testFechaNacimiento()
 	{
 		$jugador = new Jugador();
-		$jugador->setFechaNac(new \Datetime('today'));
+		$this->assertNull($jugador->getFechadeNacimiento());
+		$jugador->setFechadeNacimiento(new \Datetime('today'));
 
-		$this->assertEquals(new \Datetime('today'), $jugador->getFechaNac(), 'No se cargo la fecha de Nacimiento.');
+		$this->assertEquals(new \Datetime('today'), $jugador->getFechadeNacimiento(), 'No se cargo la fecha de Nacimiento.');
 	}
 	/**
 	* Test de Creacion de Jugador
-	* @TODO Completarlo
+	* 
 	*/
 	public function testCreateJugador()
-	{
-		$jugador = new Jugador();
-		$errores = $this->validator->validate($jugador);
+	{/*
+		$jugador = $this->generarJugador();
+
+		$client = static::createClient();
+		$client->followRedirects(true);
 		
-		$this->testDni(); //Incluye el test de DNI
-		$this->testFechaNacimiento(); //Incluye tes de Fecha de Nacimiento
+		$crawler = $client->request('GET', 'app.php/jugador/inscribirse');	
+		$formulario = $crawler->selectButton('Inscribirse')->form($jugador);
 
-		$jugador->setEquipo($this->equipo);
-		$this->assertEquals($this->equipo, $jugador->getEquipo()->last(), 'No se cargo el Equipo.');
+		$crawler = $client->submit($formulario);
+		$this->assertTrue($client->getResponse()->isSuccessful(),'No se retorno el explorador 200 a 300	');
 
-		$jugador->setCategoria($this->categoria);
-		$this->assertEquals($this->categoria, $jugador->getCategoria(), 'No se cargo la Categoria.');		
+		*/
 
-		$error = $errores[0];
-		return array($errores, $error);
+	}
+
+	/**
+	 * Genera un jugador de prueba
+	 *
+	 * @return array
+	 * @author ezekiel <ezerivadeneiral@gmail.com>
+	 **/
+	protected function generarJugador()
+	{
+		$formJugador = new JugadorType();
+		return array(array(array(
+				$formJugador->getName().'[dni]' => '1234567890',
+				$formJugador->getName().'[nombre]' => 'Anonimo',
+				$formJugador->getName().'[apellido]' => 'Anonimo1',
+				$formJugador->getName().'[fechadeNacimiento]' => '00/00/0000',
+				$formJugador->getName().'[equipo]' => '1',
+				'fos_user_registration_form[email]' => 'anonimo'.uniqid().'@localhost.localdomain',
+				'fos_user_registration_form[plainPassword][first]' => 'anonimo1234',
+				'fos_user_registration_form[plainPassword][second]' => 'anonimo1234',
+			)));
 	}
 }
