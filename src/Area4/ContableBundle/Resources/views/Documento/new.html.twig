@@ -1,0 +1,12 @@
+{% spaceless %}
+<form id="formCreate" method="post" {{ form_enctype(form) }}>
+    	{{ form_widget(form) }}
+    	<br>
+    	<a href="javascript:submitForm('#dialog','#formCreate','{{ path('documento_create') }}'); javascript:reloadIndex();" class="button">Crear</a>
+</form>
+{% endspaceless %}
+
+<script type="text/javascript">
+cargarBotonesDialog('#dialog');
+</script>
+        

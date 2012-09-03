@@ -1,0 +1,25 @@
+Colores:
+  type: entity
+  table: Colores
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    nombre:
+      type: string
+      length: 15
+      fixed: false
+      nullable: false
+  manyToMany:
+    equipo:
+      targetEntity: Equipo
+      cascade: {  }
+      mappedBy: colores
+      inversedBy: null
+      joinTable: null
+      orderBy: null
+  lifecycleCallbacks: {  }

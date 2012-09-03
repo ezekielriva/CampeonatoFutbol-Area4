@@ -1,0 +1,18 @@
+<table class="general" style="text-align: center;">
+    <thead>
+        <tr class="txt_adorno">
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="javascript:seleccionarCuota({{entity.id}},'{{entity.nombre}}',{{entity.precio}});">{{ entity.codigo }}</a></td>
+            <td>{{ entity.nombre }}</td>
+            <td>{{ entity.precio }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

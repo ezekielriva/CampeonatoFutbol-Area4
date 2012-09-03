@@ -1,0 +1,49 @@
+Partido:
+  type: entity
+  table: Partido
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    fecha:
+      type: string
+      length: 45
+      fixed: false
+      nullable: false
+    diahora:
+      type: datetime
+      nullable: false
+      column: diaHora
+    lugar:
+      type: string
+      length: 45
+      fixed: false
+      nullable: false
+    fase:
+      type: string
+      length: 45
+      fixed: false
+      nullable: true
+  manyToMany:
+    equipo:
+      targetEntity: Equipo
+      cascade: {  }
+      mappedBy: partido
+      inversedBy: null
+      joinTable: null
+      orderBy: null
+  oneToOne:
+    arbitroDni:
+      targetEntity: Arbitro
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        Arbitro_dni:
+          referencedColumnName: dni
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

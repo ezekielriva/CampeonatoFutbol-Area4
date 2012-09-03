@@ -1,16 +1,7 @@
-<h1>Partido creation</h1>
-
-<form action="{{ path('partido_create') }}" method="post" {{ form_enctype(form) }}>
+<form method="post" {{ form_enctype(form) }} id="formPartido">
     {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
+ <p>
+        <a href="javascript:submitForm('#dialog','#formPartido', '{{path('partido_create')}}')" class="button">Crear</a>
+ </p>
 </form>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('partido') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+<script type="text/javascript">cargarBotonesDialog('#dialog')</script>

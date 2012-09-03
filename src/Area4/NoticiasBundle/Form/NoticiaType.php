@@ -1,0 +1,36 @@
+<?php
+
+namespace Area4\NoticiasBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+class NoticiaType extends AbstractType {
+
+	public function buildForm(FormBuilder $builder, array $options) {
+		$builder
+						->add('titulo')
+						->add('texto', 'textarea',array(
+							'attr' => array(
+									'class' => 'tinymce',
+									'data-theme' => 'medium',
+								),
+							))
+						->add('created_at')
+//						->add('updated_at')
+						->add('foto')
+						//->add('foto','file')
+						->add('activa', 'choice',
+										array(
+								'choices' => array('1' => 'Visible', '0' => 'No Visible')))
+//						->add('categoria')
+//						->add('usuario')
+		;
+	}
+
+	public function getName() {
+		return "Noticia";
+	}
+
+}

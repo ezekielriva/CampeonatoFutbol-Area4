@@ -1,0 +1,65 @@
+{% spaceless %}
+<a href="javascript:newProducto()" class="button">Nuevo producto</a>
+<table class="general" style="text-align: center;">
+    <thead>
+        <tr class="txt_adorno">
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.codigo }}</td>
+            <td>{{ entity.nombre }}</td>
+            <td>{{ entity.precio }}</td>
+            <td>
+                <a href="javascript:editProducto('{{ path('producto_edit', { 'id': entity.id }) }}')" class="button">Editar</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endspaceless %}
+
+<script type="text/javascript">
+$('#dialog a.button').button();
+
+function newProducto () {
+    setAjaxLoader('#dialog');
+    url = "{{ path('producto_new') }}";
+    var request = $.ajax({
+                    type: "POST",
+                    url: url
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        })
+    
+    var dialog = new Dialog();
+    dialog.title = "Crear un Producto";
+    $('#dialog').dialog(dialog);
+    dialog.aumentar();
+    abrirDialogo('#dialog');
+}
+function editProducto (url) {
+    setAjaxLoader('#dialog');
+    var request = $.ajax({
+                    type: "POST",
+                    url: url
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        })
+    
+    var dialog = new Dialog();
+    dialog.title = "Crear un Producto";
+    $('#dialog').dialog(dialog);
+    dialog.aumentar();
+    abrirDialogo('#dialog');
+}
+</script>

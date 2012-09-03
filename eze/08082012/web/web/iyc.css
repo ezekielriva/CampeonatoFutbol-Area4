@@ -1,0 +1,15 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body {
+	background-color: #000;
+	margin-left: 0px;
+	margin-top: 0px;
+}
+
+.table_background {
+	background-position: center;
+	background-image: url(images/back_3.jpg);
+	width: 100%;
+	background-repeat:no-repeat;
+}

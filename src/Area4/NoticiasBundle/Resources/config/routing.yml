@@ -1,0 +1,21 @@
+#Area4UsuarioBundle_usuario:
+#    resource: "@Area4UsuarioBundle/Resources/config/routing/usuario.yml"
+#    prefix:   /usuario
+
+#homepage:
+#    pattern:  /
+#    defaults: { _controller: Area4UsuarioBundle:Default:index }
+
+prueba:
+    pattern: /prueba/{page}
+    defaults: 
+        _controller: Area4NoticiasBundle:Default:lista
+        
+noticia_ver:
+    pattern: /noticia/{id}
+    defaults:
+        _controller: Area4NoticiasBundle:Default:ver
+        
+#
+#logout:
+#    pattern: /logout

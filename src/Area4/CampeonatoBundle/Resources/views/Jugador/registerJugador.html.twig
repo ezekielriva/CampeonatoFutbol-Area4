@@ -1,0 +1,27 @@
+{% extends '::base_backend.html.twig' %}
+{% block body %}
+<form action="" method="post" {{ form_enctype(formJugador) }} id="form">
+ 	<fieldset>
+		<legend>Datos del Jugador</legend>
+    	{{ form_widget(formJugador) }}
+    	<label for="domicilio">Domicilio:</label><br>
+    	<input id="domicilio" name="domicilio" type="text">
+    </fieldset>
+    <fieldset>
+		<legend>Datos del Usuario</legend>
+		{{ form_row(formUsuario.email)}}
+		{{ form_row(formUsuario.plainPassword)}}
+	</fieldset>
+	<br/>
+</form>
+<a href="javascript:enviarTodo();" class="button">Inscribirse</a>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+function enviarTodo () {
+	submitForm("body","#form", "{{ path('jugador_create') }}");
+}
+cargarBotones();
+</script>
+{% endblock %}

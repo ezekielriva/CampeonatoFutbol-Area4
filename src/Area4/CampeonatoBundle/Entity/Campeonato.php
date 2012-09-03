@@ -55,6 +55,15 @@ class Campeonato
      */
     private $finalizo;
     
+    /**
+     * @ORM\Column(name="categoria", type="string", length=1, nullable=false)
+     */
+    private $categoria;
+    /**
+     * @ORM\ManyToOne(targetEntity="\Area4\UsuarioBundle\Entity\Usuario", inversedBy="Campeonato")
+     */
+    private $usuario;
+
     public function __construct()
     {
         $this->finalizo = 0;
@@ -164,6 +173,46 @@ class Campeonato
      **/
     public function __toString()
     {
-        return $this->nombre;
+        return (string) $this->id;
+    }
+
+    /**
+     * Set categoria
+     *
+     * @param string $categoria
+     */
+    public function setCategoria($categoria)
+    {
+        $this->categoria = $categoria;
+    }
+
+    /**
+     * Get categoria
+     *
+     * @return string 
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param Area4\UsuarioBundle\Entity\Usuario $usuario
+     */
+    public function setUsuario(\Area4\UsuarioBundle\Entity\Usuario $usuario)
+    {
+        $this->usuario = $usuario;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return Area4\UsuarioBundle\Entity\Usuario 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

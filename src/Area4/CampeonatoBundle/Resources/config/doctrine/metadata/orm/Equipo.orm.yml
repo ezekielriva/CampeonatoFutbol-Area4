@@ -1,0 +1,57 @@
+Equipo:
+  type: entity
+  table: Equipo
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    nombre:
+      type: string
+      length: 45
+      fixed: false
+      nullable: false
+  manyToMany:
+    campeonato:
+      targetEntity: Campeonato
+      cascade: {  }
+      mappedBy: equipo
+      inversedBy: null
+      joinTable: null
+      orderBy: null
+    colores:
+      targetEntity: Colores
+      cascade: {  }
+      mappedBy: null
+      inversedBy: equipo
+      joinTable:
+        name: equipo_has_colores
+        joinColumns:
+          -
+            name: Equipo_id
+            referencedColumnName: id
+        inverseJoinColumns:
+          -
+            name: Colores_id
+            referencedColumnName: id
+      orderBy: null
+    partido:
+      targetEntity: Partido
+      cascade: {  }
+      mappedBy: null
+      inversedBy: equipo
+      joinTable:
+        name: equipo_has_partido
+        joinColumns:
+          -
+            name: Equipo_id
+            referencedColumnName: id
+        inverseJoinColumns:
+          -
+            name: Partido_id
+            referencedColumnName: id
+      orderBy: null
+  lifecycleCallbacks: {  }

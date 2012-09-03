@@ -1,0 +1,20 @@
+<table class="general-table">
+    <caption>Jugadores asociados</caption>
+    <tr class="txt_adorno">
+        <th>Nombre</th>
+        <th>DNI<th>
+        <th>Equipo</th>
+        <th>Categoria</th>
+        <th>Accion</th>
+    </tr>
+        {% for jug in jugadores %}
+        <tr>
+            <td>{{ jug.nombre|upper }}</td>
+            <td>{{ jug.dni }}</td>
+            <td>{% for eq in jug.equipo %}{{eq.nombre}}{%endfor%}</td>
+            <td>{% for cat in jug.categoria %}{{cat.nombre}}{%endfor%}</td>
+            <td><a href="#"><img width="25" height="25" src="{{asset('img/ELIMINAR.jpg')}}" alt="eliminar" onclick="preguntar('{{path('grupofamiliar_removeJugador', {'id':jug.id})}}')"/></a>
+            </td>
+        </tr>
+        {% endfor %}
+</table>

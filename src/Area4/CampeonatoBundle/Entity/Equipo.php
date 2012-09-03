@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Area4\CampeonatoBundle\Entity\Equipo
  *
  * @ORM\Table(name="Equipo")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Area4\CampeonatoBundle\Entity\EquipoRepository")
  */
 class Equipo
 {
@@ -41,7 +41,7 @@ class Equipo
      * @var Colores
      *
      * @ORM\ManyToMany(targetEntity="Colores", inversedBy="equipo")
-     * @ORM\JoinTable(name="equipo_has_colores",
+     * @ORM\JoinTable(name="Equipo_has_Colores",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Equipo_id", referencedColumnName="id")
      *   },
@@ -49,23 +49,29 @@ class Equipo
      *     @ORM\JoinColumn(name="Colores_id", referencedColumnName="id")
      *   }
      * )
-     * @Assert\Choice(choices={ "ColoresRepository", "getColores" }, max=3, min=1)
      */
     private $colores;
 
     /**
-     * @var Equipo_has_Partido
+     * Cupos disponibles en los equipos
+     * @ORM\Column(name="cupos", type="integer", nullable="false")
+     * @var integer
+     **/
+    private $cupos;
+
+    /**
+     * @var jugadores
      *
-     * @ORM\ManyToOne(targetEntity="Equipo_has_Partido")
-     * @ORM\JoinColumn(name="equipo_has_partido", referencedColumnName="equipo_id")
+     * @ORM\OneToMany(targetEntity="Equipo", mappedBy="Jugador")
      */
-    private $equipo_has_partido;
+    private $jugadores;
 
     public function __construct()
     {
+        $this->cupos = 9;
         $this->campeonato = new \Doctrine\Common\Collections\ArrayCollection();
         $this->colores = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->equipo_has_partido = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->jugadores = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
 
@@ -140,26 +146,6 @@ class Equipo
     }
 
     /**
-     * Set equipo_has_partido
-     *
-     * @param Area4\CampeonatoBundle\Entity\Equipo_has_Partido $equipoHasPartido
-     */
-    public function setEquipoHasPartido(\Area4\CampeonatoBundle\Entity\Equipo_has_Partido $equipoHasPartido)
-    {
-        $this->equipo_has_partido = $equipoHasPartido;
-    }
-
-    /**
-     * Get equipo_has_partido
-     *
-     * @return Area4\CampeonatoBundle\Entity\Equipo_has_Partido 
-     */
-    public function getEquipoHasPartido()
-    {
-        return $this->equipo_has_partido;
-    }
-
-    /**
      * toString
      *
      * @return string
@@ -167,5 +153,85 @@ class Equipo
     public function __toString ()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set cupos
+     *
+     * @param integer $cupos
+     */
+    public function setCupos($cupos)
+    {
+        $this->cupos = $cupos;
+    }
+
+    /**
+     * Get cupos
+     *
+     * @return integer 
+     */
+    public function getCupos()
+    {
+        return $this->cupos;
+    }
+
+    /**
+     * Add jugadores
+     *
+     * @param Area4\CampeonatoBundle\Entity\Jugador $jugadores
+     */
+    public function addJugador(\Area4\CampeonatoBundle\Entity\Jugador $jugadores)
+    {
+        if ($this->cupos > 0) {
+            $this->jugadores[] = $jugadores;
+            $this->cupos = $this->cupos - 1;
+        } 
+        return;
+        
+    }
+
+    /**
+     * Get jugadores
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getJugadores()
+    {
+        return $this->jugadores;
+    }
+
+    /**
+     * Verificamos si juega en un campeonato
+     *
+     * @return true : juega en ese campeonato
+     *         false: no juega en ese campeonato
+     * @author ezekiel
+     **/
+    public function juegaInCameponato($Campeonato)
+    {   
+        foreach ($this->getCampeonato as $camp) {
+            if ($camp->getId() === $Campeonato->getId())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Retorna el capitan del equipo
+     *
+     * @return Jugador
+     * @author ezekiel
+     **/
+    public function getCapitan()
+    {
+        if (!$this->jugadores) {
+            foreach ($this->jugadores as $jugador) {
+                $usuario = $jugador->getUsuario();
+
+                if ($usuario->hasRole('ROLE_CAP'))
+                    return $jugador;
+            }
+        }
+        return new Jugador();
     }
 }

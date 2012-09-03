@@ -1,0 +1,42 @@
+<a href="javascript:newTipoDocumento()" onclick="" class="button-ui-plusthick">Nuevo Tipo de Documento</a>
+<table class="general">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Letra</th>
+            <th>Plata</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.nombre }}</td>
+            <td>{{ entity.letra }}</td>
+            <td>{{ entity.plataToString }}</td>
+            <td>
+                <a href="#" class="button" onclick="editTipo('{{ path('tipo_edit', { 'id': entity.id }) }}')">Editar</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script type="text/javascript">
+$('#dialog a.button').button();
+$("#dialog a.button-ui-plusthick").button({
+            icons: {
+                primary: "ui-icon-plusthick"
+            }});
+function editTipo (url) {
+    var dialog = new Dialog();
+    dialog.title = 'Editar tipo';
+    var request = $.ajax({
+                    type: "POST",
+                    url: url
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+}
+</script>

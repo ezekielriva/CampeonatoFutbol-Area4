@@ -1,0 +1,11 @@
+<table>
+	{% for reg in lista %}
+	<tr>
+            <td>
+                <a href="#" onclick="SeleccionarCliente({{comprobante_id}},{{reg.id}})">
+                    {{reg.nombre}}
+                </a>
+            </td>
+	</tr>
+	{%endfor%}
+</table>

@@ -1,0 +1,187 @@
+{%  extends  'Area4NoticiasBundle:Admin:menu.html.twig' %}
+{% form_theme form  "::form.html.twig" %}
+{% block mainbar %}
+{#Datos de Cabecera #}
+<table width="100%" border="1" align="center" cellpadding="3" cellspacing="0" >
+    <tr>
+        <td width="37%"><div align="center"><img alt="logoATAH"  src="{{asset('img/logo_atah.png')}}" width="150" height="100" /></div></td>
+        <td width="24%" class="TxT_factura"><div align="center" class="TxT_factura"><strong>{{entity.tipo.letra}}</strong></div></td>
+        <td width="39%" class="TxT_black"><div align="right"><strong>Nº: {{entity.numero}}</strong></div></td>
+    </tr>
+</table>
+<script type="text/javascript">
+/* Llama la imagen de espera mientras se carga el elemento de la pantalla */
+function cargarImgEspera(tag){
+    $(tag).html('<img alt="cargando" src="{{asset('img/ajax-loader.gif')}}" style="margin: 5px auto; display: block;" />');
+}
+/*Pregunta antes de eliminar.*/
+    function preguntar(texto, url){
+        if (confirm('¿Está seguro que desea eliminar?')){
+             document.location.href= url;
+             alert(texto+' eliminado');
+        }
+    }
+
+/**
+* Llamada de Busqueda de clientes
+*/
+$("#BCliente").click(function(){
+        buscarCliente();
+});
+/**
+* Busca un cliente
+*/
+function buscarJugador (radioCheck){
+    console.log(radioCheck);
+    cargarImgEspera('#auxModItem')
+    if (radioCheck == 'jugador')
+        $('#auxModItem').load('{{path('BuscarJugador', {'texto':''})}}');
+    else {
+        $('#auxModItem').load('{{path('BuscarGrupoFamiliar', {'texto':''})}}');
+    }
+    $('#auxModItem').dialog({
+            modal: true,
+            closeText: 'cerrar',
+    //        width: 660,
+    //        height: 495,
+    //        dialogClass: "mt",
+    //        autoOpen: false,
+            overlay: { opacity: 0.5, background: "black" }
+       });
+}
+
+function buscar(texto){
+        url = '{{path('BuscarJugador2', {'texto':''})}}/'+encodeURIComponent(texto);
+        $('#CuadroBusqueda').load(url);
+}
+
+$("#CuadroBusqueda").change(function(){
+        buscar($('#CuadroBusqueda').value());
+});
+
+/**
+ * Seleciona un jugador para ese item
+ */
+function SeleccionarJugador(jugador) {
+    $('#auxModItem').dialog('close');
+    url = '{{path('cambiarJugador')}}?jugador='+jugador.toString();
+    $('#formJugadorWidget').load(url);
+}
+
+/**
+ * funcion que llama cuando modifica un item
+ * @param id  del item
+ */
+function modItem(id) {
+    cargarImgEspera('#aux');
+    url = '{{path('modItem')}}?id='+id.toString();
+    $('#aux').load(url);
+    $('#aux').dialog({
+        modal: true,
+        closeText: 'cerrar',
+        width: 660,
+        height: 495,
+        overlay: { opacity: 0.5, background: "black" }
+    });
+    $('#producto').focus();
+}
+
+function cuadroProCambiar(texto){
+    url = '{{path('cuadroPro')}}/10/'+encodeURIComponent(texto);
+    $('#cuadroPro').load(url);
+}
+/**
+ * cambia el producto en modItem
+ */
+function cambiarPro(id,nombre,precio) {
+    $('#aux').find('#area4_contablebundle_articulotype_Producto').val(id.toString());
+    $('#aux').find('#producto').val(nombre);
+    precioXCant(precio);
+}
+
+function sleep(delay) {
+    var start = new Date().getTime();
+    while (new Date().getTime() < start + delay);
+}
+
+/**
+ * Cambia el precio por la cantidad
+ */
+function precioXCant(precio) {
+    can = $('#aux').find('#area4_contablebundle_articulotype_cantidad').val();
+    pro = $('#aux').find('#area4_contablebundle_articulotype_Producto').val();
+    $('#aux').find('#area4_contablebundle_articulotype_precio_u').val(precio);
+    calculaTotal();
+}
+/**
+ * Caltula el precio total
+ */
+function calculaTotal() {
+    //sleep(20);
+    precio = $('#aux').find('#area4_contablebundle_articulotype_precio_u').val();
+    can = $('#aux').find('#area4_contablebundle_articulotype_cantidad').val();
+    total = (precio*can*100)/100;
+    $('#aux').find('#TOTAL').html('$ '+ total.toString());
+}
+/**
+ * Se ejecuta cuandose guarda el form de items
+ */
+function guardarForm(id,checked){
+    //alert("id: '"+id+"'");
+    url='noting'
+    if (checked == 'jugador') {
+        if (id=='undefined') {
+            url = '{{path('updateProducto')}}/'+0;
+        }else{
+            url = '{{path('updateProducto')}}/'+id;
+        }
+    }
+    else {
+        if (id=='undefined') {
+            url = "{{path('updateFamiliar')}}";
+        }else{
+            url = "{{path('updateFamiliar')}}";
+        }
+    }
+    //console.log(url+" "+id);
+    form = $('#aux').find('#itemForm');
+    datos= form.serialize();
+    //alert(datos+"");
+    cargarImgEspera('#Items');
+    $.ajax({
+        url: url,
+//      type: "POST",
+        ascr:false,
+        data: datos,
+    success:
+        function(data){
+            $('#Items').html(data);
+            //alert('url:'+url+ ' data:'+datos);
+            url2 = '{{path('listaItems')}}/'+id;
+            $('#Items').load(url2);
+        }
+    });
+    $('#aux').dialog('close');
+}
+    
+/** */
+function imprimir(){
+    window.print()
+}
+    </script>
+{#% if tipo_comprobante != 4 %}
+    <div id="cliente">
+	{%render 'Area4ContableBundle:comprobante:verCliente' with {'id':entity.cliente.id}%}
+    </div>
+{% endif %#}
+        <div id="aux"></div>
+        <div id="Items">
+            {% render 'Area4ContableBundle:comprobante:listaItems' with {'id': entity.id} %}
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="{{ path('documento_update', {'id':entity.id}) }}" class="button" onclick="alert('Datos Guardados')">Realizar Operación</a>
+                <a href="{{ path('cancelar_operacion', {'idDocumento':entity.id}) }}" class="button">Cancelar Operación</a>
+                <input name="button3" type="submit" class="button" id="button3" value="Imprimir Factura" onclick="imprimir()" />
+            </div>
+
+{%endblock%}

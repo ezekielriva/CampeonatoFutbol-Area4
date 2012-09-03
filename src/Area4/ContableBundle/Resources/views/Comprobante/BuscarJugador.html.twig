@@ -1,0 +1,7 @@
+<p>
+	Buscar <span class="txt_adorno">(por dni o apellido)</span>
+        <br/><input type="text" id="textoBusqueda" onKeyup="buscar(this.value)">
+</p>
+<div id="CuadroBusqueda">
+{% render 'Area4ContableBundle:Comprobante:BuscarJugador2' with {'texto':''} %}
+</div>

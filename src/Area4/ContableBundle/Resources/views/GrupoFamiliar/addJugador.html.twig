@@ -1,0 +1,9 @@
+{% form_theme form  "::form.html.twig" %}
+{% spaceless %}
+<form action="" method="post" {{ form_enctype(form) }} id="formAddJugador">
+    {{ form_widget(form) }}
+    <a href="#" onclick="addJugador('{{ path('grupofamiliar_addJugador', {'id':entity.id}) }}')" class="button">
+    	Agregar
+    </a>
+</form>
+{% endspaceless %}

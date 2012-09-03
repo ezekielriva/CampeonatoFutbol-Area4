@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	{{ user.username }} <br/>
+	{{ user.email }}	<br/>
+	{% render 'Area4CampeonatoBundle:Jugador:showByUser' with { 'id':user.id } %}
+{% endblock %}

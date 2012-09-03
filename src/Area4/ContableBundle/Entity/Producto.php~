@@ -1,0 +1,129 @@
+<?php
+
+namespace Area4\ContableBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Area4\ContableBundle\Entity\Producto
+ *
+ * @ORM\Table(name="contable_Producto")
+ * @ORM\Entity(repositoryClass="Area4\ContableBundle\Entity\ProductoRepository")
+ */
+class Producto
+{
+    /** 
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $codigo 
+     * @ORM\Column(name="codigo", type="string")
+     */
+    private $codigo;
+    /**
+     * @var string $nombre
+     *
+     * @ORM\Column(name="nombre", type="string", length=60)
+     */
+    private $nombre;
+
+    /**
+     * @var float $precio
+     *
+     * @ORM\Column(name="precio", type="float")
+     */
+    private $precio;
+
+    /**
+     * 
+     * @ORM\ManyToOne(targetEntity="EspecificaciondeProducto", inversedBy="producto")
+     * @ORM\JoinColumn(name="EspProd_id", referencedColumnName="id")
+     *
+     * @var Especificacion de Producto
+     **/
+    private $especificaciondeProducto;
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set precio
+     *
+     * @param float $precio
+     */
+    public function setPrecio($precio)
+    {
+        $this->precio = $precio;
+    }
+
+    /**
+     * Get precio
+     *
+     * @return float 
+     */
+    public function getPrecio()
+    {
+        return $this->precio;
+    }
+
+    /**
+     *
+     * @param integer $cant
+     * @return double 
+     */
+    public function precioXCant($cant){
+        return $this->precio * $cant;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+}

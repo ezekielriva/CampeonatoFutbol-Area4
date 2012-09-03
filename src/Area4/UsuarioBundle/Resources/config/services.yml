@@ -1,0 +1,5 @@
+services:
+    area4_usuario.usuario_provider:
+        class: Area4\UsuarioBundle\Security\Provider\UsuarioProvider
+        public: false
+        arguments: ["@fos_user.user_manager"]

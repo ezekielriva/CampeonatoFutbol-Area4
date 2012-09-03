@@ -1,0 +1,89 @@
+{%  extends  'Area4NoticiasBundle:Admin:menu.html.twig' %}
+{%block seccion%}Grupo familiar {{ entity.apellido }}{%endblock%}
+{% block mainbar %}
+<a href="#" onclick="cargarDialogo({{entity.id}})" class="button">Agregar Jugador</a>
+<a href="{{path('grupofamiliar')}}" class="button">Volver atras</a>
+<br/>
+<p>Apellido: {{ entity.apellido }}</p>
+<p>DNI: {{ entity.dni }} </p>
+<div id="listadoJugadores">
+    {% render 'Area4ContableBundle:GrupoFamiliar:listarJugadores' with {'id':entity.id} %}
+</div>
+<div id="aux"></div>
+<script type="text/javascript">
+function cargarImgEspera(tag){
+    $(tag).html('<img alt="cargando" src="{{asset('img/ajax-loader.gif')}}" style="margin: 5px auto; display: block;" />');
+}
+function cargarDialogo(id){
+    cargarImgEspera('#aux');
+    url = '{{path('grupofamiliar_addJugador', {'id':entity.id})}}';
+    $('#aux').load(url);
+    $('#aux').dialog({
+        modal: true,
+        closeText: 'cerrar',
+       // width: 660,
+       // height: 495,
+        //dialogClass: "mt",
+ //     autoOpen: false,
+        overlay: { opacity: 0.5, background: "black" }
+    });
+    $('#producto').focus();
+}
+function addJugador(url){
+    form = $('#aux').find('#formAddJugador');
+    datos= form.serialize();
+    cargarImgEspera('#listadoJugadores');
+    $.ajax({
+        url: url,
+        type: "POST",
+        ascr:false,
+        data: datos,
+    success:
+        function(data){
+            $('#area4_contablebundle_grupofamiliartype_dni').val('');
+            $('#listadoJugadores').html(data);
+        }
+    });
+}
+function removeJugador(url){
+    cargarImgEspera('#listadoJugadores');
+    data = null;
+    $.ajax({
+        url: url,
+        //type: "POST",
+        ascr: false,
+        data: null,
+    success:
+        function(data){
+            $('#listadoJugadores').html(data);
+        }
+    });
+}
+function preguntar(url){
+                    if (confirm('¿Está seguro que desea eliminar?')){
+                         removeJugador(url);
+                         alert('Grupo Familiar eliminado')
+                    }
+                }
+</script>
+{%endblock%}
+{#}
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('grupofamiliar') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('grupofamiliar_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('grupofamiliar_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+#}

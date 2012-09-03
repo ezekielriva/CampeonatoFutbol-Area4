@@ -1,37 +1,64 @@
-<h1>Campeonato</h1>
+<h1 class="titulo_seccion">Campeonato: {{ entity.nombre }}</h1>
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Nombre</th>
-            <td>{{ entity.nombre }}</td>
-        </tr>
-        <tr>
-            <th>Deporte</th>
-            <td>{{ entity.deporte }}</td>
-        </tr>
-    </tbody>
+<a class="button" href="javascript:editCampeonato()">Editar</a>
+<a class="button" href="javascript:abrirInscripciones()">Abrir inscripciones</a>
+<a class="button" href="javascript:invitarEquipos()">Invitar equipos</a>
+<a class="button" href="{{ path('campeonato_generateMatchForLeague', { 'idCampeonato': entity.id }) }}">Generar partidos</a>
+
+
+<table class="general" id="equipos-invitados">
+    <tr><th>Equipos invitados</th></tr>
+    {% for equipo in entity.equipo %}
+        <tr><td>{{equipo}}</td></tr>
+    {% endfor %}
 </table>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('campeonato') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('campeonato_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('campeonato_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+<div id="invitaciones"></div>
+
+<script type="text/javascript">
+cargarBotonesDialog('#perfil-content');
+function editCampeonato () {
+    setAjaxLoader('#dialog');
+    var dialog = new Dialog();
+    dialog.title = "Editar Campeonato";
+    $('#dialog').dialog(dialog);
+    var request = $.ajax({
+        type: "POST",
+        url: "{{ path('campeonato_edit', { 'id': entity.id }) }}",
+    });
+    request.done(function (html){
+        $('#dialog').html(html);
+    });
+    abrirDialogo('#dialog');
+}
+function abrirInscripciones() {
+    setAjaxLoader('#dialog');
+    var dialog = new Dialog();
+    dialog.title = "Abrir inscripciones";
+    var request = $.ajax({
+        type: "POST",
+        url: "{{ path('inscripciones_abrir', {'idCampeonato': entity.id }) }}",
+    });
+    request.done(function (html){
+        $('#dialog').html(html);
+    });
+    $('#dialog').dialog(dialog);
+    abrirDialogo('#dialog');
+}
+function invitarEquipos () {
+    setAjaxLoader('#dialog');
+    var dialog = new Dialog();
+    dialog.title = "Invitar equipos";
+    dialog.aumentar();
+    
+    var request = $.ajax({
+        type: "POST",
+        url: "{{ path('notificaciones_new', { 'idCampeonato': entity.id }) }}",
+    });
+    request.done(function (html){
+        $('#dialog').html(html);
+    });
+    $('#dialog').dialog(dialog);
+    abrirDialogo('#dialog');
+}
+</script>

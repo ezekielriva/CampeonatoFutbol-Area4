@@ -1,0 +1,11 @@
+{% spaceless %}
+<form id="formCreate" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }} <br>
+        <a href="javascript:submitForm('#dialog','#formCreate','{{ path('producto_update', { 'id': entity.id }) }}')" class="button">Editar</a>
+        <a href="javascript:indexProducto()" class="button">Volver</a>
+</form>
+{% endspaceless %}
+
+<script type="text/javascript">
+cargarBotonesDialog('#dialog');
+</script>

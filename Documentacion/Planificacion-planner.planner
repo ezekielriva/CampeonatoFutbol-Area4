@@ -49,12 +49,12 @@
       </task>
     </task>
     <task id="6" name="CampeonatoBundle" note="" work="1036800" start="20120531T104000Z" end="20120629T104000Z" work-start="20120531T104000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="7" name="Equipo" note="" work="144000" start="20120531T104000Z" end="20120607T104000Z" work-start="20120531T104000Z" percent-complete="20" priority="0" type="normal" scheduling="fixed-work">
+      <task id="7" name="Equipo" note="" work="144000" start="20120531T104000Z" end="20120607T104000Z" work-start="20120531T104000Z" percent-complete="50" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="3" type="FS"/>
         </predecessors>
       </task>
-      <task id="8" name="Campeonato" note="" work="144000" start="20120607T104000Z" end="20120614T104000Z" work-start="20120607T104000Z" percent-complete="20" priority="0" type="normal" scheduling="fixed-work">
+      <task id="8" name="Campeonato" note="" work="144000" start="20120607T104000Z" end="20120614T104000Z" work-start="20120607T104000Z" percent-complete="30" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="7" type="FS"/>
         </predecessors>
@@ -74,12 +74,12 @@
           <predecessor id="1" predecessor-id="10" type="FS"/>
         </predecessors>
       </task>
-      <task id="12" name="Inscripciones" note="" work="144000" start="20120531T104000Z" end="20120607T104000Z" work-start="20120531T104000Z" percent-complete="40" priority="0" type="normal" scheduling="fixed-work">
+      <task id="12" name="Inscripciones" note="" work="144000" start="20120531T104000Z" end="20120607T104000Z" work-start="20120531T104000Z" percent-complete="60" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="3" type="FS"/>
         </predecessors>
       </task>
-      <task id="13" name="Invitaciones" note="" work="144000" start="20120531T104000Z" end="20120607T104000Z" work-start="20120531T104000Z" percent-complete="40" priority="0" type="normal" scheduling="fixed-work">
+      <task id="13" name="Invitaciones" note="" work="144000" start="20120531T104000Z" end="20120607T104000Z" work-start="20120531T104000Z" percent-complete="60" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="3" type="FS"/>
         </predecessors>
@@ -92,7 +92,7 @@
           <predecessor id="1" predecessor-id="2" type="FS"/>
         </predecessors>
       </task>
-      <task id="16" name="Equipo" note="" work="28800" start="20120531T104000Z" end="20120601T092000Z" work-start="20120531T104000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="16" name="Equipo" note="" work="28800" start="20120531T104000Z" end="20120601T092000Z" work-start="20120531T104000Z" percent-complete="30" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="3" type="FS"/>
         </predecessors>
@@ -110,11 +110,11 @@
     </task>
   </tasks>
   <resource-groups>
-    <group id="1" name="Programador" admin-name="" admin-phone="" admin-email=""/>
-    <group id="2" name="Maquetador" admin-name="" admin-phone="" admin-email=""/>
+    <group id="1" name="Maquetador" admin-name="" admin-phone="" admin-email=""/>
+    <group id="2" name="Programador" admin-name="" admin-phone="" admin-email=""/>
   </resource-groups>
   <resources>
-    <resource group="1" id="1" name="Ezekiel" short-name="Ezekiel" type="1" units="0" email="ezerivadeneiral@gmail.com" note="" std-rate="6.25"/>
+    <resource group="2" id="1" name="Ezekiel" short-name="Ezekiel" type="1" units="0" email="ezerivadeneiral@gmail.com" note="" std-rate="6.25"/>
   </resources>
   <allocations>
     <allocation task-id="18" resource-id="1" units="120"/>

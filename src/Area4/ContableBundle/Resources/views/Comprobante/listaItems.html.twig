@@ -1,0 +1,29 @@
+<table class="general-table" width="900px">
+<tr class="txt_adorno">
+    <th width="42%">Jugador</th>
+    <th width="22%">Descripción</th>
+    <th width="13%">Precio Unitario</th>
+    <th width="14%">Monto Total</th>
+    <th width="9%">Acciones</th>
+</tr>
+{%for item in items %}
+<tr>
+    <td>{{item.Jugador}}</td>
+    <td class="TxT_black"><div align="left">{{item.producto.nombre}}</div></td>
+    <td class="TxT_black"><div align="center">{{item.precioU}}</div></td>
+    <td class="TxT_black"><div align="center">{{item.precioT}}</div></td>
+    <td class="TxT_black_total"><div align="center">
+        <a href="javascript:modItem({{item.id}})"><img width="25" height="25" src="{{asset('img/AGREGAR.jpg')}}" alt="modificar"/></a>
+        <a href="javascript:preguntar('Item','{{ path( 'items_delete', {'id':item.id}) }}')"><img width="25" height="25" src="{{asset('img/ELIMINAR.jpg')}}" alt="eliminar"/></a>
+    </div></td>
+</tr>
+{% endfor %}
+<tr>
+        <td colspan="5"><a href="#" onclick="modItem('')">Nuevo Articulo</a></td>
+</tr>
+        <tr>
+                <td colspan="3" style="text-align:right">TOTAL:&nbsp;&nbsp;</td>
+        <td><div align="center"><strong>{{documento.total}}</strong></div></td>
+        <td>&nbsp;</td>
+</tr>
+</table>

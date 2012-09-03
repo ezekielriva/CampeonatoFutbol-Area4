@@ -1,0 +1,423 @@
+body#frontend {
+	background: #DDD url('../img/background_home.jpg') repeat-x;
+	font-family: Arial,Helvetica,sans-serif;
+	background-position: -280px 0px !important;
+}
+
+body#backend {
+	background: #DDD url('../img/background.jpg') repeat-x;
+	font-family: Arial,Helvetica,sans-serif;
+}
+img#ajax_loader {
+	background-image: url('../img/ajax-loader.gif');
+	display: block;
+	height: 19px;
+	width: 220px;
+	margin: 0px auto;
+}
+/** Formularios **/
+form {
+	margin: 0px auto;
+}
+textarea {
+	width: 100%;
+	height: 100%;
+}
+label, legend {
+	color: black-grey;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+legend {
+	font-size: 14px;
+}
+
+.required{
+	color: red;
+	font-size: 12px;
+}
+div.datetime select {
+	width: 100px;
+	text-align: center;
+}
+/** Imagenes **/
+/* Logos */
+#logo-top {
+	display: block;
+	margin: 0px auto;
+	height: 101px;
+	width: 296px;
+}
+
+/** Secciones **/
+h1.titulo_seccion {
+	color: yellow;
+	font-size: 22px;
+	font-weight: bold;
+	text-align: center;
+}
+h2.titulo_seccion {
+	color: yellow;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+h3.titulo_seccion {
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+}
+/** Barras horizontales **/
+hr {
+	height: 100%;
+}
+
+hr.barras_yellow {
+	color: yellow;
+}
+
+/** Tablas
+***************************/
+table.general {
+	background-color: #EDEDED;
+	width: 60%;
+	margin: 5px auto;
+}
+table.general caption {
+	color: yellow;
+}
+table.general th {
+	background-color: #666666;
+	color: yellow;
+}
+
+/** Perfil
+=============================================== */
+article.profile {
+	width: 80%;
+	margin: 0px auto;
+	overflow: hidden;
+}
+
+article.profile .sidebar {
+	width: 30%;
+	float: left;
+}
+article.profile .content {
+	width: 70%;
+	float: left;
+}
+
+div#perfil {
+	width: 98%;
+	overflow: hidden;
+}
+div#perfil-menu {
+	overflow: hidden;
+}
+div.sidebar-perfil {
+	float: left;
+	margin: 0px 20px 0px 10px;
+	width: 300px;
+}
+
+article.perfil {
+	float: right;
+	width: 65%;
+}
+
+span.perfil-info {
+	display: block;
+	font-weight: bold;
+	color: yellow;
+}
+/** Login
+---------------------------------------------- */
+form#login {
+	width: 40%;
+	padding-left: 300px;
+}
+form#login input{
+	width: 50%;
+}
+form#login input.button {
+	width: 100px;
+}
+
+/** Menu top
+---------------------------------------------- */
+nav#menu {
+	margin-top: 80px; 
+	margin-left: auto;
+	margin-right: auto;
+	width: 923px; 
+	height: 74px;
+	text-align: center;
+}
+nav#menu a, nav#menu a:hover { 
+	padding: 76px 76px 60px 76px;
+	background: transparent url('../img/sprite-menu.png') no-repeat
+}
+/* x y */
+#logoutBttn {background-position: 0px 0px !important;}
+#logoutBttn:hover {background-position: 0px -154px !important;}
+
+#partidosBttn {background-position: -153px 0px !important;}
+#partidosBttn:hover {background-position: -153px -154px !important;}
+
+#campeonatosBttn {background-position: -461px 0px !important;}
+#campeonatosBttn:hover {background-position: -461px -154px !important;}
+
+#equiposBttn {background-position: -307px 0px !important;}
+#equiposBttn:hover {background-position: -307px -154px !important;}
+
+#jugadoresBttn {background-position: -615px 0px !important;}
+#jugadoresBttn:hover {background-position: -615px -154px !important;}
+
+#estadisticasBttn {background-position: -769px 0px !important;}
+#estadisticasBttn:hover {background-position: -769px -154px !important;}
+/************************************************************************/
+
+
+/** HOME
+---------------------------------------------- */
+div#body {
+	font-family: Arial,Helvetica,sans-serif;
+	height: 100%;
+	width: 80%;
+	margin: 0px auto;
+}
+
+nav#front {
+	width: 70%;
+	height: 38px;
+	padding: 0;
+	margin: 0px auto;
+}
+
+nav#front li {
+	display: inline;
+}
+
+nav#front li a {
+	vertical-align: center;
+	
+	border-top: 1px solid #E9BF13;
+	border-bottom: 1px solid #E9BF13;
+
+	font-size:12px;  
+	text-decoration: none;  
+	float:left;  
+	
+	padding: 13px;  
+	background-color: #2175bc;  
+	color: #fff;  
+	font-weight: bold;
+	background: #535355; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzUzNTM1NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ4JSIgc3RvcC1jb2xvcj0iIzNjM2MzZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM1NDU0NTYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #535355 0%, #3c3c3e 48%, #545456 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#535355), color-stop(48%,#3c3c3e), color-stop(100%,#545456)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #535355 0%,#3c3c3e 48%,#545456 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #535355 0%,#3c3c3e 48%,#545456 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #535355 0%,#3c3c3e 48%,#545456 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #535355 0%,#3c3c3e 48%,#545456 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#535355', endColorstr='#545456',GradientType=0 ); /* IE6-8 */
+
+}
+
+nav#front li a:hover {
+	color: yellow;
+}
+
+nav#front li a.start {
+	border-left: 1px solid #E9BF13;
+}
+nav#front li a.end {
+	border-right: 1px solid #E9BF13;
+}
+
+/* Footer */
+footer {
+	width: 80%;
+	margin: 0px auto;
+}
+footer img {
+	margin-left: 20px;
+}
+
+footer img.start {
+	margin-left: 110px;
+}
+
+footer img#copyright {
+	margin-left: 100px;
+	display: block;
+}
+
+
+
+/*** Botones perfil
+-------------------------------- */
+a.img-button {
+	height: 75px;
+	width: 75px;
+	display: block;
+	margin: 10px;
+	float: left;
+	border: 1px solid black;
+}
+a#gestionCampeonatos {
+	background-image: url('../img/gestionar_campeonatos_1.png');
+}
+a#gestionCampeonatos:hover {
+	background-image: url('../img/gestionar_campeonatos_2.png');
+	border: 1px solid yellow;
+}
+a#gestionPartidos {
+	background-image: url('../img/gestionar_partidos_1.png');
+}
+a#gestionPartidos:hover {
+	background-image: url('../img/gestionar_partidos_2.png');
+	border: 1px solid yellow;
+}
+a#invitarJugador {
+	background-image: url('../img/invita_jugadores_sistema_1.png');
+}
+a#invitarJugador:hover {
+	background-image: url('../img/invita_jugadores_sistema_2.png');
+	border: 1px solid yellow;
+}
+a#moduloContable {
+	background-image: url('../img/modulo_contable_1.png');
+}
+a#moduloContable:hover {
+	background-image: url('../img/modulo_contable_2.png');
+	border: 1px solid yellow;
+}
+/*** Notificaciones
+--------------------------- */
+a.notificacion-perfil, p.notificacion-perfil {
+	display: block;
+	background-color: grey;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-right: 10px;
+}
+
+a.notificacion-perfil:odd, p.notificacion-perfil:odd {
+	background-color: yellow;
+}
+
+/** Factura view 
+------------- */
+#RazonSocial, #footer-factura, #Cabecera {
+	width: 60%;
+	border: 1px solid black;
+	margin: 0px auto;
+}
+#footer-factura {
+	text-align: right;
+	font-weight: bold;
+	color: yellow;
+
+	margin-top: 6px;
+}
+#footer-factura span {
+		padding: 5px;
+}
+div#factura {
+  	width: 80%;
+  	margin: 0px auto;
+  }
+div#factura div#boton {
+  	width: 60%;
+  	margin: 0px auto;
+  }
+div#factura label, div#factura input {
+  	margin: 2px auto 3px 5px;
+  }
+ div#factura input {
+ 	width: 60%;
+ }
+
+ div#factura div#Cabecera {
+ 	overflow: hidden;
+ 	margin: 0px auto;
+ 	clear: both;
+ }
+ div#factura div#letra {
+ 	border: 1px solid black;
+ 	height: 30px;
+ 	width: 30px;
+ 	font-size: 20px;
+ 	margin: 0px auto;
+ 	float: left;
+ 	z-index: 1;
+ 	/*display: block;*/
+ 	text-align: center;
+ }
+ div#factura div#logo {
+ 	width: 50%; float: left; height: 100%;
+ 	z-index: 0;
+ }
+ div#factura div#logo img {
+ 	margin: auto;
+ 	display: block;
+ }
+ div#factura div#info {
+ 	width: 50%; float: right; text-align: center; z-index: 0;
+ }
+@media print
+{
+#RazonSocial, #footer-factura {
+  	width: 100%;
+  	height: 1.5cm;
+  	color: black;
+  }
+#RazonSocial {
+	height: 3cm;
+}
+ div#factura div#Cabecera {
+ 	width: 100%;
+ 	height: 4cm;
+ }
+  a.button, #logo-top, .ocultar, .titulo_seccion, hr {
+  	display: none;
+  }
+
+  div#factura {
+  	width: 15cm;
+  	height: 22cm;
+  	margin: 0px auto;
+  }
+
+  div#factura label, div#factura input {
+  	margin: 2px auto 3px 5px;
+  }
+
+  div#factura input {
+  	border: 0px;
+  }
+
+  div#factura .general {
+  	width: 100%;
+  	border-collapse:collapse;
+  }
+  div#factura .general th {
+  	color: black;
+  	border: 1px solid black;
+  }
+  div#factura .general tr td {
+  	color: black;
+  	border: 1px solid black;
+  }
+
+  .left {
+  	text-align: left;
+  }
+  .center {
+  	text-align: center;
+  }
+}

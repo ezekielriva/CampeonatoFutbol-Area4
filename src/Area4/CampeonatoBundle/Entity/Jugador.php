@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="Jugador")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Jugador
 {
@@ -44,10 +45,8 @@ class Jugador
     /**
      * @var Equipo
      *
-     * @ORM\ManyToOne(targetEntity="Equipo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Equipo_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Equipo", inversedBy="Jugador")
+     * @ORM\JoinColumn(name="Equipo_id", referencedColumnName="id")
      * @Assert\NotBlank()
      * @Assert\Type(type="Area4\CampeonatoBundle\Entity\Equipo")
      */
@@ -68,6 +67,12 @@ class Jugador
      * @var date
      **/
     private $fechadeNacimiento;
+    /**
+     * Slug : concatena - nombre + apellido + dni
+     * @ORM\Column(name="slug", type="string", length="255", nullable=false)
+     * @var string
+     **/
+    private $slug;
     /**
      * @ ORM\Column(name="foto", type="string", length="255", nullable=true)
      **/
@@ -180,7 +185,7 @@ class Jugador
      **/
     public function __toString()
     {
-        return sprintf("%d-%s, %s", $this->dni, $this->apellido, $this->nombre);
+        return sprintf("%d - %s, %s", $this->dni, $this->apellido, $this->nombre);
     }
 
     /**
@@ -201,5 +206,80 @@ class Jugador
     public function getFechadeNacimiento()
     {
         return $this->fechadeNacimiento;
+    }
+
+    /**
+     * Concatena el nombre con el apellido
+     *
+     * @return string
+     **/
+    public function getNombreCompleto()
+    {
+        return (string) $this->apellido.', '.$this->nombre;
+    }
+
+    /**
+     * Revisa si el jugador ya pertenece a un equipo
+     *
+     * @return true : si pertenece ya a un equipo.
+     * @return false: si no pertenece a ningun equipo.
+     * @author ezekielriva
+     **/
+    public function hasEquipo()
+    {
+        if (is_null($this->equipo))
+            return false;
+        else
+            return true;
+    }
+
+    /**
+     * Determina si este jugador es capitán
+     *
+     * @return true : si es capitán
+     *         false: si no es capitán 
+     * @author ezekielriva
+     **/
+    public function isCapitan()
+    {  
+        return $this->usuario->hasRole('ROLE_CAP');
+    }
+
+    /**
+     * Uso para template
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function getCapitanString()
+    {
+        if ($this->isCapitan())
+            return "[CAPITAN]";
+    }
+
+    /**
+     * Realiza antes de crear
+     * @ORM\PrePersist()
+     */
+    public function prePersist(){
+        $this->slug = $this->generateSlug();
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function preUpdate(){
+        $this->slug = $this->generateSlug();
+    }
+
+    /**
+     * Genera el slug
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    private function generateSlug()
+    {
+        return (string) $this->nombre.'-'.$this->apellido.'-'.$this->dni;
     }
 }

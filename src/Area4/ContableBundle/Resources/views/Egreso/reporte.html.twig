@@ -1,0 +1,28 @@
+{% extends 'Area4NoticiasBundle::base.html.twig' %}
+{%block seccion %}Planilla de egresos{%endblock%}
+{% block mainbar %}
+<a href="{{path('egreso')}}" class="button">Volver</a>
+<h2 class="textos_18">{{fecha_inicio|date('d-m-Y')}} a {{fecha_fin|date('d-m-Y')}}</h2>
+<table class="general-table" style="text-align: center;">
+    <thead>
+        <tr class="txt_adorno">
+            <th>Numero de comprobante</th>
+            <th>Fecha</th>
+            <th>Importe</th>
+            <th>Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for egreso in egresos %}
+        <tr>
+            <td>{{ egreso.numerocomprobante }}</td>
+            <td>{% if egreso.fecha %}{{ egreso.fecha|date('d-m-Y H:i') }}{% endif%}</td>
+            <td>${{ egreso.importe }}</td>
+            <td>{{ egreso.Usuario.nickname }}</td>
+        </tr>
+        <tr><td colspan="4">{{ egreso.observaciones }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h1 class="textos_20" style="text-align: right;">Total: ${{total}}</p>
+{% endblock %}

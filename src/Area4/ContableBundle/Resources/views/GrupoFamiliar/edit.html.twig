@@ -1,0 +1,13 @@
+{%  extends  'Area4NoticiasBundle:Admin:menu.html.twig' %}
+{% block mainbar %}
+{% form_theme form  "::form.html.twig" %}
+{% spaceless %}
+<form action="{{ path('grupofamiliar_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div style="width: 100%; text-align: center;">
+        <input type="submit" class="button" value="Modificar"/>
+        <input type="reset" class="button" value="Borrar formulario"/>
+        <a href="{{ path('grupofamiliar') }}" class="button">Salir</a></div>
+</form>
+{% endspaceless %}
+{%endblock%}

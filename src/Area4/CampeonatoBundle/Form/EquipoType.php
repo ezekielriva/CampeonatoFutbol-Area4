@@ -11,7 +11,11 @@ class EquipoType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('colores')
+            ->add('colores','entity',array(
+                    'class' => 'Area4CampeonatoBundle:Colores',
+                    'multiple' => 'true',
+                    'expanded' => 'true'
+                ))
             //->add('imagen','file')
         ;
     }

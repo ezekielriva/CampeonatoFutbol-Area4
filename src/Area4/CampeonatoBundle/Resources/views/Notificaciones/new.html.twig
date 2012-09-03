@@ -1,0 +1,14 @@
+<form method="post" {{ form_enctype(form) }} id="form">
+   {{ form_widget(form) }}
+</form>
+<p>
+<a href="javascript:submitForm('#dialog','#form','{{ path('notificaciones_equipo_create') }}')" class="button">Invitar</a>
+</p>
+
+<script type="text/javascript">
+cargarBotonesDialog('#dialog');
+$(function() {
+		$( "#form input:checkbox" ).button();
+		$( "#form" ).buttonset();
+	});
+</script>

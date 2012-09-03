@@ -7,7 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Area4\CampeonatoBundle\Entity\Campeonato;
+use Area4\CampeonatoBundle\Entity\Partido;
+use Area4\CampeonatoBundle\Entity\Equipo_has_Partido;
 use Area4\CampeonatoBundle\Form\CampeonatoType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Campeonato controller.
@@ -32,6 +35,40 @@ class CampeonatoController extends Controller
     }
 
     /**
+     * Lista de Campeonatos por usuario logueado
+     * @Route("/byUsuario", name="campeonato_by_user")
+     * @Template("Area4CampeonatoBundle:Campeonato:index.html.twig")
+     * @author ezekiel
+     **/
+    public function indexByUser()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $user = $this->container->get('security.context')->getToken()->getUser(); 
+        $entities = $em->getRepository('Area4CampeonatoBundle:Campeonato')->findByUsuario($user->getId());
+
+        return array('entities' => $entities);
+    }
+
+    /**
+     * Lista todos los campeonato
+     *
+     * @Route("/list", name="campeonato_list")
+     * @Template()
+     * @return void
+     * @author 
+     **/
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $user = $this->container->get('security.context')->getToken()->getUser(); 
+        $entities = $em->getRepository('Area4CampeonatoBundle:Campeonato')->findByUsuario($user->getId());
+
+        return array('entities' => $entities);
+    }
+
+    /**
      * Finds and displays a Campeonato entity.
      *
      * @Route("/{id}/show", name="campeonato_show")
@@ -40,18 +77,13 @@ class CampeonatoController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
         $entity = $em->getRepository('Area4CampeonatoBundle:Campeonato')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Campeonato entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
+        );
     }
 
     /**
@@ -84,12 +116,16 @@ class CampeonatoController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm(new CampeonatoType(), $entity);
         $form->bindRequest($request);
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
+            $entity->setUsuario($user);
             $em->persist($entity);
             $em->flush();
             return $this->redirect(
-                    $this->generateUrl('campeonato'));
+                    $this->generateUrl('campeonato_by_user'));
         }
         
         return array(
@@ -119,7 +155,7 @@ class CampeonatoController extends Controller
 
         return array(
             'entity'      => $entity,
-            'form'   => $editForm->createView(),
+            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -190,5 +226,59 @@ class CampeonatoController extends Controller
         ;
     }
 
-    
+    /**
+     * Genera todos los partidos para una liga
+     *
+     * @return Response
+     * @author ezekiel
+     * @Route("/generateMatchForLeague/{idCampeonato}", name="campeonato_generateMatchForLeague")
+     **/
+    public function generateMatchForLeagueAction($idCampeonato)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $campeonato = $em->getRepository('Area4CampeonatoBundle:Campeonato')->findOneById($idCampeonato);
+        if (!$campeonato)
+            throw $this->createNotFoundException('Unable to find Campeonato entity.');
+        $equipos = $campeonato->getEquipo();
+        $partidos = array();
+
+        
+        foreach($equipos as $x){
+            foreach($equipos as $y){
+                if($x == $y){
+                    continue;
+                }
+                $partido = new Partido();
+                $partido->setLocal($x);
+                $partido->setVisitante($y);
+                $partido->setCampeonato($campeonato);
+                $partidos[] = $partido;
+            }
+        }
+
+        $fecha = 1;
+        foreach ($partidos as $partido) {
+            foreach ($partidos as $otro) {
+                if ( $partido === $otro ) {
+                    $partido->setFecha($fecha);
+                }
+                if ( $partido->getLocal() != $otro->getLocal() && 
+                    $partido->getVisitante() != $otro->getVisitante() && 
+                    $partido->getLocal() != $otro->getVisitante() && 
+                    $partido->getVisitante() != $otro->getLocal() ) {
+
+                    $partido->setFecha($fecha);
+                }
+                    
+            }
+            $fecha++;
+        }
+
+        foreach ($partidos as $x) {
+            $em->persist($x);
+        }
+        $em->flush();
+        
+        return new Response();
+    }
 }

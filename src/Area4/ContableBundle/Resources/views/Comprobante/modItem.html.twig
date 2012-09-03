@@ -1,0 +1,68 @@
+{% form_theme form  "::form.html.twig" %}
+<div id="auxModItem"></div>
+<form id="itemForm" >
+        <table cellpadding="4">
+            <tr>
+                <td id="labelTxt" class="titulos txt_negrita_texto_normal">Jugador <span class="textos_12">(ingrese el dni sin puntos)</span></td>
+                <td id="nameJugador">
+                    <label><input id="radioJugador" type="radio" name="tipoPago" value="Jugador" checked="checked" onclick="changeLabel(true);"/>Jugador</label>
+                    <label><input id="radioGrupo" type="radio" name="tipoPago" value="Grupo" onclick="changeLabel(false);"/>Grupo Familiar</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="textos_12_bold">
+                    <div id="formJugadorWidget">{{form_widget(form.Jugador)}}</div>
+                    <a onclick="buscarJugador(hoisCheck())" href="#"><span class="txt_adorno">Buscar</span></a>
+                </td>
+            </tr>
+            <tr>
+                <td class="titulos txt_negrita_texto_normal">Detalle: </td>
+            </tr>
+            <tr>
+                <td class="textos_12_bold"><input type="text"  size="30" name="producto" id="producto" value="{{nombrePro}}" onkeyup="cuadroProCambiar(this.value);" onfocus="this.select();" ></td>
+            </tr>
+	</table>
+        {{form_rest(form)}}
+        <p>TOTAL: <span id="TOTAL">$ {{entity.precioT}}</span></p>
+        <div style="text-align: left;">
+            <input type="button" value="Guardar" class="button" onclick="guardarForm( {%if entity.id %}{{entity.id}},{%else%}'undefined',{%endif%}hoisCheck())">
+            <input type="button" value="Salir" class="button" onclick=" $('#aux').dialog('close');">
+        </div>
+</form>
+<div id="cuadroPro">
+{%render 'Area4ContableBundle:Comprobante:cuadroPro' with {'texto':'', 'cant':10}%}
+</div>
+<script type="text/javascript">
+/**
+ * Seleciona un jugador para ese item
+ */
+function SeleccionarJugador(jugador) {
+    url = '{{path('cambiarJugador')}}?jugador='+jugador.toString();
+    $('#formJugadorWidget').load(url);
+    $('#auxModItem').dialog('close');
+}
+function SeleccionarGrupoFamiliar(dni){
+    $('#formJugadorWidget').html('<input name="dniGrupoFamiliar" value="'+dni+'"/>');
+    $('#auxModItem').dialog('close');
+}
+/**
+ * Cambia el label.
+ */
+function changeLabel(value){
+    if(value){
+        $('#labelTxt').html('Jugador <span class="textos_12">(ingrese el dni sin puntos)</span>');
+    } else {
+        $('#labelTxt').html('Grupo familiar <span class="textos_12">(utilice el boton buscar)</span>')
+    }
+}
+function hoisCheck(){
+    if( $('#radioJugador').attr('checked') == 'checked'){
+        console.log('El Radio button Jugador esta checkeado');
+        return 'jugador';
+    }
+    else {
+        console.log('El Radio button Grupo familiar esta checkeado');
+        return 'grupo';
+    }
+}
+</script>

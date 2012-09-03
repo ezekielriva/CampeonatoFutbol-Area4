@@ -22,7 +22,7 @@ class JugadorType extends AbstractType {
                             'format' => 'dd/MM/yyyy',
                             'label' => 'Fecha de nacimiento (dd/MM/aaaa)'
                         ))
-                    ->add('equipo')
+                    //->add('equipo')
 		;
 	}
 

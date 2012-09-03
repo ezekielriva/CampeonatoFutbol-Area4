@@ -1,0 +1,32 @@
+Jugador:
+  type: entity
+  table: Jugador
+  fields:
+    dni:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    nombre:
+      type: string
+      length: 45
+      fixed: false
+      nullable: false
+    apellido:
+      type: string
+      length: 45
+      fixed: false
+      nullable: false
+  oneToOne:
+    equipo:
+      targetEntity: Equipo
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        Equipo_id:
+          referencedColumnName: id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

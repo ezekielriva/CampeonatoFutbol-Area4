@@ -1,0 +1,20 @@
+<table class="general-table">
+    <tr class="txt_adorno">
+        <th>Nombre y Apellido</th>
+        <th>dni</th>
+    </tr>
+	{% for reg in lista %}
+	<tr>
+            <td>
+                <a href="javascript:SeleccionarJugador({{reg.id}})">
+                    {{reg.apellido}} {{reg.nombre}}
+                </a>
+            </td>
+            <td>
+                <a href="#" onclick="SeleccionarJugador({{reg.id}})">
+                    {{reg.dni}}
+                </a>
+            </td>
+	</tr>
+	{%endfor%}
+</table>

@@ -1,0 +1,13 @@
+{% block usuario %}
+<table width="100%" cellspacing="3" cellpadding="0" border="0" align="center">
+      <tbody><tr>
+        <td width="47%"><div align="right"><span class="txt_naranja_arial_10_bold">Bienvenido/a:</span></div></td>
+        <td width="53%" bgcolor="#323232"><div align="right"><span class="txt_blanco_arial_18_bold">{{usuario.nombre}} </span></div></td>
+      </tr>
+      <tr>
+        <td><div align="right"><span class="txt_naranja_arial_10_bold_1">Sus Puntos son:</span></div></td>
+        <td><div align="right" class="txt_naranja_arial_18_bold">{{usuario.puntos}} Pts.</div></td>
+      </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -42,19 +42,21 @@ class EquipoController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('Area4CampeonatoBundle:Equipo')->find($id);
-        $jug = $em->getRepository('Area4CampeonatoBundle:Jugador')->equipoPartidoCategoria($id,null,null);
+        $equipo = $em->getRepository('Area4CampeonatoBundle:Equipo')->find($id);
+        /*$jug = $em->getRepository('Area4CampeonatoBundle:Jugador')->equipoPartidoCategoria($id,null,null);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Equipo entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-
+        */
+        $jugadores = $em->getRepository('Area4CampeonatoBundle:Jugador')->findByEquipo($equipo->getId());
         return array(
-            'entity'      => $entity,
-            'jug'         => $jug,
-            'total'       => count($jug),
-            'delete_form' => $deleteForm->createView(),        );
+            'entity'      => $equipo,
+            'jugadores'   => $jugadores,
+            //'total'       => count($jug),
+            //'delete_form' => $deleteForm->createView(),        
+            );
     }
 
     /**
@@ -65,11 +67,19 @@ class EquipoController extends Controller
      */
     public function newAction()
     {
-        $entity = new Equipo();
-        $form   = $this->createForm(new EquipoType(), $entity);
+        $equipo = new Equipo();
+        $form   = $this->createForm(new EquipoType(), $equipo);
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
+
+        if ($jugador->hasEquipo()){
+            throw $this->createNotFoundException('Usted ya pertenese a un equipo.');
+        }
 
         return array(
-            'entity' => $entity,
+            'entity' => $equipo,
             'form'   => $form->createView()
         );
     }
@@ -89,10 +99,17 @@ class EquipoController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $entity->setPath($this->get('kernel')->getRootDir()."/../web/img/equipos");
-	    $entity->upload();
+            //$entity->setPath($this->get('kernel')->getRootDir()."/../web/img/equipos");
+	        //$entity->upload();
 
             $em = $this->getDoctrine()->getEntityManager();
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
+
+            $entity->addJugador($jugador);
+
+            $jugador->setEquipo($entity);
+            $em->persist($jugador);
             $em->persist($entity);
             $em->flush();
 

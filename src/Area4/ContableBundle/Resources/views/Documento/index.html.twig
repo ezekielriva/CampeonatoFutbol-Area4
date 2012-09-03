@@ -1,0 +1,142 @@
+{%  extends  '::base_backend.html.twig' %}
+{%block seccion %}Lista de Documentos{%endblock%}
+{% block body %}
+
+<a href="javascript:newDocumento()" class="button-ui-plusthick">Nuevo Documento</a>
+<a href="javascript:indexTipoDocumento()" class="button">Tipos de Documento</a>
+<a href="javascript:indexEspecificaciondeProducto()" class="button">Especificacion de Cuotas</a>
+<a href="javascript:indexProducto()" class="button">Cuotas</a>
+<br/><br/>
+
+<div id="index-documento">
+</div>
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+cargarBotones();
+reloadIndex();
+function newTipoDocumento () {
+    setAjaxLoader('#dialog');
+    url = "{{ path('tipo_new')}}";
+    var request = $.ajax({
+                    type: "POST",
+                    url: url
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        })
+    
+    var dialog = new Dialog();
+    dialog.title = "Crear un Tipo de Documento";
+    $('#dialog').dialog(dialog);
+    dialog.aumentar();
+    abrirDialogo('#dialog');
+}
+function indexTipoDocumento() {
+    setAjaxLoader('#dialog');
+    url = "{{ path('tipo')}}";
+    var request = $.ajax({
+                    type: "POST",
+                    url: url
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        })
+    
+    var dialog = new Dialog();
+    dialog.title = "Lista de Tipos de Documento";
+    dialog.aumentar();
+    $('#dialog').dialog(dialog);
+    abrirDialogo('#dialog');
+}
+function newDocumento () {
+    setAjaxLoader('#dialog');
+    var request = $.ajax({
+                    type: "POST",
+                    url: "{{ path('documento_new')}}"
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+    var dialog = new Dialog();
+    dialog.title = "Crear un documento";
+    $('#dialog').dialog(dialog);
+    abrirDialogo('#dialog');
+}
+function reloadIndex () {
+    setAjaxLoader('#index-documento');
+    var request = $.ajax({
+        type:"GET",
+        url:"{{path('documento_table_index')}}",
+    });
+
+    request.done(function (html) {
+        $('#index-documento').html(html);
+    });
+}
+function indexProducto () {
+    setAjaxLoader('#dialog');
+    var request = $.ajax({
+                    type: "POST",
+                    url: "{{ path('producto')}}"
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+    var dialog = new Dialog();
+    dialog.title = "Lista de Cuotas";
+    $('#dialog').dialog(dialog);
+    dialog.aumentar();
+    abrirDialogo('#dialog');
+}
+function indexEspecificaciondeProducto () {
+    setAjaxLoader('#dialog');
+    var request = $.ajax({
+                    type: "POST",
+                    url: "{{ path('especificaciondeproducto')}}"
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+    var dialog = new Dialog();
+    dialog.title = "Lista de Especificaciones de Cuotas";
+    $('#dialog').dialog(dialog);
+    dialog.aumentar();
+    abrirDialogo('#dialog');
+}
+function editDocumento (url) {
+    setAjaxLoader('#dialog');
+    var request = $.ajax({
+                    type: "POST",
+                    url: url
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+    var dialog = new Dialog();
+    dialog.aumentar();
+    dialog.aumentarHorizontal();
+    dialog.aumentarHorizontal();
+    dialog.title = "Editar Documento";
+    $('#dialog').dialog(dialog);
+    abrirDialogo('#dialog');
+}
+
+/* ================================================ 
+
+            MODIFICACION DE LA FACTURA 
+
+
+ ================================================
+ */
+
+
+</script>
+{% endblock %}

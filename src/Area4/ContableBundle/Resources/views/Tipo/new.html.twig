@@ -1,0 +1,14 @@
+<form action="{{ path('tipo_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Crear</button>
+        <a href="javascript:indexTipoDocumento()" class="button-ui-icon-carat-1-w">Cancelar</a>
+    </p>
+</form>
+<script type="text/javascript">
+$('button').button();
+$("a.button-ui-icon-carat-1-w").button({
+            icons: {
+                primary: "ui-icon-carat-1-w"
+            }});
+</script>

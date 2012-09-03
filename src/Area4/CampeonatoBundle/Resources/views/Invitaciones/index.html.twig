@@ -1,0 +1,23 @@
+<h1>Inscripcion list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Token</th>
+            <th>Email</th>
+            <th>Tipo</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{% if entity.fecha %}{{ entity.fecha|date('Y-m-d') }}{% endif %}</td>
+            <td>{{ entity.token }}</td>
+            <td>{{ entity.email }}</td>
+            <td>{{ entity.tipo }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

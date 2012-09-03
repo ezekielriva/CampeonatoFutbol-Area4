@@ -12,10 +12,12 @@ use Area4\CampeonatoBundle\Form\JugadorType;
 use Area4\CampeonatoBundle\Form\FiltroType;
 use MakerLabs\PagerBundle\Pager;
 use MakerLabs\PagerBundle\Adapter\ArrayAdapter;
-
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Area4\UsuarioBundle\Entity\Usuario;
+use Area4\ContableBundle\Entity\Cliente;
 use Area4\UsuarioBundle\Form\UsuarioType;
-
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Jugador controller.
  *
@@ -29,21 +31,19 @@ class JugadorController extends Controller {
      * @Template()
      */
     public function indexAction($page=1) {
-        $jugador = new Jugador();
         $em = $this->getDoctrine()->getEntityManager();
-        $form = $this->createForm(new FiltroType(), $jugador);
 
-        $entities = $em->getRepository('Area4CampeonatoBundle:Jugador')->listadoCarnet();
+        $entities = $em->getRepository('Area4CampeonatoBundle:Jugador')->findAll();
 
-        /* * * PAGINADOR ** */
+        /* * * PAGINADOR ** 
         $adapter = new ArrayAdapter($entities);
-        $pager = new Pager($adapter, array('page'=>$page, 'limit'=>50) );
+        $pager = new Pager($adapter, array('page'=>$page, 'limit'=>50) );*/
 
         return array(
-            //'entities' => $entities, 
-            'pager' => $pager,
-            'form' => $form->createView(),
-            'total'=>count($entities),
+            'entities' => $entities, 
+            //'pager' => $pager,
+            //'form' => $form->createView(),
+            //'total'=>count($entities),
             );
     }
 
@@ -75,14 +75,12 @@ class JugadorController extends Controller {
      * @Template("Area4CampeonatoBundle:Jugador:show.html.twig")
      */
     public function showByUserAction($id){
-        //die($id."");
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('No se encontro el Jugador buscado.');
         }
-        //var_dump($entity); die;
         return array(
             'entity' => $entity,
             //'delete_form' => $deleteForm->createView(),
@@ -98,6 +96,8 @@ class JugadorController extends Controller {
     public function registerJugadorAction() {
         $jugador = new Jugador();
         $usuario = new Usuario();
+
+        $em = $this->getDoctrine()->getEntityManager();
 
         $formJugador = $this->createForm(new JugadorType(), $jugador);
         $formUsuario = $this->container->get('fos_user.registration.form');
@@ -123,30 +123,32 @@ class JugadorController extends Controller {
         $formJugador = $this->createForm(new JugadorType(), $jugador);
         $formUsuario = $this->container->get('fos_user.registration.form');
         
-        $formJugador->bindRequest($request); // Luego de esto, $entity ya tiene los valores del form
+        $formJugador->bindRequest($request);
         /** Propio del FOSUsrBundle **/
         $formHandler = $this->container->get('fos_user.registration.form.handler');
         $process = $formHandler->process(false);
         $usuario = $formUsuario->getData();
+        
         $usuario->setUsername($jugador->getApellido()."-".$jugador->getNombre());
         $usuario->setUsernameCanonical($jugador->getApellido()."-".$jugador->getNombre());
 
-        $jugador->setUsuario($usuario);
         if($request->getMethod() === 'POST'){
+            //Entregando los roles
+            $session = $this->getRequest()->getSession();
+            $usuario->addRole('ROLE_JUG');
+            $usuario->setEnabled(true);
+
+            $jugador->setUsuario($usuario);
+            $cliente = new Cliente();
+            $cliente->setDomicilio($request->request->get('domicilio'));
+            $cliente->setReferencia($jugador);
             $em = $this->getDoctrine()->getEntityManager();
-            //if ($formJugador->isValid()) {
-            /** @todo Modifico el path por /atah/web/fotos = valor del asset!!,
-             * cambiar al subir al servidor!!!!!
-             */
-            //$jugador->setPath("/atah/web/img/fotos");
-            //$jugador->upload($this->get('kernel')->getRootDir() . "/../web/img/fotos");
             $em->persist($usuario);
             $em->persist($jugador);
+            $em->persist($cliente);
             $em->flush();
-            return $this->render('Area4CampeonatoBundle:Jugador:confirmed.html.twig', array(
-                    'jugador' => $jugador,
-                ));
-            //}
+            $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
+            return new RedirectResponse($url);
         }
 
         return array(
@@ -158,26 +160,39 @@ class JugadorController extends Controller {
     /**
      * Displays a form to edit an existing Jugador entity.
      *
-     * @Route("/{id}/edit", name="jugador_edit")
+     * @Route("/perfil/{dni}", name="jugador_perfil")
      * @Template()
+     * @Secure(roles="ROLE_JUG")
      */
-    public function editAction($id) {
+    public function perfilAction($dni) {
+
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($id);
+        $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($dni);
 
-        if (!$entity) {
+        if (!$jugador) {
             throw $this->createNotFoundException('No se encontro el Jugador buscado.');
         }
 
-        $editForm = $this->createForm(new JugadorType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $usuario = $jugador->getUsuario();
+        $userSession = $this->container->get('security.context')->getToken()->getUser();
+        if ( !$usuario->equals($userSession) ) {
+            throw new AccessDeniedException();
+        }
 
-        return array(
-            'entity' => $entity,
-            'form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+
+        if ($jugador->getUsuario()->hasRole('ROLE_ORG'))
+            $template = 'organizadorPerfil';
+        else {
+            if ($jugador->getUsuario()->hasRole('ROLE_ORG'))
+                $template = 'capitanPerfil';
+            else
+                $template = 'perfil';
+        }
+        $template = $template.'.html.twig';
+        return $this->render('Area4CampeonatoBundle:Jugador:'.$template, array(
+            'jugador' => $jugador,
+            ));
     }
 
     /**

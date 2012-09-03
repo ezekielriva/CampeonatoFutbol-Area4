@@ -1,28 +1,24 @@
-<h1>Partido list</h1>
+<h1 class="titulo_seccion">Lista de partidos</h1>
 
-<table class="records_list">
+<a href="javascript:partidoNew({{campeonato}})" class="button-ui-plusthick">Crear</a>
+
+<table class="general">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Dia</th>
-            <th>Hora</th>
             <th>Fecha</th>
-            <th>Resultadol</th>
-            <th>Resultadov</th>
-            <th>Estado</th>
+            <th>Dia - Hora</th>
+            <th>Local</th>
+            <th>Visitante</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('partido_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{% if entity.dia %}{{ entity.dia|date('Y-m-d H:i:s') }}{% endif%}</td>
-            <td>{{ entity.hora }}</td>
-            <td>{{ entity.fecha }}</td>
-            <td>{{ entity.resultadol }}</td>
-            <td>{{ entity.resultadov }}</td>
-            <td>{{ entity.estado }}</td>
+            <td>{% if entity.fecha %}{{ entity.fecha }}{% else %}NO DEF.{% endif%}</td>
+            <td>{% if entity.diahora %}{{ entity.diahora|date('Y-m-d H:i:s') }}{% else %}NO DEF.{% endif%}</td>
+            <td>{{ entity.local }}</td>
+            <td>{{ entity.visitante }}</td>
             <td>
                 <ul>
                     <li>
@@ -38,10 +34,30 @@
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('partido_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+<script type="text/javascript">
+
+function partidoNew (campeonato) {
+    var dialog = new Dialog();
+    dialog.title = 'Crear Partido';
+    var data = 'campeonato='+campeonato;
+    var request = $.ajax({
+                    type: "POST",
+                    url: "{{ path('partido_new') }}",
+                    data: data
+                });
+    
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+    request.fail(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+
+    $('#dialog').dialog(dialog);
+    $('#dialog').dialog('open');
+}
+
+cargarBotones();
+</script>

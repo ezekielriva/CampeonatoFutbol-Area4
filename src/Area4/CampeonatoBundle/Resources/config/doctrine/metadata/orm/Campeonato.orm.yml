@@ -1,0 +1,39 @@
+Campeonato:
+  type: entity
+  table: Campeonato
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    nombre:
+      type: string
+      length: 45
+      fixed: false
+      nullable: false
+    provincia:
+      type: string
+      length: 45
+      fixed: false
+      nullable: false
+  manyToMany:
+    equipo:
+      targetEntity: Equipo
+      cascade: {  }
+      mappedBy: null
+      inversedBy: campeonato
+      joinTable:
+        name: campeonato_has_equipo
+        joinColumns:
+          -
+            name: Campeonato_id
+            referencedColumnName: id
+        inverseJoinColumns:
+          -
+            name: Equipo_id
+            referencedColumnName: id
+      orderBy: null
+  lifecycleCallbacks: {  }

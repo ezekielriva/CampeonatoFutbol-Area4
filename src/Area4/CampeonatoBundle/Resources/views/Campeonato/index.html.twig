@@ -1,43 +1,36 @@
-<h1>Campeonato list</h1>
-
-<table class="records_list">
+<h1 class="titulo_seccion">Campeonatos en juego</h1>
+<a href="javascript:newCampeonato();" class="button-ui-plusthick">Crear</a>
+<table class="general">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Nombre</th>
-            <th>Actions</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('campeonato_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('campeonato_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('campeonato_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('inscripciones_abrir', { 'idCampeonato': entity.id }) }}">Abrir inscripciones</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('invitaciones_capitan', { 'idCampeonato': entity.id }) }}">Invitar equipos</a>
-                    </li>
-                </ul>
+                <a class="button" href="javascript:showCampeonato('{{ path('campeonato_show', { 'id': entity.id }) }}')">Ver</a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('campeonato_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+<script type="text/javascript">
+function showCampeonato (url) {
+    setAjaxLoader('#perfil-content');
+    var request = $.ajax({
+        type: "POST",
+        url: url,
+    });
+
+    request.done(function (html) {
+        $('#perfil-content').html(html);
+    });
+}
+cargarBotonesDialog('#perfil-content');
+</script>
+            {#<td><a href="{{ path('campeonato_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}

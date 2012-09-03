@@ -1,0 +1,35 @@
+{%  extends  'Area4NoticiasBundle::base.html.twig' %}
+{%block seccion %}Lista de Grupo Familiares{%endblock%}
+{% block mainbar %}
+<a href="{{ path('grupofamiliar_new') }}" class="button">Grupo Familiar</a>
+<a href="{{path('cuotas')}}" class="button">Atras</a>
+<br/><br/>
+<table class="general-table">
+        <tr class="txt_adorno">
+            <th>DNI</th>
+            <th>Apellido</th>
+            <th>Acción</th>
+        </tr>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.dni }}</td>
+            <td>{{ entity.apellido }}</td>
+            <td>
+                <a href="#"><img width="25" height="25" src="{{asset('img/ELIMINAR.jpg')}}" alt="eliminar" onclick="preguntar({{entity.id}})"/></a>
+                <a href="{{ path('grupofamiliar_show', { 'id': entity.id }) }}"><img width="25" height="25" src="{{asset('img/AGREGAR.jpg')}}" alt="modificar"/></a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+    function preguntar(id){
+                    if (confirm('¿Está seguro que desea eliminar?')){
+                         document.location.href= "{{path('grupofamiliar_delete', {'id':''})}}/"+id;
+                         alert('Grupo Familiar eliminado')
+                    }
+                }
+</script>
+{% endblock %}

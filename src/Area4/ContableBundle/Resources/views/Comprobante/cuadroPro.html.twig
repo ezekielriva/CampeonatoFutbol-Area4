@@ -1,0 +1,19 @@
+<style type="text/css">
+    .centrar {text-align: center;}
+</style>
+<table class="general-table">
+	<thead>
+            <tr class="txt_adorno">
+                <th>Cod.</th>
+                <th>Detalle</th>
+                <th>Costo</th>
+            </tr>
+	</thead>
+	{%for prod in lista%}
+	<tr>
+            <td class="centrar">{{prod.codigo}}</td>
+            <td><a href="javascript:cambiarPro({{prod.id}},'{{prod.nombre}}','{{prod.precio}}')">{{prod.nombre}}</a></td>
+            <td class="centrar">${{prod.precio}}</td>
+	</tr>
+	{%endfor%}
+</table>

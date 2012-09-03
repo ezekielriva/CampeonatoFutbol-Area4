@@ -1,0 +1,28 @@
+<h1>Notificación</h1>
+
+{% render 'Area4CampeonatoBundle:Notificaciones:wasRead' with {'id':entity.id} %}
+
+<h2>{{entity.tipo.descripcion}}</h2>
+<input type="button" onclick="" value="Aceptar" />
+<input type="button" onclick="" value="Rechazar" />
+
+{#    
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('notificaciones') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('notificaciones_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('notificaciones_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+#}

@@ -1,0 +1,9 @@
+<pre>
+Comprobante Nº: {{ entity.numerocomprobante }}
+Fecha: {{ entity.fecha|date('Y-m-d H:i') }}
+Importe: ${{ entity.importe }}
+Cargado por: {{ entity.Usuario.nickname }}. El día: {{ entity.createdat|date('Y-m-d H:i') }}
+Ultima actualización: {{ entity.updateat|date('Y-m-d H:i') }}
+Observaciones:
+{{ entity.observaciones }}
+</pre>

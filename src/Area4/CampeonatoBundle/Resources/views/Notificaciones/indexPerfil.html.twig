@@ -1,0 +1,79 @@
+{% for notificacion in notificaciones %}
+	{% set url = path('notificacion_mensaje_confirmacion',{'id':notificacion.id}) %}
+	<a class="notificacion-perfil" href="javascript:loadNotificacion('{{url}}',{{notificacion.id}})">{{ notificacion.tipo.descripcion }}</a>
+
+{% else %}
+	<p class="notificacion-perfil">No hay notificaciones</p>
+{% endfor %}
+<div id="dialog-confirm">
+
+</div>
+
+<script type="text/javascript">
+
+/**
+ * Carga el dialog de la notificación
+ * @param url : url para ajax
+ * @param id : id de la notificacion
+ */
+function loadNotificacion (url, id) {
+	
+	var request = $.ajax({
+  					type: "POST",
+  					url: url
+  				});
+
+	request.done(
+		function( html ) {
+  			$("#dialog-confirm").html(html);
+		});
+
+	$( "#dialog-confirm" ).dialog({
+		resizable: false,
+		height:200,
+		title:'Indique',
+		modal: true,
+		buttons: {
+			"Confirmar": function() {
+				var url = "{{ path('notificacion_confirmar',{'id':0})}}";
+				url += id;
+				var request = $.ajax({
+  					type: "POST",
+  					url: url
+  				});
+
+				request.done(function(html){
+					alert('Gracias por confirmar');
+				});
+
+
+				$( this ).dialog( "close" );
+			},
+			"Cancelar": function() {
+				$( this ).dialog( "close" );
+			}
+			}
+		});
+}
+</script>
+
+
+{#% 
+		set url = path('notificaciones_analice', { 'id':notificacion.id, 'idEquipo':notificacion.equipo.id, 'idCampeonato':notificacion.campeonato.id }) 
+%#}
+
+{#
+
+	{% set id = notificacion.id %}
+	{% if notificacion.equipo %}
+		{% set idEquipo = notificacion.equipo.id %}
+	{% else %}
+		{% set idEquipo = -1 %}
+	{% endif %}
+	{% if notificacion.campeonato %}
+		{% set idCampeonato = notificacion.campeonato.id %}
+	{% else %}
+		{% set idCampeonato = -1 %}
+	{% endif %}
+	{% set url = path('notificaciones_analice', {'id':id,'idEquipo':idEquipo,'idCampeonato':idCampeonato}) %}
+#}

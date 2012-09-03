@@ -1,0 +1,8 @@
+{%  extends  '::base.html.twig' %}
+{% block body %}
+{%for tipo in tipos%}
+
+<a href="{{path('admin_movimiento',{'tipoNom':tipo.nombre})}}">{{tipo.nombre}}</a>
+<br/>
+{%endfor%}
+{% endblock body %}

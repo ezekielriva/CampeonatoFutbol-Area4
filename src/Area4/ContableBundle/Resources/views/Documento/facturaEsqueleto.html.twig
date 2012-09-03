@@ -1,0 +1,165 @@
+
+<div id="factura">
+	<div id="Cabecera">
+		<div id="logo">
+			<img src="{{asset('img/ideas_competencias_logo_factura.png')}}"/>
+		</div>
+		<div id="info">
+			<b>{{ entity.tipo.nombre | upper }} {{ entity.tipo.letra }}</b><br>
+			{{ entity.numero }} <br>
+			{{ entity.fecha | date('d | m | Y')}} <br>
+			<b>CUIT:</b> <br>
+			<b>INGRESOS BRUTOS:</b> <br>
+			<b>INICIO ACTIVIDADES:</b> <br>
+		</div>
+	</div>
+	<div id="RazonSocial">
+		<label for="Cliente" id="labelCliente">Cliente</label><br>
+		<input id="Cliente" type="text" value="Cliente"/><br>
+		<label for="Domicilio" id="labelDomicilio">Domicilio</label><br>
+		<input id="Domicilio" type="text" value="Domicilio"/>
+	</div>
+	<div id="Cuerpo">
+		<table class="general" id="lineasdeProducto">
+			<tr>
+				<th>Cantidad</th>
+				<th>Detalle</th>
+				<th>Precio Unitario</th>
+				<th>Totales</th>
+				<th class="ocultar">Accion</th>
+			</tr>
+		</table>
+		<div id="boton"><a href="javascript:agregarCuota()" class="button">Agregar Cuota</a></div>
+	</div>
+	<div id="footer-factura">
+		<p>TOTAL: $<span id="total">0</span></p>
+	</div>
+	<div id="boton">
+		<br>
+		<a href="javascript:guardarDocumento();" class="button">Guardar</a>
+		<a href="javascript:imprimirFactura();" class="button">Imprimir</a>
+	</div><br>
+</div>
+
+<script type="text/javascript">
+var rowId = 1;
+var total = 0;
+listLineadeDocumento();
+$("a.button").button();
+
+$(function() {
+		var Clientes = {% render 'Area4UsuarioBundle:Default:indexAutoCompleteAll'%};
+		$( "#Cliente" ).autocomplete({
+			source: Clientes
+		});
+	});
+
+function agregarCuota () {
+    setAjaxLoader('#aux');
+    var request = $.ajax({
+                    type: "POST",
+                    url: "{{ path('producto_select')}}"
+                });
+    request.done(
+        function( html ) {
+            $("#aux").html(html);
+        });
+    var dialog = new Dialog();
+    dialog.title = "Seleccionar Cuota";
+    $('#aux').dialog(dialog);
+    abrirDialogo('#aux');
+}
+function seleccionarCuota(id,nombre,precio){
+    $('#aux').dialog('close');
+    var request = $.ajax({
+        type: "POST",
+        url: "{{ path('lineadedocumento_new', {'idDocumento':entity.id}) }}",
+        data: "idProducto="+id,
+    });
+    request.done(function (id) {
+        console.log('Linea de Documento[Agregada]');
+        agregarLinea(id,nombre,precio);
+    });
+}
+
+function agregarLinea (id,nombre,precio) {
+    $('#dialog #lineasdeProducto').append(
+        '<tr id="row'+rowId+'">' +
+            '<td class="center">1</td>' +
+            '<td class="left">'+nombre+'</td>' +
+            '<td class="center">$'+precio+'</td>' +
+            '<td class="center">'+precio+'</td>' +
+            '<td class="center ocultar">'+
+                '<a href="javascript:quitarLinea('+id+','+precio+','+rowId+')" class="button">X</a>' +
+            '</td>' +
+        '</tr>'
+        );
+    rowId = rowId + 1;
+    sumarPrecio(precio);
+}
+
+function quitarLinea (id,precio,rowId) {
+    var request = $.ajax({
+        type: "POST",
+        url: "{{ path('lineadedocumento_remove', {'idDocumento':entity.id}) }}",
+        data: "idLineadeDocumento="+id,
+    });
+    request.done(function () {
+        console.log('Linea de Documento[QUITADA]');
+        $('#dialog #row'+rowId).remove();
+        quitarPrecio(precio);
+    });
+}
+
+function sumarPrecio (precio) {
+    total = total + precio;
+    $('#dialog #total').html(total);
+}
+
+function quitarPrecio (precio) {
+    total = total - precio;
+    $('#dialog #total').html(total);
+}
+function listLineadeDocumento () {
+    var request = $.ajax({
+        type: "POST",
+        url: "{{ path('lineadedocumento_list', {'idDocumento':entity.id}) }}",
+    });
+    request.done(function (html) {
+        $('#dialog #lineasdeProducto').append(html);
+    });
+}
+function imprimirFactura () {
+	    var div, imp;
+
+            div = document.getElementById('dialog');//seleccionamos el objeto
+
+            imp = window.open(" ","Formato de Impresion"); //damos un titulo
+
+            imp.document.open();     //abrimos
+
+            imp.document.write('<link rel="stylesheet" type="text/css" href="{{asset('css/iyc.css')}}">'); //tambien podriamos agregarle un <link ...
+
+            imp.document.write(div.innerHTML);//agregamos el objeto
+
+            imp.document.close();
+
+            imp.print();   //Abrimos la opcion de imprimir
+
+            imp.close(); //cerramos la ventana nueva
+}
+
+function guardarDocumento () {
+	var cliente = $('Cliente').val();
+	var domicilio = $('Domicilio').val();
+	var request = $.ajax({
+        type: "POST",
+        data: 'Cliente='+cliente+'&Domicilio='+domicilio,
+        url: "{{ path('documento_update', {'id':entity.id}) }}",
+    });
+    request.done(function (html) {
+        reloadIndex();
+        cerrarDialogo('#dialog');
+    });
+}
+</script>

@@ -1,0 +1,167 @@
+{% extends '::base_backend.html.twig' %}
+{% block body %}
+{% block notificationBar %}{% endblock %}
+<div id="perfil">
+<div class="sidebar-perfil">
+	<h2 class="titulo_seccion">{{ jugador.apellido }}</h2>
+	<h2 class="titulo_seccion">{{ jugador.nombre }}</h2>
+
+	<hr class="barras_yellow">
+	<span class="perfil-info">Rol:</span>
+	{{ jugador.Usuario.getRoletoString }}
+	<span class="perfil-info">Email:</span>
+	{{ jugador.Usuario.email }}
+	<span class="perfil-info">Fecha de nacimiento:</span>
+	{{ jugador.FechadeNacimiento | date('d-m-Y') }}
+	<span class="perfil-info">Equipo:</span>
+	<a href="#" onclick="call('EQU_SHOW')">{{ jugador.Equipo }}</a> 
+	{% if jugador.isCapitan %}[CAPITAN]{% endif %}
+
+</div>
+<article class="perfil">
+	<div>{% render 'Area4CampeonatoBundle:Notificaciones:index' with {'tipo':'Perfil'} %}</div>
+	<div id="perfil-menu">
+		{% if is_granted('ROLE_ORG') %}
+			<a href="javascript:indexCampeonato()" class="img-button" id="gestionCampeonatos"></a>
+			<a href="javascript:call('PART')" id="gestionPartidos" class="img-button"></a>
+			<a href="{{path('documento')}}" class="img-button" id="moduloContable"></a>
+		{% endif %}
+		{% if is_granted('ROLE_CAP') %}
+			<a href="javascript:cargarInvitaciones()" class="button">Invitar jugadores</a>
+			<a href="javascript:call('JUG_INV')" id="invitarJugador" class="img-button"></a>
+		{% endif %}
+		{% if is_granted('ROLE_JUG') %}
+			<a href="" class="img-button">Mis Estadísticas</a>
+			<a href="{{path('fos_user_security_logout')}}" class="img-button" id="logout">Logout</a>
+		{% endif %}
+	</div>
+	<div id="perfil-content">{% block content %}{% endblock %}</div>
+</article>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+
+function indexCampeonato () {
+	setAjaxLoader('#perfil-content');
+	var request = $.ajax({
+		type: "POST",
+		url: "{{path('campeonato_by_user')}}",
+	});
+	request.done(function(html){
+		$("#perfil-content").html(html);
+	});
+}
+
+
+
+function newCampeonato () {
+	setAjaxLoader('#dialog');
+			
+	var dialog = new Dialog();
+	dialog.title = 'Crear Campeonato';
+	var request = $.ajax({
+  					type: "POST",
+  					url: "{{ path('campeonato_new') }}",
+  				});
+	request.done(
+		function( html ) {
+  			$("#dialog").html(html);
+		});
+
+	$('#dialog').dialog(dialog);
+	abrirDialogo('#dialog');
+}
+/**
+ * Llama a un dialogo para elejir un campeonato para cargar los equipos
+ */
+function seleccionarCampeonato() {
+	
+	var url_campeonato_list = "{{ path('campeonato_list') }}"
+	var dialog = new Dialog();
+	dialog.title = 'Seleccionar campeonato';
+	dialog.modal = true;
+	dialog.height = 400;
+	dialog.width = 500;
+	var request = $.ajax({
+  					type: "POST",
+  					url: url_campeonato_list
+  				});
+
+	request.done(
+		function( html ) {
+  			$("#dialog").html(html);
+		});
+	$('#dialog').dialog(dialog);
+
+	
+}
+/**
+ * Carga en el contenido del perfil la gestión de los partidos
+ */
+function gestionPartidos (campeonato) {
+	$('#dialog').dialog('close');
+	var url_partidos = "{{ path('partido_by_campeonato', {'campeonato':null}) }}";
+	var data = 'campeonato='+campeonato;
+	var request = $.ajax({
+  					type: "POST",
+  					url: url_partidos,
+  					data: data
+  				});
+	request.done(
+		function( html ) {
+  			$("#perfil-content").html(html);
+		})
+}
+/**
+ * Carga la invitación de jugadores
+ */
+function invitarJugadores() {
+	$('#dialog').dialog('close');
+	var url_partidos = "{{ path('invitaciones_new')}}";
+	var request = $.ajax({
+  					type: "POST",
+  					url: url_partidos,
+  				});
+	request.done(
+		function( html ) {
+  			$("#perfil-content").html(html);
+		});
+}
+/**
+ * Carga el equipo show en el contenido del perfil.
+ */
+function equipoShow () {
+	var url_equipo_show = {% if jugador.Equipo %}"{{path('equipo_show', {'id':jugador.Equipo.id})}}"{%endif%};
+	var request = $.ajax({
+  					type: "POST",
+  					url: url_equipo_show,
+  				});
+	request.done(
+		function( html ) {
+  			$("#perfil-content").html(html);
+		});
+}
+/**
+ * Menu
+ * @param type : llamada a las funciones
+ */
+function call (type) {	
+	switch(type){
+		case "PART": {
+			setAjaxLoader('#perfil-content');
+			seleccionarCampeonato(); break;
+		}
+		case "JUG_INV": {
+			invitarJugadores(); break;
+		}
+		case "EQU_SHOW": {
+			setAjaxLoader('#perfil-content');
+			equipoShow();
+			break;
+		}
+	}
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+<h1>Inscripciones list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Fecha_inicio</th>
+            <th>Fecha_finalizacion</th>
+            <th>Tipo</th>
+            <th>Campeonato</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('inscripciones_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{% if entity.fechainicio %}{{ entity.fechainicio|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.fechafinalizacion %}{{ entity.fechafinalizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.tipo }}</td>
+            <td>{{ entity.Campeonato }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('inscripciones_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('inscripciones_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

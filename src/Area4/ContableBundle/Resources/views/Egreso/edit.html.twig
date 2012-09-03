@@ -1,0 +1,15 @@
+{% extends 'Area4NoticiasBundle::base.html.twig' %}
+{%block seccion %}Editar egreso{%endblock%}
+{% block mainbar %}
+{% form_theme edit_form  "::form.html.twig" %}
+<form action="{{ path('egreso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <div style="width: 100%; text-align: center;">
+        <input type="submit" class="button" value="Editar"/>
+        <a href="{{path('egreso')}}" class="button">Volver</a></div>
+</form>
+    <form action="{{ path('egreso_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <div style="width: 100%; text-align: center;"><input type="submit" class="button" value="Borrar"/></div>
+        </form>
+{% endblock %}

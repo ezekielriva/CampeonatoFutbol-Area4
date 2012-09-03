@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+<img src="{{asset('img/logo_home_top.png')}}"/>
+<nav id="front">
+<ul>
+	<li><a href="" class="start">FOTOS</a></li>
+	<li><a href="">VIDEOS</a></li>
+	<li><a href="">LOS EQUIPOS</a></li>
+	<li><a href="">REGLAMENTO</a></li>
+	<li><a href="">CODIGO FAIR PLAY</a></li>
+	<li><a href="">PREGUNTAS FRECUENTES</a></li>
+	<li><a href="">CONTACTO</a></li>
+	<li><a href="{{path('menu_admin')}}" class="end">LOGIN</a></li>
+</ul>
+</nav>
+
+
+<img src="{{asset('img/home_chico_solo.png')}}" style="margin: 10px auto; display: block;">
+
+
+<footer>
+	<img src="{{asset('img/sponsor/kavak.png')}}" class="start">
+	<img src="{{asset('img/sponsor/thermo.png')}}">
+	<img src="{{asset('img/sponsor/compudel.png')}}">
+	<img src="{{asset('img/sponsor/grido.png')}}">
+	<img src="{{asset('img/sponsor/atfa.png')}}">
+
+	<img src="{{asset('img/copyright.jpg')}}" id="copyright">
+</footer>
+{% endblock %}

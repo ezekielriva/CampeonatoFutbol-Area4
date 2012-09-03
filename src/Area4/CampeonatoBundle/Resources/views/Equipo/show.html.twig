@@ -1,37 +1,45 @@
-<h1>Equipo</h1>
+<h1 class="titulo_seccion">{{ entity.nombre }}</h1>
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Nombre</th>
-            <td>{{ entity.nombre }}</td>
-        </tr>
-        <tr>
-            <th>Imagen</th>
-            <td>{{ entity.imagen }}</td>
-        </tr>
-    </tbody>
+{% if is_granted('ROLE_CAP') %}
+<a href="javascript:cargarInvitaciones()" class="button">Invitar jugadores</a>
+{% endif %}
+
+<table class="general">
+    <caption>Lista de Jugadores</caption>
+    <tr><th>Nombre</th></tr>
+{% for jugador in jugadores %}   
+    <tr>            
+        <td>{{ jugador.NombreCompleto }} {{jugador.getCapitanString}}</td>
+    </tr>
+{% else %}
+<tr><td>No hay jugadores inscriptos en este equipo</td></tr>
+{% endfor %}
 </table>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('equipo') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('equipo_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('equipo_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+<div id="invitaciones-content">
+
+</div>
+<script type="text/javascript">
+/**
+ * Carga el form de notificaciones
+ */
+function cargarInvitaciones() {
+    location.hash = '#invitaciones-content';
+    setAjaxLoader('#invitaciones-content');
+    var request = $.ajax({
+                    type: "POST",
+                    url: "{{path('notificaciones_jugadores_equipo')}}",
+                });
+    request.done(
+        function( html ) {
+            $("#invitaciones-content").html(html);
+        });
+    request.fail(
+        function( html ) {
+            $("#invitaciones-content").html(html);
+        });
+}
+
+cargarBotones();
+</script>
+

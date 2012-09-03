@@ -1,0 +1,57 @@
+/* CSS Document */
+
+body {
+	background-image: url(images/background.jpg);
+	background-repeat: repeat-x;
+	background-color: #6B8290;
+}
+
+.Titulo_textos {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: yellow;
+}
+.Titulo_Noticias {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+
+.Titulo_espacios_publicitarios {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.Titulo_TEXTO_PRESENTACION {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 22px;
+	font-weight: bold;
+	color: yellow;
+}
+
+a:link {
+	color: #FFF;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #FFF;
+}
+a:hover {
+	text-decoration: underline;
+	color: #FF0;
+}
+a:active {
+	text-decoration: none;
+	color: #FFF;
+}
+
+.Titulo_textos_alertas {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: orange;
+}

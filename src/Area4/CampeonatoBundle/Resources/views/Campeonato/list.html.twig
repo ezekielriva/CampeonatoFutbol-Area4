@@ -1,0 +1,22 @@
+<h1>Campeonatos en juego</h1>
+<table class="general">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.nombre }}</td>
+            <td>
+                <a href="#" class="button-ui" onclick="gestionPartidos({{ entity.id }})">Seleccionar</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script type="text/javascript">
+            $( "a.button-ui" ).button();
+        </script>

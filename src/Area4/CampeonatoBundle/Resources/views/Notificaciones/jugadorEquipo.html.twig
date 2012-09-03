@@ -1,0 +1,58 @@
+<hr class="barras_yellow">
+<h1 class="titulo_seccion">Enviar invitaciones</h1>
+
+<form id="form" method="post">
+    <label for="jugadores-list">Nombres de usuarios de los Jugadores separados por ,</label><br>
+    <textarea id="jugadores-list" name="usernames" resizable="false"></textarea><br>
+    <input type="hidden" value="{{notificacion.equipo.id}}" name="equipoId">
+    <input value="INVITE_PLAY" type="hidden" name="tipo">
+</form>
+<p>
+    <a href="javascript:submitForm('#invitaciones-content','#form', '{{ path('notificaciones_create') }}')" class="button">Invitar</a>
+</p>
+
+<script type="text/javascript">
+cargarBotonesDialog('#invitaciones-content');
+    // Hacer esto en una función general
+    $(function() {
+        var usuarios = {% render 'Area4UsuarioBundle:Default:indexAutoCompleteNoEquipo' %};
+        function split( val ) {
+            return val.split( /,\s*/ );
+        }
+        function extractLast( term ) {
+            return split( term ).pop();
+        }
+
+        $( "#jugadores-list" )
+            // don't navigate away from the field on tab when selecting an item
+            .bind( "keydown", function( event ) {
+                if ( event.keyCode === $.ui.keyCode.TAB &&
+                        $( this ).data( "autocomplete" ).menu.active ) {
+                    event.preventDefault();
+                }
+            })
+            .autocomplete({
+                minLength: 0,
+                source: function( request, response ) {
+                    // delegate back to autocomplete, but extract the last term
+                    response( $.ui.autocomplete.filter(
+                        usuarios, extractLast( request.term ) ) );
+                },
+                focus: function() {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function( event, ui ) {
+                    var terms = split( this.value );
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push( ui.item.value );
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push( "" );
+                    this.value = terms.join( ", " );
+                    return false;
+                }
+            });
+    });
+</script>

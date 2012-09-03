@@ -1,0 +1,23 @@
+{%  extends  '::base.html.twig' %}
+{% block body %}
+<a href="{{path('DocNuevo', {'id':  tipo_id})}}"> Nuevo </a>
+<table>
+	<thead>
+		<tr>
+			<th> fecha</th>
+			<th> Numero </th>
+			<tH> Cliente </th>
+			<th> Monto </th>
+		</tr>
+	</thead>
+
+	{% for doc in listado %}
+	<tr>
+		<td> {% if doc.fecha %}{{ doc.fecha|date('d-m-Y') }}{% endif%} </td>
+		<td> <a href="{{path('editar', {'id':doc.id})}}">{{doc.numero}} </a> </td>
+		<td> <a href="{{path('usuario_edit',{'id':doc.responsable.id})}}">{{doc.responsable}}</a> </td>
+		<td> {{doc.total}} </td>
+	</tr>
+	{%endfor %}
+</table>
+{% endblock body %}

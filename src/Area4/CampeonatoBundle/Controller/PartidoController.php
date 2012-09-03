@@ -7,8 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Area4\CampeonatoBundle\Entity\Partido;
+use Area4\CampeonatoBundle\Entity\Equipo_has_Partido;
 use Area4\CampeonatoBundle\Form\PartidoType;
 use Area4\CampeonatoBundle\Form\PartidoEditType;
+use Area4\CampeonatoBundle\Form\Equipo_has_PartidoType;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -28,9 +30,29 @@ class PartidoController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('Area4CampeonatoBundle:Partido')->partidoOrderByFecha();
+        $entities = $em->getRepository('Area4CampeonatoBundle:Partido')->findAll();
+        //$e_h_p = $em->getRepository('Area4CampeonatoBundle:Equipo_has_Partido')->findAll();
 
         return array('entities' => $entities);
+    }
+    /**
+     * List por campeonato
+     * @Route("/partidoByCampeonato", name="partido_by_campeonato")
+     * @Template("Area4CampeonatoBundle:Partido:index.html.twig")
+     * @return Partidos
+     * @author ezekiel
+     **/
+    public function listByCampeonatoAction()
+    {
+        $request = $this->get('request');
+        $campeonato = $request->request->get('campeonato');
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entities = $em->getRepository('Area4CampeonatoBundle:Partido')->findByCampeonato($campeonato);
+
+
+        return array('entities' => $entities, 'campeonato' => $campeonato);
     }
 
     /**
@@ -59,18 +81,35 @@ class PartidoController extends Controller
     /**
      * Displays a form to create a new Partido entity.
      *
-     * @Route("/new", name="partido_new")
+     * @Route("/new/", name="partido_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Partido();
-        $form   = $this->createForm(new PartidoType(), $entity);
+        $request = $this->get('request');
+        $campeonatoId = $request->request->get('campeonato');
+        /* Precondicion: debe haber al menos 2 equipos inscriptos en el Campeonato */
+        $em = $this->getDoctrine()->getEntityManager();
+        $campeonato = $em->getRepository('Area4CampeonatoBundle:Campeonato')->findOneById($campeonatoId);
+        if ( count($campeonato->getEquipo()) > 2 ){
+            $partido = new Partido();
+        
+            $campeonato = $em->getRepository('Area4CampeonatoBundle:Campeonato')->findOneById($campeonatoId);
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        );
+            $partidoType = new PartidoType();
+            $partidoType->setCampeonato($campeonato);
+
+            $form = $this->createForm($partidoType, $partido);
+
+            return array(
+                'entity' => $partido,
+                'form'   => $form->createView(),
+            );
+        }
+
+        echo "<h2>Debe de haber al menos 2 equipos en el Campeonato</h2>";
+        //throw $this->createNotFoundException('Debe de haber al menos 2 equipos en el Campeonato');
+        return new Response();
     }
 
     /**
@@ -123,7 +162,7 @@ class PartidoController extends Controller
 
         return array(
             'entity'      => $entity,
-            'form'   => $editForm->createView(),
+            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -302,4 +341,26 @@ class PartidoController extends Controller
         );
     }
 
+    /**
+     * realiza un string con los nombre de los equipos que juegan en ese partido
+     *
+     **/
+    public function equiposStringAction($idPartido)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $e_h_p = $em->getRepository('Area4CampeonatoBundle:Equipo_has_Partido')->buscarPorPartido($idPartido);
+
+        $vs = true;
+        foreach ($e_h_p as $e) {
+            echo $e->getEquipo();
+            if ($vs) {
+                echo " vs ";
+                $vs = false;                
+            }
+        }
+
+        //echo $e_h_p[0]->getEquipo()." vs ".$e_h_p[1]->getEquipo();
+        
+        return new Response();
+    }
 }

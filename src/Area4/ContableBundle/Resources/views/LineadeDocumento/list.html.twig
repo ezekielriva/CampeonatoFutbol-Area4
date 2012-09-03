@@ -1,0 +1,9 @@
+{% for linea in lineasdeDocumento %}
+<tr id="row{{linea.id}}">
+	<td class="center">1</td>
+	<td class="left">{{linea.producto.nombre}}</td>
+	<td class="center">${{linea.producto.precio}}</td>
+	<td class="center">${{linea.precioT}}</td>
+	<td class="center ocultar"><a href="javascript:quitarLinea('{{linea.id}},{{linea.producto.precio}},{{linea.id}}')" class="button">X</a><script type="text/javascript">sumarPrecio({{linea.precioT}});</script></td>
+</tr>
+{% endfor %}

@@ -1,0 +1,16 @@
+<form action="{{ path('tipo_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <p>
+        <button type="submit">Editar</button>
+        <a href="javascript:indexTipoDocumento()" class="button-ui-icon-carat-1-w">Volver a la lista</a>
+    </p>
+</form>
+
+<script type="text/javascript">
+$('button').button();
+$("a.button-ui-icon-carat-1-w").button({
+            icons: {
+                primary: "ui-icon-carat-1-w"
+            }});
+
+</script>

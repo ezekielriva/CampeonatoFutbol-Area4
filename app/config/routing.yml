@@ -2,7 +2,10 @@ Area4StaticBundle:
     resource: "@Area4StaticBundle/Controller/"
     type:     annotation
     prefix:   /
-
+Area4NoticiaBundle:
+    resource: "@Area4NoticiasBundle/Controller/"
+    type: annotation
+    prefix: /
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
@@ -29,3 +32,7 @@ area4_campeonato:
     resource: "@Area4CampeonatoBundle/Controller/"
     type: annotation
     prefix: /
+Area4ContableBundle:
+    resource: "@Area4ContableBundle/Controller/"
+    type:     annotation
+    prefix:   /admin/contable

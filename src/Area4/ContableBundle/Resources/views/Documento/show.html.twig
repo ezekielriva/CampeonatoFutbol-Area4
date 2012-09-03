@@ -1,0 +1,48 @@
+<h1>Documento</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Numero</th>
+            <td>{{ entity.numero }}</td>
+        </tr>
+        <tr>
+            <th>Fecha</th>
+            <td>{{ entity.fecha|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Created_at</th>
+            <td>{{ entity.createdat|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Update_at</th>
+            <td>{{ entity.updateat|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td>{{ entity.total }}</td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            <td>{{ entity.estado }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('documento') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('documento_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+   
+</ul>

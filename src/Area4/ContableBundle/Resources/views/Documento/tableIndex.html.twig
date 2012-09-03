@@ -1,0 +1,24 @@
+<table class="general" style="text-align: center;">
+    <tr class="txt_adorno">
+        <th>Tipo</th>
+        <th>Numero</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Total</th>
+        <th>Acción</th>
+    </tr>
+{% for doc in entities %}
+    <tr>
+        <td>{{ doc.tipo }}</td>
+        <td>{{ doc.numero }}</td>
+        <td>{% if doc.fecha %}{{ doc.fecha|date('d-m-Y') }}{% endif%}</td>
+        <td>{{doc.getEstadotoString}}</td>
+        <td>{{ doc.total }}</td>
+        <td style="text-align: center;">
+            <a href="javascript:editDocumento('{{path('documento_edit', {'id':doc.id})}}')">
+                <img src="{{asset('img/icons/pencil.png')}}" alt="modificar"/>
+            </a>
+        </td>
+    </tr>
+{% endfor %}
+</table>

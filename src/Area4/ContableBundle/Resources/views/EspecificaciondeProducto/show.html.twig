@@ -1,0 +1,41 @@
+<h1>EspecificaciondeProducto</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Fecha_vigencia_inicio</th>
+            <td>{{ entity.fechavigenciainicio|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Fecha_vigencia_finalizacion</th>
+            <td>{{ entity.fechavigenciafinalizacion|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Fecha_vencimiento</th>
+            <td>{{ entity.fechavencimiento|date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('especificaciondeproducto') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('especificaciondeproducto_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('especificaciondeproducto_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

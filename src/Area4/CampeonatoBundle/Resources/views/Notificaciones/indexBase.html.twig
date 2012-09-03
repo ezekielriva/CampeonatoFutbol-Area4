@@ -1,0 +1,10 @@
+{% if not anon %}
+{% for notificacion in notificaciones %}
+    <li>
+        <a href="{{ notificacion.url }}">{{ notificacion.tipo.descripcion }}</a>
+    </li>
+{% else %}
+	<p>No hay notificaciones</p>
+{% endfor %}
+
+{% endif %}

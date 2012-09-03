@@ -1,0 +1,36 @@
+{% block field_row %}
+{% spaceless %}
+<div>
+    {{ form_label(form) }}
+    <div>
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}      
+    </div>
+</div>
+{% endspaceless %}
+{% endblock field_row %}
+
+{% block form_rest %}
+<div id='formContent'>
+    {%for field in form %}
+        {{form_row(field)}}
+    {%endfor%}
+</div>
+{% endblock form_rest %}
+
+{% block form_widget %}
+<div id='formContent'>
+    {%for field in form %}
+        {{form_row(field)}}
+    {%endfor%}
+</div>
+{% endblock form_widget %}
+
+{% block field_label %}
+{% spaceless %}
+    <label for="{{ id }}">{{ label }}</label>
+    {% if required %}
+        &nbsp;<span class="required" title="Este campo es requerido">*</span>
+    {% endif %}
+{% endspaceless %}
+{% endblock field_label %}

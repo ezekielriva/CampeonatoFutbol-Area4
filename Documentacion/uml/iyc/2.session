@@ -1,0 +1,14 @@
+window_sizes 1366 745 320 1040 553 118
+diagrams
+  usecasediagram_ref 128002 // R
+    531 394 100 4 0 0
+  active  classdiagram_ref 128130 // S-N
+    1040 553 100 4 0 0
+end
+show_stereotypes
+selected attribute_ref 128258 // categoria
+open
+  class_ref 128130 // Noticia
+  usecaseview_ref 128002 // Registrar Jugador
+end
+end

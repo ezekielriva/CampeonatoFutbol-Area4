@@ -14,20 +14,10 @@ class PartidoEditType extends PartidoType
             $array[] = $i;
 
         $builder
-            ->add('dia')
-            ->add('hora')
+            ->add('diaHora')
             ->add('fecha','choice',array(
                 'choices' => $array,
             ))
-            ->add('resultadol','text')
-            ->add('resultadov','text')
-            ->add('estado','choice',array(
-                'choices' => array ('Por jugarse','Jugándose','Suspendido','Finalizado')
-            ))
-            ->add('local')
-            ->add('visitante')
-            ->add('Categoria')
-            ->add('Campeonato')
         ;
     }
 

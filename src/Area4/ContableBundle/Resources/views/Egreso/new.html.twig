@@ -1,0 +1,12 @@
+{% extends 'Area4NoticiasBundle::base.html.twig' %}
+{%block seccion %}Creacion de Egresos{%endblock%}
+{% block mainbar %}
+{% form_theme form  "::form.html.twig" %}
+<form action="{{ path('egreso_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div style="width: 100%; text-align: center;">
+        <input type="submit" class="button" value="Crear"/>
+        <input type="reset" class="button" value="Borrar formulario"/>
+        <a href="{{path('egreso')}}" class="button">Volver</a></div>
+</form>
+{% endblock %}

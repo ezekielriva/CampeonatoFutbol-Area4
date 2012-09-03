@@ -21,6 +21,9 @@ class AppKernel extends Kernel
             new Area4\CampeonatoBundle\Area4CampeonatoBundle(),
             new Area4\UsuarioBundle\Area4UsuarioBundle(),
             new Area4\StaticBundle\Area4StaticBundle(),
+            new Area4\NoticiasBundle\Area4NoticiasBundle(),
+            new Area4\ContableBundle\Area4ContableBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

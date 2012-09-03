@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Ideas y Competencias{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{{asset('css/iyc.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/sunny/jquery-ui-1.8.23.custom.css')}}">
+        
+        {% block stylesheets %}{% endblock %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body id="backend"> 
+        {% block top %}
+            {% include '::top.html.twig' %}
+        {% endblock %}
+        {% block menubar %}{% endblock %}
+        {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}
+        <script type="text/javascript" src="{{asset('js/jquery-1.7.2.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/jquery-ui-1.8.23.custom.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/funcionesAux.js')}}"></script>
+        
+        {% block javascripts %}{% endblock %}
+        <div id="dialog"></div>
+        <div id="aux"><div>
+    </body>
+</html>

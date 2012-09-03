@@ -1,0 +1,11 @@
+<form id="form" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+    	<a href="javascript:submitForm('#dialog','#form', '{{ path('inscripciones_create') }}')" class="button">Crear</a>
+    </p>
+</form>
+
+<script type="text/javascript">
+$('input[id*="_fecha"]').datepicker({'dateFormat':"dd/mm/yy"});
+cargarBotonesDialog('#dialog');
+</script>

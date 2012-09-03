@@ -48,4 +48,21 @@ class EquipoRepository extends EntityRepository
     {
         return self::$colores;
     }
+
+    /**
+     * Busca los equipos de un determinado campeonato
+     *
+     * @param $id : id del Campeonato
+     * @return Equipo
+     * @author ezekiel
+     **/
+    public function findByCampeonato($id)
+    {
+        $query = $this->createQueryBuilder('e')
+                    ->join('e.campeonato','c')
+                    ->where('c.id = '.$id)
+                    ->setMaxResults('2')
+                    ->getQuery();
+        return $query->getResult();
+    }
 }

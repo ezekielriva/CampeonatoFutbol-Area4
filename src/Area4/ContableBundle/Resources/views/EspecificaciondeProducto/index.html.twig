@@ -1,0 +1,67 @@
+<a href="javascript:newEspecificaciondeProducto()" class="button-ui-plusthick">Nueva Especificacion de Cuota</a>
+<table class="general">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Inicio <br> Fecha de Vigencia</th>
+            <th>Finalización <br> Fecha de Vigencia</th>
+            <th>Fecha de Vencimiento</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.nombre }}</td>
+            <td>{% if entity.fechavigenciainicio %}{{ entity.fechavigenciainicio|date('d/m/Y') }}{% endif %}</td>
+            <td>{% if entity.fechavigenciafinalizacion %}{{ entity.fechavigenciafinalizacion|date('d/m/Y') }}{% endif %}</td>
+            <td>{% if entity.fechavencimiento %}{{ entity.fechavencimiento|date('d/m/Y') }}{% endif %}</td>
+            <td>
+                <a href="javascript:editEspecificaciondeProducto('{{ path('especificaciondeproducto_edit', { 'id': entity.id }) }}')" class="button">Editar</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+$("#dialog a.button").button();
+$("#dialog a.button-ui-plusthick").button({
+            icons: {
+                primary: "ui-icon-plusthick"
+            }});
+
+function newEspecificaciondeProducto () {
+    setAjaxLoader('#dialog');
+    var request = $.ajax({
+                    type: "POST",
+                    url: "{{ path('especificaciondeproducto_new') }}"
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+    var dialog = new Dialog();
+    dialog.title = "Crear una Especificacion de Cuota";
+    $('#dialog').dialog(dialog);
+    dialog.aumentar();
+    abrirDialogo('#dialog');
+}
+
+function editEspecificaciondeProducto (url) {
+    setAjaxLoader('#dialog');
+    var request = $.ajax({
+                    type: "POST",
+                    url: url
+                });
+    request.done(
+        function( html ) {
+            $("#dialog").html(html);
+        });
+    var dialog = new Dialog();
+    dialog.title = "Editar una Especificacion de Cuota";
+    $('#dialog').dialog(dialog);
+    dialog.aumentar();
+    abrirDialogo('#dialog');
+}
+</script>

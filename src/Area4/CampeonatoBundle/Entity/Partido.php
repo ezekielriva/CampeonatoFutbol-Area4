@@ -24,21 +24,21 @@ class Partido
     /**
      * @var string $fecha
      *
-     * @ORM\Column(name="fecha", type="string", length=45, nullable=false)
+     * @ORM\Column(name="fecha", type="string", length=45, nullable=true)
      */
     private $fecha;
 
     /**
      * @var datetime $diahora
      *
-     * @ORM\Column(name="diaHora", type="datetime", nullable=false)
+     * @ORM\Column(name="diaHora", type="datetime", nullable=true)
      */
     private $diahora;
 
     /**
      * @var string $lugar
      *
-     * @ORM\Column(name="lugar", type="string", length=45, nullable=false)
+     * @ORM\Column(name="lugar", type="string", length=45, nullable=true)
      */
     private $lugar;
 
@@ -50,14 +50,6 @@ class Partido
     private $fase;
 
     /**
-     * @var Equipo_has_Partido
-     *
-     * @ORM\ManyToOne(targetEntity="Equipo_has_Partido")
-     * @ORM\JoinColumn(name="equipo_has_partido", referencedColumnName="partido_id")
-     */
-    private $equipo_has_partido;
-
-    /**
      * @var Arbitro
      *
      * @ORM\ManyToOne(targetEntity="Arbitro")
@@ -66,10 +58,44 @@ class Partido
      * })
      */
     private $arbitroDni;
+    /**
+     * @ORM\ManyToOne(targetEntity="Campeonato")
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="Campeonato_id", referencedColumnName="id")
+     * })
+     **/
+    private $campeonato;
+    /**
+     * @var Equipo $local
+     *
+     * @orm\ManyToOne(targetEntity="Equipo", inversedBy="locales")
+     * @orm\JoinColumn(name="local", referencedColumnName="id")
+     */
+    private $local;
+    /**
+     * @var Equipo $visitante
+     * @orm\ManyToOne(targetEntity="Equipo", inversedBy="visitantes" )
+     * @orm\JoinColumn(name="visitante", referencedColumnName="id")
+     */
+    private $visitante;
+    /**
+     * @var integer $resultadol
+     *
+     * @ORM\Column(name="resultadol", type="integer")
+     */
+    private $resultadol;
+    /**
+     * @var integer $resultadov
+     *
+     * @ORM\Column(name="resultadov", type="integer")
+     */
+    private $resultadov;
 
     public function __construct()
     {
-        $this->equipo_has_partido = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->diaHora = new \DateTime('now');
+        $this->resultadol = 0;
+        $this->resultadov = 0;
     }
     
 
@@ -164,26 +190,6 @@ class Partido
     }
 
     /**
-     * Set equipo_has_partido
-     *
-     * @param Area4\CampeonatoBundle\Entity\Equipo_has_Partido $equipoHasPartido
-     */
-    public function setEquipoHasPartido(\Area4\CampeonatoBundle\Entity\Equipo_has_Partido $equipoHasPartido)
-    {
-        $this->equipo_has_partido = $equipoHasPartido;
-    }
-
-    /**
-     * Get equipo_has_partido
-     *
-     * @return Area4\CampeonatoBundle\Entity\Equipo_has_Partido 
-     */
-    public function getEquipoHasPartido()
-    {
-        return $this->equipo_has_partido;
-    }
-
-    /**
      * Set arbitroDni
      *
      * @param Area4\CampeonatoBundle\Entity\Arbitro $arbitroDni
@@ -201,5 +207,105 @@ class Partido
     public function getArbitroDni()
     {
         return $this->arbitroDni;
+    }
+
+    /**
+     * Set Campeonato
+     *
+     * @param Area4\CampeonatoBundle\Entity\Campeonato $campeonato
+     */
+    public function setCampeonato(\Area4\CampeonatoBundle\Entity\Campeonato $campeonato)
+    {
+        $this->campeonato = $campeonato;
+    }
+
+    /**
+     * Get Campeonato
+     *
+     * @return Area4\CampeonatoBundle\Entity\Campeonato 
+     */
+    public function getCampeonato()
+    {
+        return $this->campeonato;
+    }
+
+    /**
+     * Set resultadol
+     *
+     * @param integer $resultadol
+     */
+    public function setResultadol($resultadol)
+    {
+        $this->resultadol = $resultadol;
+    }
+
+    /**
+     * Get resultadol
+     *
+     * @return integer 
+     */
+    public function getResultadol()
+    {
+        return $this->resultadol;
+    }
+
+    /**
+     * Set resultadov
+     *
+     * @param integer $resultadov
+     */
+    public function setResultadov($resultadov)
+    {
+        $this->resultadov = $resultadov;
+    }
+
+    /**
+     * Get resultadov
+     *
+     * @return integer 
+     */
+    public function getResultadov()
+    {
+        return $this->resultadov;
+    }
+
+    /**
+     * Set local
+     *
+     * @param Area4\CampeonatoBundle\Entity\Equipo $local
+     */
+    public function setLocal(\Area4\CampeonatoBundle\Entity\Equipo $local)
+    {
+        $this->local = $local;
+    }
+
+    /**
+     * Get local
+     *
+     * @return Area4\CampeonatoBundle\Entity\Equipo 
+     */
+    public function getLocal()
+    {
+        return $this->local;
+    }
+
+    /**
+     * Set visitante
+     *
+     * @param Area4\CampeonatoBundle\Entity\Equipo $visitante
+     */
+    public function setVisitante(\Area4\CampeonatoBundle\Entity\Equipo $visitante)
+    {
+        $this->visitante = $visitante;
+    }
+
+    /**
+     * Get visitante
+     *
+     * @return Area4\CampeonatoBundle\Entity\Equipo 
+     */
+    public function getVisitante()
+    {
+        return $this->visitante;
     }
 }

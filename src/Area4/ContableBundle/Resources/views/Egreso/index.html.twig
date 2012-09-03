@@ -1,0 +1,94 @@
+{% extends 'Area4NoticiasBundle::base.html.twig' %}
+{%block seccion %}Lista de Egresos{%endblock%}
+{% block mainbar %}
+<a href="{{ path('egreso_new') }}" class="button">Crear egreso</a>
+<a href="#" class="button" onclick="cargarReporte()">Imprimir reporte</a>
+<a href="{{path('menu_contable')}}" class="button">Volver</a>
+<table class="general-table" style="text-align: center;">
+    <thead>
+        <tr class="txt_adorno">
+            <th>Numero de comprobante</th>
+            <th>Fecha</th>
+            <th>Importe</th>
+            <th>Usuario</th>
+            <th>Cargado</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.numerocomprobante }}</td>
+            <td>{% if entity.fecha %}{{ entity.fecha|date('Y-m-d H:i') }}{% endif%}</td>
+            <td>${{ entity.importe }}</td>
+            <td>{{ entity.Usuario.nickname }}</td>
+            <td>{% if entity.createdat %}{{ entity.createdat|date('Y-m-d H:i') }}{% endif%}</td>
+            <td>
+                <a href="#" onclick="mostrar('{{ path('egreso_show', { 'id': entity.id }) }}', '{{entity.id}}')"><img width="25" height="25" src="{{asset('img/DOCUMENTO_VER.png')}}" alt="Mostrar"/></a>
+                <a href="#"><img width="25" height="25" src="{{asset('img/ELIMINAR.png')}}" alt="eliminar" onclick="preguntar('{{ path('egreso_delete', { 'id': entity.id }) }}')"/></a>
+                <a href="{{ path('egreso_edit', { 'id': entity.id }) }}"><img width="25" height="25" src="{{asset('img/AGREGAR.png')}}" alt="modificar"/></a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div id="aux"></div>
+<script>
+/* Llama la imagen de espera mientras se carga el elemento de la pantalla */
+    function cargarImgEspera(tag){
+        $(tag).html('<img alt="cargando" src="{{asset('img/ajax-loader.gif')}}" style="margin: 5px auto; display:   block;" />');
+    }
+    function preguntar(url){
+        if (confirm('¿Está seguro que desea eliminar?')){
+                document.location.href= url
+                alert('Egreso eliminado')
+        }
+    }
+    function mostrar(url, id){
+        cargarImgEspera('#aux')
+        $('#aux').dialog({
+            modal: true,
+            title: 'Egreso #'+id,
+            closeText: 'cerrar',
+            width: 400,
+            height: 450,
+            overlay: { opacity: 0.5, background: "black" }
+        });
+        
+        var Request = $.ajax({
+            url: url,
+            ascr:false,
+            data: null,
+            success:
+                function(data){
+                $('#aux').html(data);
+            }
+        });
+
+    }
+
+    function cargarReporte(){
+        cargarImgEspera('#aux')
+        $('#aux').dialog({
+            modal: true,
+            title: 'Reportes',
+            closeText: 'cerrar',
+            width: 400,
+            height: 450,
+            overlay: { opacity: 0.5, background: "black" }
+        });
+
+        var Request = $.ajax({
+            url: "{{path('egreso_reporte_form')}}",
+            ascr:false,
+            data: null,
+            success:
+                function(data){
+                $('#aux').html(data);
+            }
+        });
+
+        Request.done(function (data){$('#aux').html(data)})
+    }
+</script>
+{% endblock %}

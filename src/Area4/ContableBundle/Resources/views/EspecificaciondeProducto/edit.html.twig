@@ -1,0 +1,16 @@
+<form id="formCreate" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <p>
+        <a href="javascript:submitForm('#dialog','#formCreate','{{ path('especificaciondeproducto_update', { 'id': entity.id }) }}')" class="button">Editar</a>
+        <a href="javascript:indexEspecificaciondeProducto();" class="button-ui-icon-carat-1-w">Cancelar</a>
+    </p>
+</form>
+
+<script type="text/javascript">
+$('input[id*="{{formName}}_fecha"]').datepicker({'dateFormat':"dd/mm/yy"});
+$("#dialog a.button").button();
+$("#dialog a.button-ui-icon-carat-1-w").button({
+            icons: {
+                primary: "ui-icon-carat-1-w"
+            }});
+</script>

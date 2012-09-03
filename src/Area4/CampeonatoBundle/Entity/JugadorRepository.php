@@ -99,4 +99,17 @@ class JugadorRepository extends EntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    /**
+     * Busca todos los jugadores inscriptos sin equipos
+     *
+     * @author ezekiel
+     **/
+    public function buscarSinEquipo()
+    {
+        return $this->createQueryBuilder('j')
+                    ->where('j.Equipo = NULL ')
+                    ->getQuery()
+                    ->getResult();
+    }
 }

@@ -12,4 +12,28 @@ use Doctrine\ORM\EntityRepository;
  */
 class CampeonatoRepository extends EntityRepository
 {
+	private static $categorias = array(
+		'A' => 'A',
+		'B' => 'B',
+		'C' => 'C',
+		);	
+
+	public static function getCategorias(){
+		return self::$categorias;
+	}
+
+	/**
+	 * Indica cuales campeonatos tienen las inscripciones abiertas.
+	 * @param $tipo : tipo de inscripción abierta que se busca.
+	 * Valores típicos:
+	 *					ROLE_CAP : inscripciones capitan abiertas.
+	 *					ROLA_JUG : inscripciones jugador abiertas.
+	 *
+	 * @return Campeonato
+	 * @author ezekiel
+	 **/
+	public function inscripcionesAbiertas($tipo)
+	{
+		return array();
+	}
 }

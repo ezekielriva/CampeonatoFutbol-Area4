@@ -1,0 +1,16 @@
+{% spaceless %}
+
+<form method="post" {{ form_enctype(form) }} id="formCreate">
+    {{ form_widget(form) }}<br>
+    	<a href="javascript:submitForm('#dialog','#formCreate','{{ path('producto_create') }}')" class="button">Crear</a>
+        <a href="javascript:indexProducto()" class="button-ui-icon-carat-1-w">Volver</a>
+</form>
+{% endspaceless %}
+
+<script type="text/javascript">
+$("#dialog a.button").button();
+$("#dialog a.button-ui-icon-carat-1-w").button({
+            icons: {
+                primary: "ui-icon-carat-1-w"
+            }});
+</script>

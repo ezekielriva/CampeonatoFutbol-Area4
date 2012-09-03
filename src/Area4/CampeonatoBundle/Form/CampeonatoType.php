@@ -4,6 +4,7 @@ namespace Area4\CampeonatoBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Area4\CampeonatoBundle\Entity\CampeonatoRepository;
 
 class CampeonatoType extends AbstractType
 {
@@ -11,6 +12,9 @@ class CampeonatoType extends AbstractType
     {
         $builder
             ->add('nombre')
+            ->add('categoria','choice',array(
+                'choices' => CampeonatoRepository::getCategorias(),
+                ))
         ;
     }
 

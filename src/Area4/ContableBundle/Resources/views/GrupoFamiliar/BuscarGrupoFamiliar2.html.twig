@@ -1,0 +1,16 @@
+<table class="general-table">
+    <tr class="txt_adorno">
+        <th>Nombre y Apellido</th>
+        <th>DNI representante</th>
+    </tr>
+	{% for reg in lista %}
+            <tr>
+                <td>
+                    <a href="javascript:SeleccionarGrupoFamiliar({{reg.dni}})">
+                        {{reg.apellido|upper}}
+                    </a>
+                </td>
+                <td>{{reg.dni}}</td>
+            </tr>
+	{%endfor%}
+</table>
