@@ -19,7 +19,7 @@ class LineadeDocumento
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Documento")
-	 * @ORM:JoinColumn(name="Documento_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="Documento_id", referencedColumnName="id")
 	 * @var documento
 	 */
 	private $documento;

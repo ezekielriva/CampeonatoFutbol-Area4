@@ -16,7 +16,7 @@ class InvitacionesType extends AbstractType
                 'attr' => array('readonly' => 'true'),
                 ))*/
             ->add('email','textarea',array(
-                'attr' => array('rows' => '10', 'cols' => '125'),
+                //'attr' => array('rows' => '20', 'cols' => '125'),
                 'label' => 'Emails (separados con \',\')',
                 'attr' => array('class' => 'usersAutoComplete'),
                 ))

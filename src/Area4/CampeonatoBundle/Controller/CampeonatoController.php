@@ -124,8 +124,7 @@ class CampeonatoController extends Controller
             $entity->setUsuario($user);
             $em->persist($entity);
             $em->flush();
-            return $this->redirect(
-                    $this->generateUrl('campeonato_by_user'));
+            return new Response('Se ha creado el Campeonato',200);
         }
         
         return array(

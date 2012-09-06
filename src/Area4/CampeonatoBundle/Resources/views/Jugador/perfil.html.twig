@@ -14,7 +14,12 @@
 	<span class="perfil-info">Fecha de nacimiento:</span>
 	{{ jugador.FechadeNacimiento | date('d-m-Y') }}
 	<span class="perfil-info">Equipo:</span>
-	<a href="#" onclick="call('EQU_SHOW')">{{ jugador.Equipo }}</a> 
+	{% if jugador.Equipo %}
+		<a href="javascript:equipoShow()">{{ jugador.Equipo }}</a> 
+	{%else%}
+		{% if jugador.isCapitan %}<a href="javascript:equipoShow()">Crear Equipo</a>{% endif %}
+	{%endif%}
+	
 	{% if jugador.isCapitan %}[CAPITAN]{% endif %}
 
 </div>
@@ -23,16 +28,15 @@
 	<div id="perfil-menu">
 		{% if is_granted('ROLE_ORG') %}
 			<a href="javascript:indexCampeonato()" class="img-button" id="gestionCampeonatos"></a>
-			<a href="javascript:call('PART')" id="gestionPartidos" class="img-button"></a>
+			<a href="javascript:seleccionarCampeonato()" id="gestionPartidos" class="img-button"></a>
 			<a href="{{path('documento')}}" class="img-button" id="moduloContable"></a>
 		{% endif %}
 		{% if is_granted('ROLE_CAP') %}
-			<a href="javascript:cargarInvitaciones()" class="button">Invitar jugadores</a>
-			<a href="javascript:call('JUG_INV')" id="invitarJugador" class="img-button"></a>
+			<a href="javascript:invitarJugadores()" id="invitarJugador" class="img-button"></a>
 		{% endif %}
 		{% if is_granted('ROLE_JUG') %}
 			<a href="" class="img-button">Mis Estadísticas</a>
-			<a href="{{path('fos_user_security_logout')}}" class="img-button" id="logout">Logout</a>
+			<a href="{{path('fos_user_security_logout')}}" class="img-button" id="logout"></a>
 		{% endif %}
 	</div>
 	<div id="perfil-content">{% block content %}{% endblock %}</div>
@@ -57,9 +61,11 @@ function indexCampeonato () {
 
 function newCampeonato () {
 	setAjaxLoader('#dialog');
-			
 	var dialog = new Dialog();
 	dialog.title = 'Crear Campeonato';
+	dialog.close = function (event, ui) {
+		indexCampeonato();
+	}
 	var request = $.ajax({
   					type: "POST",
   					url: "{{ path('campeonato_new') }}",
@@ -76,7 +82,7 @@ function newCampeonato () {
  * Llama a un dialogo para elejir un campeonato para cargar los equipos
  */
 function seleccionarCampeonato() {
-	
+	setAjaxLoader('#perfil-content');
 	var url_campeonato_list = "{{ path('campeonato_list') }}"
 	var dialog = new Dialog();
 	dialog.title = 'Seleccionar campeonato';
@@ -117,6 +123,7 @@ function gestionPartidos (campeonato) {
  * Carga la invitación de jugadores
  */
 function invitarJugadores() {
+	setAjaxLoader('#perfil-content');
 	$('#dialog').dialog('close');
 	var url_partidos = "{{ path('invitaciones_new')}}";
 	var request = $.ajax({
@@ -132,7 +139,12 @@ function invitarJugadores() {
  * Carga el equipo show en el contenido del perfil.
  */
 function equipoShow () {
-	var url_equipo_show = {% if jugador.Equipo %}"{{path('equipo_show', {'id':jugador.Equipo.id})}}"{%endif%};
+	setAjaxLoader('#perfil-content');
+	var url_equipo_show = {% if jugador.Equipo %}
+		"{{path('equipo_show', {'id':jugador.Equipo.id})}}" 
+		{%else%}
+		"{{path('equipo_new')}}" 
+		{%endif%};
 	var request = $.ajax({
   					type: "POST",
   					url: url_equipo_show,
@@ -141,26 +153,6 @@ function equipoShow () {
 		function( html ) {
   			$("#perfil-content").html(html);
 		});
-}
-/**
- * Menu
- * @param type : llamada a las funciones
- */
-function call (type) {	
-	switch(type){
-		case "PART": {
-			setAjaxLoader('#perfil-content');
-			seleccionarCampeonato(); break;
-		}
-		case "JUG_INV": {
-			invitarJugadores(); break;
-		}
-		case "EQU_SHOW": {
-			setAjaxLoader('#perfil-content');
-			equipoShow();
-			break;
-		}
-	}
 }
 </script>
 

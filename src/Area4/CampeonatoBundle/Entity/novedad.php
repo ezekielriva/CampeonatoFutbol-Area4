@@ -24,7 +24,7 @@ class novedad {
      * @ORM\ManyToOne(targetEntity="Partido")
      * @ORM\JoinColumn(name="Partido_id", referencedColumnName="id")
      */
-    private $Partido;
+    private $partido;
     /**
      * @var integer $minuto
      *
@@ -32,10 +32,10 @@ class novedad {
      */
     private $minuto;
     /**
-     * @ ORM\ManyToOne(targetEntity="Jugador")
-     * @ ORM\JoinColumn(name="Jugador_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Jugador")
+     * @ORM\JoinColumn(name="Jugador_dni", referencedColumnName="dni")
      */
-    private $Jugador;
+    private $jugador;
     /**
      * @ORM\Column(name="tipo_novedad", type="string", length="255", nullable="true")
      * @var $tipo_novedad string
@@ -98,7 +98,7 @@ class novedad {
      * @param Area4\CampeonatoBundle\Entity\Jugador $jugador
      */
     public function setJugador(\Area4\CampeonatoBundle\Entity\Jugador $jugador) {
-        $this->Jugador = $jugador;
+        $this->jugador = $jugador;
     }
 
     /**
@@ -107,7 +107,7 @@ class novedad {
      * @return Area4\CampeonatoBundle\Entity\Jugador 
      */
     public function getJugador() {
-        return $this->Jugador;
+        return $this->jugador;
     }
 
     /**
@@ -137,14 +137,25 @@ class novedad {
         switch($i){
             case 0: return 'Gol-Local';
             case 1: return 'Gol-Visitante';
-            case 2: return 'Tarjeta Verde';
-            case 3: return 'Tarjeta Amarilla';
-            case 4: return 'Tarjeta Roja';
+            case 2: return 'Tarjeta Amarilla';
+            case 3: return 'Tarjeta Roja';
+            case 4: return 'Tarjeta Azul';
             case 5: return 'Penal';
             case 6: return 'Suspención de Partido';
             case 7: return 'Lesión';
         }
     }
+
+    static public $TipoNovedadArray = array(
+        0 => 'Gol-Local',
+        1 => 'Gol-Visitante',
+        2 => 'Tarjeta Amarilla',
+        3 => 'Tarjeta Roja',
+        4 => 'Tarjeta Azul',
+        5 => 'Penal',
+        6 => 'Suspención de Partido',
+        7 => 'Lesión',
+        );
 
     /**
      * Set Partido
@@ -152,7 +163,7 @@ class novedad {
      * @param Area4\CampeonatoBundle\Entity\Partido $partido
      */
     public function setPartido(\Area4\CampeonatoBundle\Entity\Partido $partido) {
-        $this->Partido = $partido;
+        $this->partido = $partido;
     }
 
     /**
@@ -161,7 +172,7 @@ class novedad {
      * @return Area4\CampeonatoBundle\Entity\Partido 
      */
     public function getPartido() {
-        return $this->Partido;
+        return $this->partido;
     }
 
     public function __toString(){

@@ -67,8 +67,8 @@ class Documento {
     private $updated_at;
     /**
      * @var Cliente $Cliente
-     * @ORM\OneToOne(targetEntity="Area4\ContableBundle\Entity\Cliente", inversedBy="Documentos")
-     * @ORM:JoinColumn(name="Cliente_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="Documento")
+     * @ORM\JoinColumn(name="Cliente_id", referencedColumnName="id")
      */
     private $Cliente;
     /**
@@ -78,19 +78,13 @@ class Documento {
      */
     private $total;
     /**
-     * @ORM\OneToMany(targetEntity="LineadeDocumento", mappedBy="Documento",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="LineadeDocumento", mappedBy="documento",cascade={"persist", "remove"})
      */
     private $lineadeDocumento;
     /**
      * @ORM\Column(name="estado", type="integer")
      */
     private $estado;
-    /**
-     * @ORM\ManyToOne(targetEntity="FPago")
-     * @ORM\JoinColumn(name="FPago_id", referencedColumnName="id")
-     *
-     */
-    private $FPago;
 
     /**
      * Get numero
@@ -390,25 +384,6 @@ class Documento {
     }
 
     /**
-     * Set FPago
-     *
-     * @param Area4\ContableBundle\Entity\FPago $fPago
-     */
-    public function setFPago(\Area4\ContableBundle\Entity\FPago $fPago) {
-        $this->FPago = $fPago;
-    }
-
-    /**
-     * Get FPago
-     *
-     * @return Area4\ContableBundle\Entity\Fpago
-     */
-    public function getFPago() {
-        return $this->FPago;
-    }
-
-
-    /**
      * Set updated_at
      *
      * @param datetime $updatedAt
@@ -436,7 +411,15 @@ class Documento {
      **/
     public function getEstadotoString()
     {
-        return true;
+        switch ($this->estado) {
+            case '2':
+                return $this->estados[2];
+                break;
+            
+            default:
+                return 'Cargandose';
+                break;
+        }
     }
 
     /**

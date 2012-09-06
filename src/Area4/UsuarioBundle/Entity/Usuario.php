@@ -52,4 +52,40 @@ class Usuario extends BaseUser
                 return "JUGADOR";
         }
     }
+
+    /**
+     * Obtiene el rol de mayor jerarquia
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function getLastRole()
+    {
+        if ($this->hasRole('ROLE_ORG')) {
+            return "ROLE_ORG";
+        } else {
+            if ($this->hasRole('ROLE_CAP'))
+                return "ROLE_CAP";
+            else
+                return "ROLE_JUG";
+        }
+    }
+
+    /**
+     * Obtiene el role siguiente al que el tiene
+     * Ejemplo: si es Organizador, devuelve Capitan
+     *          si es Capitan, devuelve Jugador
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function getOneLessRole()
+    {  
+        if ($this->hasRole('ROLE_ORG')) {
+            return "ROLE_CAP";
+        } else {
+            if ($this->hasRole('ROLE_CAP'))
+                return "ROLE_JUG";
+        }
+    }
 }

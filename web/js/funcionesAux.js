@@ -70,6 +70,7 @@ function Dialog() {
 		this.height = 300;
 		this.aumentar = function(){ this.width = this.width + 200; this.height = this.height + 200; }
 		this.aumentarHorizontal = function () { this.width = this.width + 200; }
+		this.close = function (event, ui) { return false; }
 };
 
 /**

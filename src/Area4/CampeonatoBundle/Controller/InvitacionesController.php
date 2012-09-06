@@ -32,13 +32,13 @@ class InvitacionesController extends Controller
         $invitacion = $em->getRepository('Area4CampeonatoBundle:Invitaciones')->findOneByToken($token);
 
         if (!$invitacion){
-            throw $this->createNotFoundException('No se encontro el token');
+            throw $this->createNotFoundException('No se encontro el token. Debe tener una invitación');
         }
         
         $usuario = $em->getRepository('Area4UsuarioBundle:Usuario')->findOneByEmail($invitacion->getEmail());
         
         if (!$usuario) {
-          return $this->redirect($this->generateUrl('jugador_new'));
+          return $this->redirect($this->generateUrl('jugador_new',array('token'=>$token)));
         } else {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
@@ -81,12 +81,14 @@ class InvitacionesController extends Controller
         $emailsNoNotify = array();
         $tokens = array();
 
+        $rol = $request->request->get('rol');
+
         foreach ($emails as $email) {
           $usuario = $em->getRepository('Area4UsuarioBundle:Usuario')->findOneByEmail($email);
           if (!$usuario) {
             $invitacion = new Invitaciones();
             $invitacion->setEmail($email);
-            $invitacion->setTipo('ROLE_JUG');
+            $invitacion->setTipo($rol);
             $invitacionesToSend[] = $invitacion;
             $em->persist($invitacion);
           }
@@ -120,14 +122,16 @@ class InvitacionesController extends Controller
      **/
     private function sendEmail($invitaciones,$tipo)
     {
+      $request = $request = $this->getRequest();
+      $host = $request->headers->get('host');
       $template = $tipo.'.txt.twig';
       foreach ($invitaciones as $invitacion) {
-        $message = \Swift_Message::newInstance()
+      $message = \Swift_Message::newInstance()
                                 ->setSubject('Not Reply: I y C')
                                 ->setFrom('invitaciones@iyc.com.ar')
                                 ->setTo($invitacion->getEmail())
                                 ->setBody($this->renderView('Area4CampeonatoBundle:Invitaciones:'.$template, 
-                                  array('token' => $invitacion->getToken()
+                                  array('token' => $invitacion->getToken(), 'host' => $host,
                                     )))
                                 ;
         $this->get('mailer')->send($message);

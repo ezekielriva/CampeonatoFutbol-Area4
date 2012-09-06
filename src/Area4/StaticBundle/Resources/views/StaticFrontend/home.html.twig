@@ -10,7 +10,13 @@
 	<li><a href="">CODIGO FAIR PLAY</a></li>
 	<li><a href="">PREGUNTAS FRECUENTES</a></li>
 	<li><a href="">CONTACTO</a></li>
-	<li><a href="{{path('menu_admin')}}" class="end">LOGIN</a></li>
+	<li>
+		{% if app.session is not empty and user != 'anon.' %}
+        	<a href="{{path('menu_admin')}}">{{ user.username }}</a>  <a href="{{path('fos_user_security_logout')}}" class="end">| Logout</a>
+        {% else %}
+        	<a href="{{path('menu_admin')}}" class="end">LOGIN</a>
+    	{% endif %}
+	</li>
 </ul>
 </nav>
 

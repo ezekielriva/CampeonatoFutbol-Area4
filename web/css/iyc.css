@@ -5,7 +5,7 @@ body#frontend {
 }
 
 body#backend {
-	background: #DDD url('../img/background.jpg') repeat-x;
+	background-color: #788E9B;
 	font-family: Arial,Helvetica,sans-serif;
 }
 img#ajax_loader {
@@ -21,7 +21,8 @@ form {
 }
 textarea {
 	width: 100%;
-	height: 100%;
+	height: 100px;
+	resize: none;
 }
 label, legend {
 	color: black-grey;
@@ -267,6 +268,7 @@ a.img-button {
 	margin: 10px;
 	float: left;
 	border: 1px solid black;
+	cursor: pointer;
 }
 a#gestionCampeonatos {
 	background-image: url('../img/gestionar_campeonatos_1.png');
@@ -294,6 +296,13 @@ a#moduloContable {
 }
 a#moduloContable:hover {
 	background-image: url('../img/modulo_contable_2.png');
+	border: 1px solid yellow;
+}
+a#logout {
+	background-image: url('../img/logout_1.png');
+}
+a#logout:hover {
+	background-image: url('../img/logout_2.png');
 	border: 1px solid yellow;
 }
 /*** Notificaciones
@@ -369,6 +378,54 @@ div#factura label, div#factura input {
  div#factura div#info {
  	width: 50%; float: right; text-align: center; z-index: 0;
  }
+
+/** Planilla de partidos
+29.7 - 21
+------------------------------------- */
+div#planilla {
+	width: 21cm;
+}
+div#planilla h1, div#planilla h2 {
+	margin: 10px auto;
+	font-size: 5mm;
+}
+div#planilla p.derechos {
+	margin: 30px;
+	font-size: 3mm;
+	text-align: justify;
+}
+div#planilla pre.firmas {
+	margin: 30px;
+	font-size: 5mm;
+	text-align: justify;
+}
+table.planilla {
+	font-family: Arial,Helvetica,sans-serif;
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 17cm;
+	margin: 0px auto;
+}
+table.planilla tr th {
+	background-color: #231F20;
+	color: white;
+	font-weight: bold;
+	border: 1px solid black;
+}
+table.planilla tr:nth-child(2n+1) {
+	background-color: #fff;
+	color: black;
+	border: 1px solid black;
+}
+table.planilla tr:nth-child(2n) {
+	background-color: #E9E9E9;
+	color: black;
+	border: 1px solid black;
+}
+table.planilla tr td {
+	border: 1px solid black;
+}
+
 @media print
 {
 #RazonSocial, #footer-factura {

@@ -36,10 +36,10 @@ class ClienteRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('c')
                 ->join('c.referencia', 'r')
-                ->join('r.Usuario', 'u')
-                ->where('u.username like \'%'.$username.'%\'')
+                ->join('r.usuario', 'u')
+                ->where('u.username = \''.$username.'\'')
+                ->setMaxResults(1)
                 ;
-                
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getOneOrNullResult();
     }
 }

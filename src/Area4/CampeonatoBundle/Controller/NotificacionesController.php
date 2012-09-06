@@ -72,19 +72,63 @@ class NotificacionesController extends Controller
      **/
     public function notifyCapitanAction()
     {
-        $campeonato  = new Campeonato();
         $request = $this->getRequest();
+        $idCampeonato = $request->request->get('idCampeonato');
+        $em = $this->getDoctrine()->getEntityManager();
+        $campeonato = $em->getRepository('Area4CampeonatoBundle:Campeonato')->find($idCampeonato);
+
         $form    = $this->createForm(new NotificarEquipoType(), $campeonato);
         $form->bindRequest($request);
-
-        $em = $this->getDoctrine()->getEntityManager();
+       
         foreach ($campeonato->getEquipo() as $equipo) {
             $capitan = $equipo->getCapitan();
+            $this->sendNotificacion($em, $capitan->getUsuario(),'INVITE_TEAM',$campeonato);
         }
+        $em->flush();
 
-        return new Response();
+        return new Response('Se notificarón a los capitanes',200);
     }
 
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author ezekiel
+     **/
+    public function sendNotificacion($em, $usuario, $tipo, $campeonato=null, $equipo=null)
+    {
+        $notificacion = new Notificaciones();
+        $notificacion->setUsuario($usuario);
+        if (is_null($campeonato)) {
+            $idCampeonato = -1;
+            $notificacion->setEquipo($equipo);
+        } else {
+            $idCampeonato = $campeonato->getId();
+            $notificacion->setCampeonato($campeonato);
+        }
+        if (is_null($equipo)) {
+            $idEquipo = -1;
+            $notificacion->setCampeonato($campeonato);
+        } else {
+            $idEquipo = $equipo->getId();
+            $notificacion->setEquipo($equipo);
+        }
+        
+        $tipoNotificacion = $em->getRepository('Area4CampeonatoBundle:TipoNotificacion')->findOneBy(
+            array('short_name'=>$tipo)
+            );
+        $notificacion->setTipo($tipoNotificacion);
+        $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($usuario->getId());
+
+        $notificacion->setUrl($this->generateUrl('notificaciones_analice', 
+            array('id' => $jugador->getDni(),
+                  'idEquipo' => $idEquipo,
+                  'idCampeonato' => $idCampeonato
+                ))
+        );
+        $em->persist($notificacion);
+    }
     /**
      * Displays a form to create a new Notificaciones entity.
      *
@@ -93,9 +137,6 @@ class NotificacionesController extends Controller
      */
     public function newAction($idCampeonato)
     {
-        $session = $this->getRequest()->getSession();
-        $session->set('idCampeonato', $idCampeonato);
-
         $em = $this->getDoctrine()->getEntityManager();
 
         $equipos = $em->getRepository('Area4CampeonatoBundle:Equipo')->findAll();
@@ -104,6 +145,7 @@ class NotificacionesController extends Controller
 
         return array(
             'equipos' => $equipos,
+            'idCampeonato' => $idCampeonato,
             'form' => $form->createView(),
         );
     }

@@ -15,7 +15,7 @@
 	</div>
 	<div id="RazonSocial">
 		<label for="Cliente" id="labelCliente">Cliente</label><br>
-		<input id="Cliente" type="text" value="Cliente"/><br>
+		<input id="Cliente" type="text" value="{{entity.Cliente}}"/><br>
 		<label for="Domicilio" id="labelDomicilio">Domicilio</label><br>
 		<input id="Domicilio" type="text" value="Domicilio"/>
 	</div>
@@ -150,8 +150,8 @@ function imprimirFactura () {
 }
 
 function guardarDocumento () {
-	var cliente = $('Cliente').val();
-	var domicilio = $('Domicilio').val();
+	var cliente = $('#Cliente').val();
+	var domicilio = $('#Domicilio').val();
 	var request = $.ajax({
         type: "POST",
         data: 'Cliente='+cliente+'&Domicilio='+domicilio,

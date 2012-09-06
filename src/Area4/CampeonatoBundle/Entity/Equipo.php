@@ -62,7 +62,7 @@ class Equipo
     /**
      * @var jugadores
      *
-     * @ORM\OneToMany(targetEntity="Equipo", mappedBy="Jugador")
+     * @ORM\OneToMany(targetEntity="Jugador", mappedBy="equipo")
      */
     private $jugadores;
 
@@ -224,14 +224,13 @@ class Equipo
      **/
     public function getCapitan()
     {
-        if (!$this->jugadores) {
+        if ($this->jugadores) {
             foreach ($this->jugadores as $jugador) {
                 $usuario = $jugador->getUsuario();
-
                 if ($usuario->hasRole('ROLE_CAP'))
                     return $jugador;
             }
         }
-        return new Jugador();
+        return (string) 'Equipo sin jugadores';
     }
 }

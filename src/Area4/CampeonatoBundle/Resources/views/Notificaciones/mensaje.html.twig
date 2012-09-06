@@ -1,8 +1,8 @@
 ¿Seguro que desea jugar en el 
 {% if notificacion.equipo %}
- Equipo {{ notificacion.equipo }}
+ Equipo {{ notificacion.equipo }} con {{ notificacion.equipo.getCapitan }} de Capitán
 {% endif %}
 {% if notificacion.campeonato %}
- Campeonato {{ notificacion.campeonato }}
+ Campeonato {{ notificacion.campeonato.nombre }}
 {% endif %}
 ?

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * Area4\ContableBundle\Entity\Tipo
  *
- * @ORM\Table(name="contable_TipoDocumento", uniqueConstraints={@ORM\UniqueConstraint(name="nombre_u", columns={"nombre"})})
+ * @ORM\Table(name="contable_TipoDocumento", uniqueConstraints={@ORM\UniqueConstraint(name="nombre_u", columns={"nombre","letra"})})
  * @ORM\Entity(repositoryClass="Area4\ContableBundle\Entity\TipoRepository")
  */
 class Tipo {

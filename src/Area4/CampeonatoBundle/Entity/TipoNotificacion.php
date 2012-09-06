@@ -116,4 +116,15 @@ class TipoNotificacion
     {
         return $this->short_name;
     }
+
+    /**
+     * __toString
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function __toString()
+    {
+        return (string) $this->descripcion;
+    }
 }

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Area4\ContableBundle\Entity\Tipo;
 use Area4\ContableBundle\Form\TipoType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Tipo controller.
@@ -67,7 +68,7 @@ class TipoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tipo_show', array('id' => $entity->getId())));
+            return new Response('<h2>Se ha creado el nuevo Tipo de Documento</h2>');
             
         }
 

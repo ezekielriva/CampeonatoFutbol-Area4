@@ -1,14 +1,14 @@
-{% extends '::base_backend.html.twig' %}
-{% block body %}
 <h4>Las invitaciones fueron enviadas a:</h4>
 {% for invitacion in invitacionesToSend %}
 	<p>{{ invitacion.email }}</p>
+{% else %}
+	<p>Ninguna invitación fue enviada</p>
 {% endfor %}
 
 <h4>Los siguientes emails no fueron invitados</h4>
 <p>Esto puede ser porque ya se encuentran registrados en el sistema o porque se coloco de manera erronea la dirección de correo electrónico</p>
 {% for email in emailsNoNotify %}
 	<p>{{ email }}</p>
+{% else %}
+	<p>No hubieron emails sin notificar</p>
 {% endfor %}
-
-{% endblock %}

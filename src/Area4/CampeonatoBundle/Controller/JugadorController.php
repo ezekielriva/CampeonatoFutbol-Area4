@@ -98,13 +98,17 @@ class JugadorController extends Controller {
         $usuario = new Usuario();
 
         $em = $this->getDoctrine()->getEntityManager();
-
+        $request = $this->getRequest();
+        $token = $request->query->get('token');
+        $invitacion = $em->getRepository('Area4CampeonatoBundle:Invitaciones')->findOneByToken($token);
+        $usuario->setEmail($invitacion->getEmail());
         $formJugador = $this->createForm(new JugadorType(), $jugador);
         $formUsuario = $this->container->get('fos_user.registration.form');
 
         return array(
             'formJugador' => $formJugador->createView(),
             'formUsuario' => $formUsuario->createView(),
+            'rol' => $invitacion->getTipo(),
         );
     }
 
@@ -135,7 +139,7 @@ class JugadorController extends Controller {
         if($request->getMethod() === 'POST'){
             //Entregando los roles
             $session = $this->getRequest()->getSession();
-            $usuario->addRole('ROLE_JUG');
+            $usuario->addRole($request->request->get('rol'));
             $usuario->setEnabled(true);
 
             $jugador->setUsuario($usuario);

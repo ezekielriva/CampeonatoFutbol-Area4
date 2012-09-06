@@ -1,0 +1,36 @@
+<h1 class="titulo_seccion">Novedades del partido</h1>
+
+<table class="general">
+	<tr>
+		<th>Min.</th>
+		<th>Tipo</th>
+		<th>Jugador</th>
+		<th>Observaciones</th>
+		<th>Acciones</th>
+	</tr>
+	{% for novedad in entities %}
+	<tr>
+		<td>{{novedad.minuto}}</td>
+		<td>{{novedad.getTipoNovedadtoString(novedad.getTipoNovedad)}}</td>
+		<td>{{novedad.jugador}}</td>
+		<td>{{novedad.obs}}</td>
+		<td><a href="javascript:eliminarNovedad({{novedad.id}})">Eliminar</a></td>
+	</tr>
+	{% else %}
+	    <td colspan="5">No hay novedades</td>
+	{% endfor %}
+</table>
+
+<script type="text/javascript">
+function eliminarNovedad (idNovedad) {
+	var request = $.ajax({
+		url: "{{path('novedad_delete')}}",
+		data: 'idNovedad='+idNovedad,
+		type: 'POST',
+	});
+	request.done(function () {
+		alert('Novedad eliminada');
+		listNovedades();
+	});
+}
+</script>

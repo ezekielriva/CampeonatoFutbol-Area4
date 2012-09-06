@@ -27,7 +27,7 @@ class PartidoType extends AbstractType
     {
         $fecha = array ();
         for ($i=1; $i<33; $i++)
-            $fecha[] = $i;
+            $fecha[$i] = $i;
 
 
         $builder

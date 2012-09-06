@@ -55,28 +55,7 @@ class PartidoController extends Controller
         return array('entities' => $entities, 'campeonato' => $campeonato);
     }
 
-    /**
-     * Finds and displays a Partido entity.
-     *
-     * @Route("/{id}/show", name="partido_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $entity = $em->getRepository('Area4CampeonatoBundle:Partido')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Partido entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'partido'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
-    }
+    
 
     /**
      * Displays a form to create a new Partido entity.
@@ -157,7 +136,14 @@ class PartidoController extends Controller
             throw $this->createNotFoundException('Unable to find Partido entity.');
         }
 
-        $editForm = $this->createForm(new PartidoEditType(), $entity);
+        $request = $this->getRequest();
+        $campeonatoId = $request->request->get('campeonato');
+
+        $editType = new PartidoEditType();
+        $campeonato = $em->getRepository('Area4CampeonatoBundle:Campeonato')->find($campeonatoId);
+        $editType->setCampeonato($campeonato);
+
+        $editForm = $this->createForm($editType, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -179,31 +165,24 @@ class PartidoController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('Area4CampeonatoBundle:Partido')->find($id);
-        $arbitro = new \Area4\CampeonatoBundle\Entity\Arbitro();
         if (!$entity) throw $this->createNotFoundException('No se encontro el Partido buscado.');
 
-        $form   = $this->createForm(new PartidoType(), $entity);
-        //$formArbitro = $this->createForm(new \Area4\CampeonatoBundle\Form\ArbitroType(), $arbitro);
-
-        //$deleteForm = $this->createDeleteForm($id);
-
+        $editType = new PartidoEditType();
+        $editType->setCampeonato($entity->getCampeonato());
+        $form   = $this->createForm($editType, $entity);
         $request = $this->getRequest();
-
+    
         $form->bindRequest($request); //Tengo los datos
-        //$formArbitro->bindRequest($request);
         if ($request->getMethod() == 'POST') {
-            
-            $resl = $this->get('request')->request->get('area4_campeonatobundle_partidotype[resultadol]',null,true);
-            $resv = $this->get('request')->request->get('area4_campeonatobundle_partidotype[resultadov]',null,true);
-            
-            $entity->setResultadov(intval($resv));
-            $entity->setResultadol(intval($resl));
-            
+                   
             //$em->persist($arbitro);
             $em->persist($entity);
             $em->flush();
 
-            return new Response('Actualizado',200);
+            return new Response(
+                sprintf('<script type="text/javascript">gestionPartidos(%s)</script>',$entity->getCampeonato()->getId()),
+                200
+                );
         }
         return $this->redirect($this->generateUrl('partido_edit', array('id' => $entity->getId())));
     }
@@ -303,64 +282,24 @@ class PartidoController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Partido entity.
-     *
-     * @Route("/{id}/edicion", name="edicion_partido")
+     * Muestra la planilla de los partidos
+     * @Route("/{id}/planilla", name="partido_planilla")
      * @Template()
-     */
-    public function edicionAction($id)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $entity = $em->getRepository('Area4CampeonatoBundle:Partido')->find($id);
-
-        if (!$entity) throw $this->createNotFoundException('No se pudo encontrar el partido buscado.');
-
-        //$editForm = $this->createForm(new PartidoEditType(), $entity);
-        //$deleteForm = $this->createDeleteForm($id);
-
-        /*$jugLocales = $em->getRepository('Area4CampeonatoBundle:Jugador')->filtro(
-                0, $entity->getLocal()->getId(), $entity->getCategoria()->getId(), $entity->getBloqueLocal(), $entity->getColorLocal()
-            );
-        $jugVisitantes = $em->getRepository('Area4CampeonatoBundle:Jugador')->filtro(
-                0, $entity->getVisitante()->getId(), $entity->getCategoria()->getId(), $entity->getBloqueVisitante(), $entity->getColorVisitante()
-            );*/
-
-        $jugLocales = $em->getRepository('Area4CampeonatoBundle:Jugador')->filtro(
-                0, $entity->getLocal()->getId(), $entity->getCategoria()->getId()
-            );
-        $jugVisitantes = $em->getRepository('Area4CampeonatoBundle:Jugador')->filtro(
-                0, $entity->getVisitante()->getId(), $entity->getCategoria()->getId()
-            );
-
-
-        return array(
-            'partido'      => $entity,
-            'jugLocales' => $jugLocales,
-            'jugVisitantes' => $jugVisitantes,
-        );
-    }
-
-    /**
-     * realiza un string con los nombre de los equipos que juegan en ese partido
-     *
+     * @return void
+     * @author 
      **/
-    public function equiposStringAction($idPartido)
+    public function planillaAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $e_h_p = $em->getRepository('Area4CampeonatoBundle:Equipo_has_Partido')->buscarPorPartido($idPartido);
 
-        $vs = true;
-        foreach ($e_h_p as $e) {
-            echo $e->getEquipo();
-            if ($vs) {
-                echo " vs ";
-                $vs = false;                
-            }
+        $partido = $em->getRepository('Area4CampeonatoBundle:Partido')->find($id);
+
+        if (!$partido) {
+            throw $this->createNotFoundException('Unable to find Partido entity.');
         }
 
-        //echo $e_h_p[0]->getEquipo()." vs ".$e_h_p[1]->getEquipo();
-        
-        return new Response();
+        return array(
+            'partido'      => $partido,
+            );
     }
 }

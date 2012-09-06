@@ -1,0 +1,84 @@
+<link rel="stylesheet" type="text/css" href="{{ asset('css/iyc.css') }}">
+<div id="planilla">
+<h1>PLANILLA DE PARTIDO - TORENO</h1>
+<img src="{{asset('img/ideas_competencias_logo_factura.png')}}" style="float:right;">
+<h2>FECHA Nº {{partido.fecha}}   PARTIDO Nº        </h2>
+<h2>DIA Y HORA: {{partido.diaHora | date ('d/m/Y h:i')}} </h2>
+
+<h2>NOMBRE DEL EQUIPO -1: {{partido.local}}</h2>
+<table class="planilla">
+	<tr>
+		<th>Dorsal</th>
+		<th>Nombre y Apellido</th>
+		<th>Goles</th>
+		<th>T.Am.</th>
+		<th>T.R.</th>
+		<th>T.Az.</th>
+		<th>Firma</th>
+	</tr>
+	{% for jugador in partido.local.jugadores %}
+	<tr>
+		<td></td>
+		<td>{{jugador}}</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<td colspan="2">TOTAL:</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+
+<h2>NOMBRE DEL EQUIPO -2: {{partido.visitante}}</h2>
+<table class="planilla">
+	<tr>
+		<th>Dorsal</th>
+		<th>Nombre y Apellido</th>
+		<th>Goles</th>
+		<th>T.Am.</th>
+		<th>T.R.</th>
+		<th>T.Az.</th>
+		<th>Firma</th>
+	</tr>
+	{% for jugador in partido.visitante.jugadores %}
+	<tr>
+		<td></td>
+		<td>{{jugador}}</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<td colspan="2">TOTAL:</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+<br><br>
+<pre id="#firmas">
+  Firma del Arbitro				Firma del DT {{partido.local}}			Firma del DT {{partido.visitante}}
+</pre>	
+
+
+
+<p class="derechos">
+Los arriba firmantes se declaran aptos para participar y practicar fútbol en los torneos que organiza “Ideas y Competencias”, aceptando las responsabilidades
+sobre su salud y su físico, comprometiéndose a responsabilizarse por los daños e inconvenientes causados a compañeros de equipo, jugadores de otros equipos,
+personas que oficien de árbitros, planilleros, alcanza pelotas, personas en general, como así también todo tipo de inconvenientes y daños causados a las
+instalaciones a utilizar. Aceptando así las responsabilidades económicas, civiles y/o penales que de su actitud se desprendan. Los datos vertidos en esta lista
+deberán ser absolutamente correctos, en caso de que “Ideas y Competencias” encontrara incorrección total o parcial de los mismos, se procederá a la descalifica-
+ción del jugador o del equipo.
+</p>
+</div>

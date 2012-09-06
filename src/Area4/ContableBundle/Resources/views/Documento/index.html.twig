@@ -6,6 +6,7 @@
 <a href="javascript:indexTipoDocumento()" class="button">Tipos de Documento</a>
 <a href="javascript:indexEspecificaciondeProducto()" class="button">Especificacion de Cuotas</a>
 <a href="javascript:indexProducto()" class="button">Cuotas</a>
+<a href="" class="button">Volver</a>
 <br/><br/>
 
 <div id="index-documento">
@@ -18,10 +19,9 @@ cargarBotones();
 reloadIndex();
 function newTipoDocumento () {
     setAjaxLoader('#dialog');
-    url = "{{ path('tipo_new')}}";
     var request = $.ajax({
                     type: "POST",
-                    url: url
+                    url: "{{ path('tipo_new')}}"
                 });
     request.done(
         function( html ) {
@@ -90,8 +90,8 @@ function indexProducto () {
         });
     var dialog = new Dialog();
     dialog.title = "Lista de Cuotas";
-    $('#dialog').dialog(dialog);
     dialog.aumentar();
+    $('#dialog').dialog(dialog);
     abrirDialogo('#dialog');
 }
 function indexEspecificaciondeProducto () {
@@ -106,8 +106,9 @@ function indexEspecificaciondeProducto () {
         });
     var dialog = new Dialog();
     dialog.title = "Lista de Especificaciones de Cuotas";
-    $('#dialog').dialog(dialog);
     dialog.aumentar();
+    dialog.aumentarHorizontal();
+    $('#dialog').dialog(dialog);
     abrirDialogo('#dialog');
 }
 function editDocumento (url) {

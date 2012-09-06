@@ -13,10 +13,10 @@
         <td>{{ doc.numero }}</td>
         <td>{% if doc.fecha %}{{ doc.fecha|date('d-m-Y') }}{% endif%}</td>
         <td>{{doc.getEstadotoString}}</td>
-        <td>{{ doc.total }}</td>
+        <td>${{ doc.total }}</td>
         <td style="text-align: center;">
             <a href="javascript:editDocumento('{{path('documento_edit', {'id':doc.id})}}')">
-                <img src="{{asset('img/icons/pencil.png')}}" alt="modificar"/>
+                <img src="{{asset('img/icons/newspaper-edit.png')}}" alt="Modificar" title="Modificar documento"/>
             </a>
         </td>
     </tr>

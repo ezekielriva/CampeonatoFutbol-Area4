@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Area4\ContableBundle\Entity\Documento;
 use Area4\ContableBundle\Form\DocumentoType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Documento controller.
@@ -121,17 +122,17 @@ class DocumentoController extends Controller {
 	public function editAction($id) {
 		$em = $this->getDoctrine()->getEntityManager();
 
-		$entity = $em->getRepository('Area4ContableBundle:Documento')->find($id);
+		$documento = $em->getRepository('Area4ContableBundle:Documento')->find($id);
 
-		if (!$entity) {
+		if (!$documento) {
 			throw $this->createNotFoundException('Unable to find Documento entity.');
 		}
 
-		$editForm = $this->createForm(new DocumentoType(), $entity);
+		$editForm = $this->createForm(new DocumentoType(), $documento);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return array(
-				'entity' => $entity,
+				'entity' => $documento,
 				'edit_form' => $editForm->createView(),
 				'delete_form' => $deleteForm->createView(),
 		);
@@ -153,8 +154,9 @@ class DocumentoController extends Controller {
 		$Cliente = $em->getRepository('Area4ContableBundle:Cliente')->buscarPorUsername($username);
 
 		if (!$entity) throw $this->createNotFoundException('No se encontro el Documento buscado.');
+		if (!$Cliente) throw $this->createNotFoundException('No se encontro el Cliente buscado.');
 		
-
+		$entity->setCliente($Cliente);
 		$entity->calcularTotal();
 		$em->persist($entity);
 		$em->flush();

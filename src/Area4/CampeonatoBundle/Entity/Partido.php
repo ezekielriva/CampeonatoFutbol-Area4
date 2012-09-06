@@ -308,4 +308,15 @@ class Partido
     {
         return $this->visitante;
     }
+
+    /**
+     * String del partido
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function __toString()
+    {
+        return (string) sprintf('%s vs %s', $this->local, $this->visitante);
+    }
 }

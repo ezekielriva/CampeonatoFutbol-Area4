@@ -13,6 +13,11 @@ class StaticBackendController extends Controller
 	 **/
     public function menuAdminAction()
     {
-        return $this->render('Area4StaticBundle:StaticBackend:menuAdmin.html.twig');
+    	$user = $this->container->get('security.context')->getToken()->getUser();
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
+        return $this->redirect($this->generateUrl('jugador_perfil',array(
+        	'dni' => $jugador->getDni(),
+        	)));
     }
 }

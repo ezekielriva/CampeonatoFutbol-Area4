@@ -1,0 +1,8 @@
+// 03/09/2012
+Lista de Jugadores
+>> CARGAR LA BASE DE DATOS POR DEFAULT
+
+// 04/09/2012
+Agregar Filtros
+
+Maquetar todo el Frontend

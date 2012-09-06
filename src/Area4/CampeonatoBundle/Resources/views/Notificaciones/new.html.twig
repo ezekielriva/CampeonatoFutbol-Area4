@@ -1,5 +1,6 @@
 <form method="post" {{ form_enctype(form) }} id="form">
    {{ form_widget(form) }}
+   <input type="hidden" name="idCampeonato" value="{{ idCampeonato }}">
 </form>
 <p>
 <a href="javascript:submitForm('#dialog','#form','{{ path('notificaciones_equipo_create') }}')" class="button">Invitar</a>

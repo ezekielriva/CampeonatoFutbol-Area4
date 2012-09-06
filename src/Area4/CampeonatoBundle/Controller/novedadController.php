@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Area4\CampeonatoBundle\Entity\novedad;
 use Area4\CampeonatoBundle\Form\novedadType;
 use Area4\CampeonatoBundle\Entity\Partido;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * novedad controller.
@@ -28,6 +30,24 @@ class novedadController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('Area4CampeonatoBundle:novedad')->findAll();
+
+        return array('entities' => $entities);
+    }
+
+    /**
+     * Lista todos las novedades de un partido
+     *
+     * @Route("/novedad_by_partido",name="novedad_by_partido")
+     * @Template()
+     * @author ezekiel
+     **/
+    public function listAction()
+    {
+        $request = $this->getRequest();
+        $idPartido = $request->request->get('idPartido');
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entities = $em->getRepository('Area4CampeonatoBundle:novedad')->findByPartido($idPartido);
 
         return array('entities' => $entities);
     }
@@ -78,19 +98,24 @@ class novedadController extends Controller
     /**
      * Displays a form to create a new novedad entity.
      *
-     * @Route("/new", name="novedad_new")
+     * @Route("/new/{idPartido}", name="novedad_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($idPartido)
     {
-        $entity = new novedad();
+        $novedad = new novedad();
         $em = $this->getDoctrine()->getEntityManager();
-        /*$jug    = $em->getRepository('Area4CampeonatoBundle:Jugador')->equipoPartidoCategoria(null,1,null);
-        $entity->setJugador($jug);*/
-        $form   = $this->createForm(new novedadType(), $entity);
+        $partido = $em->getRepository('Area4CampeonatoBundle:Partido')->find($idPartido);
+        $novedad->setPartido($partido);
+        $novedadType = new novedadType();
+        
+        $novedadType->addEquipo($partido->getLocal());
+        $novedadType->addEquipo($partido->getVisitante());
+
+        $form   = $this->createForm($novedadType, $novedad);
 
         return array(
-            'entity' => $entity,
+            'novedad' => $novedad,
             'form'   => $form->createView()
         );
     }
@@ -106,17 +131,28 @@ class novedadController extends Controller
     {
         $entity  = new novedad();
         $request = $this->getRequest();
-        $form    = $this->createForm(new novedadType(), $entity);
+        $idPartido = $request->request->get('idPartido');
+        $em = $this->getDoctrine()->getEntityManager();
+        $partido = $em->getRepository('Area4CampeonatoBundle:Partido')->find($idPartido);
+        $entity->setPartido($partido);
+        $novedadType = new novedadType();
+        
+        $novedadType->addEquipo($partido->getLocal());
+        $novedadType->addEquipo($partido->getVisitante());
+
+        $form   = $this->createForm($novedadType, $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('novedad_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('novedad_new', array('idPartido' => $entity->getPartido()->getId())));
             
         }
+        
+
 
         return array(
             'entity' => $entity,
@@ -191,25 +227,19 @@ class novedadController extends Controller
     /**
      * Deletes a novedad entity.
      *
-     * @Route("/{id}/{id_partido}/delete", name="novedad_delete")
+     * @Route("/delete", name="novedad_delete")
      * @ Method("post")
      */
-    public function deleteAction($id, $id_partido)
+    public function deleteAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $request = $this->getRequest();
+        $id = $request->request->get('idNovedad');
         $entity = $em->getRepository('Area4CampeonatoBundle:novedad')->find($id);
         if (!$entity) throw $this->createNotFoundException('Unable to find novedad entity.');
         $em->remove($entity);
         $em->flush();
-        return $this->redirect($this->generateUrl('partido_edit', array('id' => $id_partido)));
-    }
-
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
+        return new Response();
     }
 
 }

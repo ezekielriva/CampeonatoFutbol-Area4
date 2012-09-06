@@ -1,26 +1,12 @@
-{% extends '::base_backend.html.twig' %}
-{% block body %}
-{% form_theme form '::form_register.html.twig' %}
-
 <h1>Creación de equipos</h1>
 
-<form action="{{ path('equipo_create') }}" method="post" {{ form_enctype(form) }}>
+<form method="post" {{ form_enctype(form) }} id="form">
     {{ form_widget(form) }}
     <p>
-        <button type="submit">Create</button>
+    	<a href="javascript:submitForm('#perfil-content','#form','{{ path('equipo_create') }}')" class="button">Crear</a>
     </p>
 </form>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('equipo') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
-{% endblock %}
-{% block javascripts %}
 <script type="text/javascript">
-setMaxChecked(3)
+setMaxChecked(3);
+cargarBotonesDialog('#perfil-content');
 </script>
-{% endblock %}

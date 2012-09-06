@@ -1,10 +1,17 @@
-{% form_theme form '::form_register.html.twig' %}
 <h1 class="titulo_seccion">Enviar invitaciones</h1>
-
-{% form_theme form '::form_register.html.twig' %}
-<form action="{{ path('invitaciones_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="" method="post" {{ form_enctype(form) }} id="formContent">
+	<label>Enviar invitaciones a:</label><br>
+	{% if is_granted('ROLE_ORG') %}
+		<label for="capi">Invitar Capitanes<span title="Este campo es requerido" class="required">*</span></label>
+		<input type="radio" name="rol" value="ROLE_CAP" id="capi">
+	{% endif %}
+		<label for="jug">Invitar Jugadores<span title="Este campo es requerido" class="required">*</span></label>
+		<input type="radio" checked="true" name="rol" id="jug" value="ROLE_JUG"><br>
     {{ form_widget(form) }}
     <p>
-        <button type="submit">Create</button>
+    	<a href="javascript:submitForm('#perfil-content','#formContent','{{ path('invitaciones_create') }}');" class="button">Invitar</a>
     </p>
 </form>
+<script type="text/javascript">
+	cargarBotonesDialog('#perfil-content');
+</script>

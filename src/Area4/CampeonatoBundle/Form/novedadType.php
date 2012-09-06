@@ -4,28 +4,49 @@ namespace Area4\CampeonatoBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Area4\CampeonatoBundle\Entity\JugadorRepository;
+use Doctrine\ORM\EntityRepository;
+use Area4\CampeonatoBundle\Entity\novedad;
 
 class novedadType extends AbstractType {
+    /**
+     * Equipos que juegan en el partido
+     *
+     * @var array
+     **/
+    private $equipos;
 
-    public function buildForm(FormBuilder $builder, array $options) {
-        $tpnov = array(
-            'Gol-Local', 'Gol-Visitante', 'Tarjeta Verde', 'Tarjeta Amarilla',
-            'Tarjeta Roja', 'Penal', 'Suspención de Partido', 'Lesión'
-        );
+    /**
+     * Agrega un equipo al array de equipos
+     *
+     * @return void
+     * @author ezekiel
+     **/
+    public function addEquipo($equipo)
+    {
+        $this->equipos[] = $equipo;
+    }
+
+    public function buildForm(FormBuilder $builder, array $options) {  
+        
         $builder
                 ->add('minuto', 'text')
                 ->add('tipo_novedad','choice',array(
-                'choices' => $tpnov,
+                    'choices' => novedad::$TipoNovedadArray,
+                ))
+                ->add('Jugador','entity',array(
+                    'class' => 'Area4CampeonatoBundle:Jugador',
+                    'query_builder' => function (EntityRepository $er){
+                        $query = $er->createQueryBuilder('j');
+                        foreach ($this->equipos as $equipo) {
+                            $query->orWhere('j.equipo = '.$equipo->getId());
+                        }
+                        return $query;
+                    },
                 ))
                 ->add('obs', 'textarea', array(
-                    'required' => false
-                ))
-                ->add('Partido')
-                ->add('Jugador','entity_id',array(
-                    //'class' => 'Area4CampeonatoBundle:Jugador',
-                    'class' => 'Area4\CampeonatoBundle\Entity\Jugador',
-                    'property' => 'dni',
-                    'hidden' => false,
+                    'required' => false,
+                    'label' => 'Observaciones'
                 ))
         ;
     }

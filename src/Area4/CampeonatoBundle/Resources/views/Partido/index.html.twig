@@ -8,8 +8,10 @@
             <th>Fecha</th>
             <th>Dia - Hora</th>
             <th>Local</th>
+            <th>Resultado Local</th>
             <th>Visitante</th>
-            <th>Actions</th>
+            <th>Resultado Visitante</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -18,16 +20,12 @@
             <td>{% if entity.fecha %}{{ entity.fecha }}{% else %}NO DEF.{% endif%}</td>
             <td>{% if entity.diahora %}{{ entity.diahora|date('Y-m-d H:i:s') }}{% else %}NO DEF.{% endif%}</td>
             <td>{{ entity.local }}</td>
+            <td>{{ entity.resultadol }}</td>
             <td>{{ entity.visitante }}</td>
+            <td>{{ entity.resultadov }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('partido_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('partido_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                <a href="{{path('partido_planilla', {'id':entity.id})}}" target="_blank"><img src="{{asset('img/icons/newspaper.png')}}" alt="Planilla de Partido" title="Planilla de Partido"></a>
+                <a href="javascript:editPartido('{{ path('partido_edit', { 'id': entity.id }) }}', {{campeonato}})"><img src="{{asset('img/icons/newspaper-edit.png')}}" alt="Editar Partido" title="Editar Partido"></a>
             </td>
         </tr>
     {% endfor %}
@@ -59,5 +57,21 @@ function partidoNew (campeonato) {
     $('#dialog').dialog('open');
 }
 
+function editPartido (url,campeonato) {
+    var request = $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: 'campeonato='+campeonato,
+                });
+    
+    request.done(
+        function( html ) {
+            $("#perfil-content").html(html);
+        });
+    request.fail(
+        function( html ) {
+            $("#perfil-content").html(html);
+        });
+}
 cargarBotones();
 </script>

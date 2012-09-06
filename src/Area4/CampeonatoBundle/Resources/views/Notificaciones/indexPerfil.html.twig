@@ -1,6 +1,6 @@
 {% for notificacion in notificaciones %}
 	{% set url = path('notificacion_mensaje_confirmacion',{'id':notificacion.id}) %}
-	<a class="notificacion-perfil" href="javascript:loadNotificacion('{{url}}',{{notificacion.id}})">{{ notificacion.tipo.descripcion }}</a>
+	<a class="notificacion-perfil" href="javascript:loadNotificacion('{{url}}',{{notificacion.id}})">{{ notificacion.tipo }}</a>
 
 {% else %}
 	<p class="notificacion-perfil">No hay notificaciones</p>

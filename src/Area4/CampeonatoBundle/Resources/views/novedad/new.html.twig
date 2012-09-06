@@ -1,16 +1,34 @@
-<h1>novedad creation</h1>
+<h1 class="titulo_seccion">Crear una novedad</h1>
 
-<form action="{{ path('novedad_create') }}" method="post" {{ form_enctype(form) }}>
+<form method="post" {{ form_enctype(form) }} id="formNovedades">
     {{ form_widget(form) }}
+    <input type="hidden" name="idPartido" value="{{novedad.partido.id}}">
     <p>
-        <button type="submit">Create</button>
+    	<a href="javascript:enviarForm()" class="button">Crear</a>
     </p>
 </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('novedad') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+<script type="text/javascript">
+function enviarForm () {
+	submitForm('#novedadesNew','#formNovedades','{{ path('novedad_create') }}');
+	listNovedades();
+	cargarBotonesDialog('#novedadesNew');
+}
+
+function goles () {
+	var choice = $('select[name*="tipo_novedad"]').val();
+	const GOL_LOCAL = 0;
+	const GOL_VISITANTE = 1;
+	
+	var resultado;
+	if (choice == GOL_LOCAL) {
+		resultado = parseInt($('input[name*="resultadol"]').val()) + 1;
+		$('input[name*="resultadol"]').val(resultado.toString());
+	}
+	if (choice == GOL_VISITANTE){
+		resultado = parseInt($('input[name*="resultadov"]').val()) + 1;
+		$('input[name*="resultadov"]').val(resultado.toString());
+	}
+	
+}
+</script>

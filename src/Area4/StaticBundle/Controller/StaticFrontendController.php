@@ -14,6 +14,7 @@ class StaticFrontendController extends Controller
      */
     public function homeAction()
     {
-        return array();
+    	$user = $this->container->get('security.context')->getToken()->getUser();
+        return array('user'=>$user);
     }
 }
