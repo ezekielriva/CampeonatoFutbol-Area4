@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Equipo
 {
+    public static $MAX_CANT_COLORS = 3;
     /**
      * @var integer $id
      *
@@ -92,7 +93,7 @@ class Equipo
      */
     public function setNombre($nombre)
     {
-        $this->nombre = $nombre;
+        $this->nombre = strtoupper($nombre);
     }
 
     /**
@@ -109,10 +110,14 @@ class Equipo
      * Add campeonato
      *
      * @param Area4\CampeonatoBundle\Entity\Campeonato $campeonato
+     * @return false : si el equipo ya juega en el campeonato
      */
     public function addCampeonato(\Area4\CampeonatoBundle\Entity\Campeonato $campeonato)
     {
-        $this->campeonato[] = $campeonato;
+        if ( !in_array( $campeonato, $this->campeonato->toArray(), true ) )
+            $this->campeonato[] = $campeonato;
+        else
+            return false;
     }
 
     /**
@@ -129,10 +134,14 @@ class Equipo
      * Add colores
      *
      * @param Area4\CampeonatoBundle\Entity\Colores $colores
+     * @return false : si no puede agregar mas colores
      */
     public function addColores(\Area4\CampeonatoBundle\Entity\Colores $colores)
     {
-        $this->colores[] = $colores;
+        if ( count($this->colores) < Equipo::$MAX_CANT_COLORS )
+            $this->colores[] = $colores;
+        else
+            return false;
     }
 
     /**

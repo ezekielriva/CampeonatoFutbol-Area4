@@ -6,11 +6,11 @@ use Symfony\Component\Validator\ValidatorFactory,
 	Area4\CampeonatoBundle\Entity\Jugador,
 	Area4\CampeonatoBundle\Form\JugadorType
 	;
+use Area4\UsuarioBundle\Entity\Usuario;
 
 /**
 *  Test de la Entidad Jugador
-* @TODO Test el Jugador con el GrupoFamiliar
-* @TODO 
+*
 * assertEquals($valor_esperado, $valor_obtenido, $mensaje)
 */
 class JugadorTest extends WebTestCase
@@ -35,26 +35,56 @@ class JugadorTest extends WebTestCase
 		$this->validator = ValidatorFactory::buildDefault()->getValidator();
 	}
 	/**
+	 * Valida jugador
+	 *
+	 * @author ezekiel
+	 **/
+	private function validar(Jugador $jugador)
+	{
+		$errores = $this->validator->validate($oferta);
+		$error = $errores[0];
+		return array($errores, $error);
+	}
+	/**
 	* Test que prueba el ingreso de DNI sin Puntos
 	*/
-	public function testDni()
+	public function testSetters()
 	{
 		$jugador = new Jugador();
 		$this->assertNull($jugador->getDni());
-		$jugador->setDni('31.369.357');
+		$this->assertNull($jugador->getFechadeNacimiento());
 
+		// DNI
+		$jugador->setDni('31.369.357');
 		$this->assertEquals('31369357', $jugador->getDni(), 'No se quitaron los "." del DNI.');
+
+		//FECHA
+		$jugador->setFechadeNacimiento(new \Datetime('today'));
+		$this->assertEquals(new \Datetime('today'), $jugador->getFechadeNacimiento(), 'No se cargo la fecha de Nacimiento.');
+
+		//UpperCase
+		$jugador->setNombre('aBc');
+		$jugador->setApellido('aBc');
+		$this->assertEquals('ABC', $jugador->getNombre(), 'No se puso el nombre en mayusculas.');
+		$this->assertEquals('ABC', $jugador->getApellido(), 'No se puso el apellido en mayusculas.');
+
+		//SLUG
+		//$this->assertEquals("31369357 - ABC, ABC",$jugador->generateSlug(), 'No se genero el slug correctamente');
+		
 	}
+
 	/**
-	*
-	*/
-	public function testFechaNacimiento()
+	 * I dont have a fucking idea, whats i doing
+	 *
+	 * @author ezekiel
+	 **/
+	public function testValidation()
 	{
 		$jugador = new Jugador();
-		$this->assertNull($jugador->getFechadeNacimiento());
-		$jugador->setFechadeNacimiento(new \Datetime('today'));
+		
+		$errores = $this->validator->validate($jugador);
 
-		$this->assertEquals(new \Datetime('today'), $jugador->getFechadeNacimiento(), 'No se cargo la fecha de Nacimiento.');
+		$this->assertGreaterThan(0, count($errores), 'No idea');
 	}
 	/**
 	* Test de Creacion de Jugador

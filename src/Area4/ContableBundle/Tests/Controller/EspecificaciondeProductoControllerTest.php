@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EspecificaciondeProductoControllerTest extends WebTestCase
 {
+    public function testBasico()
+    {
+        $this->assertEquals(1, 1, "TestBasico: Probar que 1 es igual a 1");
+    }
     /*
     public function testCompleteScenario()
     {
