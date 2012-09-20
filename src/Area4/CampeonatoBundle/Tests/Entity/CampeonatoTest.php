@@ -5,7 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Validator\ValidatorFactory;
 
 use Area4\CampeonatoBundle\Entity\Campeonato,
-	Area4\CampeonatoBundle\Entity\Jugador,
 	Area4\CampeonatoBundle\Entity\Equipo
 ;
 use Area4\UsuarioBundle\Entity\Usuario;

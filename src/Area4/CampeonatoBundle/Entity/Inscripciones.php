@@ -99,7 +99,10 @@ class Inscripciones
      */
     public function setFechaFinalizacion($fechaFinalizacion)
     {
-        $this->fecha_finalizacion = $fechaFinalizacion;
+        if ( $fechaFinalizacion >= $this->fecha_inicio )
+            $this->fecha_finalizacion = $fechaFinalizacion;
+        else
+            return false;
     }
 
     /**
