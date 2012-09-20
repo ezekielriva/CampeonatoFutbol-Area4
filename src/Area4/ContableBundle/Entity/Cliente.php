@@ -94,7 +94,7 @@ class Cliente
      **/
     public function setDomicilio($domicilio)
     {
-        $this->domicilio = $domicilio;
+        $this->domicilio = strtoupper($domicilio);
     }
 
     /**

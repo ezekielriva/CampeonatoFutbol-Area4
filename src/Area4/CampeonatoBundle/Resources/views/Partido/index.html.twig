@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-    {% for entity in entities %}
+    {% for entity in pagination %}
         <tr>
             <td>{% if entity.fecha %}{{ entity.fecha }}{% else %}NO DEF.{% endif%}</td>
             <td>{% if entity.diahora %}{{ entity.diahora|date('Y-m-d H:i:s') }}{% else %}NO DEF.{% endif%}</td>
@@ -31,6 +31,12 @@
     {% endfor %}
     </tbody>
 </table>
+
+{# display navigation #}
+
+<div class="navigation">
+    {{ pagination.render()|raw }}
+</div>
 
 <script type="text/javascript">
 
@@ -48,10 +54,9 @@ function partidoNew (campeonato) {
         function( html ) {
             $("#dialog").html(html);
         });
-    request.fail(
-        function( html ) {
-            $("#dialog").html(html);
-        });
+    $('#dialog').ajaxError(function(event, xhr, request, settings){
+        $(this).html(xhr.responseText );
+    });
 
     $('#dialog').dialog(dialog);
     $('#dialog').dialog('open');
@@ -72,6 +77,19 @@ function editPartido (url,campeonato) {
         function( html ) {
             $("#perfil-content").html(html);
         });
+}
+
+/** Usado en el knp bundle para cargar las paginas **/
+function index (route) {
+    var request = $.ajax({
+        type: 'POST',
+        url: route,
+        data: 'campeonato={{campeonato}}'
+    });
+
+    request.done(function (data) {
+        $('#perfil-content').html(data);
+    })
 }
 cargarBotones();
 </script>

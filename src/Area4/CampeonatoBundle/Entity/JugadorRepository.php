@@ -112,4 +112,31 @@ class JugadorRepository extends EntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    /**
+     * Busca todos los jugadores que pertenecen a los equipos de los
+     * campeonatos creados por el organizador
+     * Razon: para que los organizadores satélites solo vean a su grupo de jugadores
+     * registrados.
+     *
+     * @return Jugadores
+     * @author ezekiel
+     **/
+    public function buscarPorOrganizador($idOrganizador)
+    {
+        /**
+            SELECT *
+            FROM `Jugador` j
+            JOIN `campeonato_has_equipo` ce ON ce.Equipo_id = j.Equipo_id
+            JOIN `Campeonato` c ON c.id = ce.Campeonato_id
+            WHERE c.usuario_id =1
+            LIMIT 0 , 30
+        **/
+        $query = $this->createQueryBuilder('j')
+                        ->join('j.equipo','e')
+                        ->join('e.campeonato','c')
+                        ->where('c.usuario='.$idOrganizador)
+                        ;
+        return $query->getQuery()->getResult();
+    }
 }

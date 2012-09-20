@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Partido
 {
+    static public $FINALIZADO = 1;
+    static public $POR_JUGARSE = 0;
     /**
      * @var integer $id
      *
@@ -90,10 +92,20 @@ class Partido
      * @ORM\Column(name="resultadov", type="integer")
      */
     private $resultadov;
+    /**
+     * Estado del partido
+     * @ORM\Column(name="estado", type="integer", length="1")
+     *
+     * @var string
+     **/
+    private $estado;
 
     public function __construct()
     {
-        $this->equipo_has_partido = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->diaHora = new \DateTime('now');
+        $this->resultadol = 0;
+        $this->resultadov = 0;
+        $this->estado = Partio::$POR_JUGARSE;
     }
     
 
@@ -225,5 +237,108 @@ class Partido
     public function getCampeonato()
     {
         return $this->campeonato;
+    }
+
+    /**
+     * Set resultadol
+     *
+     * @param integer $resultadol
+     */
+    public function setResultadol($resultadol)
+    {
+        $this->resultadol = $resultadol;
+    }
+
+    /**
+     * Get resultadol
+     *
+     * @return integer 
+     */
+    public function getResultadol()
+    {
+        return $this->resultadol;
+    }
+
+    /**
+     * Set resultadov
+     *
+     * @param integer $resultadov
+     */
+    public function setResultadov($resultadov)
+    {
+        $this->resultadov = $resultadov;
+    }
+
+    /**
+     * Get resultadov
+     *
+     * @return integer 
+     */
+    public function getResultadov()
+    {
+        return $this->resultadov;
+    }
+
+    /**
+     * Set local
+     *
+     * @param Area4\CampeonatoBundle\Entity\Equipo $local
+     */
+    public function setLocal(\Area4\CampeonatoBundle\Entity\Equipo $local)
+    {
+        $this->local = $local;
+    }
+
+    /**
+     * Get local
+     *
+     * @return Area4\CampeonatoBundle\Entity\Equipo 
+     */
+    public function getLocal()
+    {
+        return $this->local;
+    }
+
+    /**
+     * Set visitante
+     *
+     * @param Area4\CampeonatoBundle\Entity\Equipo $visitante
+     */
+    public function setVisitante(\Area4\CampeonatoBundle\Entity\Equipo $visitante)
+    {
+        $this->visitante = $visitante;
+    }
+
+    /**
+     * Get visitante
+     *
+     * @return Area4\CampeonatoBundle\Entity\Equipo 
+     */
+    public function getVisitante()
+    {
+        return $this->visitante;
+    }
+
+    /**
+     * String del partido
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function __toString()
+    {
+        return (string) sprintf('%s vs %s', $this->local, $this->visitante);
+    }
+
+    /**
+     * Retorna la citación al partido - 20 min antes
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function getCitacion()
+    {
+        $hora = strtotime(date_format($this->diahora,'H:i:s'));
+        return strtotime('-20 minute', $hora);
     }
 }

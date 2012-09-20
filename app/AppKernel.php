@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Area4\NoticiasBundle\Area4NoticiasBundle(),
             new Area4\ContableBundle\Area4ContableBundle(),
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

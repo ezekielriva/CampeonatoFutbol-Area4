@@ -1,0 +1,22 @@
+{% if not app.request.isXmlHttpRequest %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Un error a ocurrido: {{ status_text }}</title>
+    </head>
+    <body>
+        <h1>Oops! Un error a ocurrido</h1>
+        <h2>El servidor a retornado "{{ status_code }} {{ status_text }}".</h2>
+
+        <div>
+            Algo se a roto. Por favor contactese por email a [email] y cuentenos
+            como a ocurrido el error. Nosotros trataremos de arreglar el 
+            inconveniente lo mas rapido posible. Disculpenos por las molestias causadas.
+        </div>
+    </body>
+</html>
+{% else %}
+    {{ status_text }}
+{% endif %}
+

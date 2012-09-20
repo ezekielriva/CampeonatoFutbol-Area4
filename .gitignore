@@ -1,3 +1,7 @@
 app/cache/
 app/logs/
 app/tmp/
+bin/
+vendors/
+eze/
+javier/

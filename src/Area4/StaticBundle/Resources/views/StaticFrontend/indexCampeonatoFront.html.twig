@@ -1,0 +1,43 @@
+<div style="color: yellow;">
+    <a style="color: yellow;" href="javascript:listCampeonatos(true)">Todos</a> | <a style="color: yellow;" href="javascript:listCampeonatos(false)">En Juego</a>
+</div>
+
+<h1 class="titulo_seccion">Campeonatos</h1>
+<table class="general">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Organizador</th>
+            <th>Partidos</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.nombre }}</td>
+            <td>{{ entity.categoria }}</td>
+            <td>{{ entity.finalizoToString }}</td>
+            <td><a href="mailto:{{ entity.usuario.email }}">{{ entity.usuario }}</a></td>
+            <td>
+                <a class="button" href="javascript:showCampeonato({{entity.id}});">Ver</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+function showCampeonato (id) {
+    var request = $.ajax({
+        type: "get",
+        url: "{{ path('campeonato_mostrar') }}",
+        data: "campeonato="+id,
+    });
+
+    request.done(function (html) {
+        $('#content').html(html);
+    });
+}
+</script>

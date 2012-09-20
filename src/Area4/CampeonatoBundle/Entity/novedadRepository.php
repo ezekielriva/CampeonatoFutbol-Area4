@@ -3,7 +3,7 @@
 namespace Area4\CampeonatoBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-
+use Doctrine\ORM\Query;
 /**
  * novedadRepository
  *
@@ -12,4 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class novedadRepository extends EntityRepository
 {
+	
 }

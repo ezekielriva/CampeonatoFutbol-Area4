@@ -1,0 +1,44 @@
+<h1 class="titulo_seccion">Equipos inscriptos en el Sistema</h1>
+
+<table class="general">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in pagination %}
+        <tr>
+            <td><a href="javascript:equipoShow({{entity.id}})">{{ entity.nombre }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ pagination.render()|raw }}
+</div>
+
+<script type="text/javascript">
+function equipoShow (id) {
+    var request = $.ajax({
+        type: 'get',
+        url: "{{path('equipo_show_front')}}",
+        data: "id="+id,
+    });
+
+    request.done(function (data) {
+        $('#content').html(data);
+    });
+}
+function index (route) {
+    var request = $.ajax({
+        type: 'POST',
+        url: route,
+    });
+
+    request.done(function (data) {
+        $('#content').html(data);
+    })
+}
+</script>

@@ -18,6 +18,8 @@ use Area4\ContableBundle\Entity\Cliente;
 use Area4\UsuarioBundle\Form\UsuarioType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Jugador controller.
  *
@@ -30,18 +32,31 @@ class JugadorController extends Controller {
      * @Route("/{page}",requirements={ "page" = "\d+" },defaults={"page"=1}, name="jugador")
      * @Template()
      */
-    public function indexAction($page=1) {
+    public function indexAction($page) {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('Area4CampeonatoBundle:Jugador')->findAll();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $idOrganizador = $user->getId();
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+           $entities = $em->getRepository('Area4CampeonatoBundle:Jugador')->findAll();
+        } else {
+           $entities = $em->getRepository('Area4CampeonatoBundle:Jugador')->buscarPorOrganizador($idOrganizador);
+        }
 
         /* * * PAGINADOR ** 
         $adapter = new ArrayAdapter($entities);
         $pager = new Pager($adapter, array('page'=>$page, 'limit'=>50) );*/
 
-        return array(
-            'entities' => $entities, 
-            //'pager' => $pager,
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $entities, 
+                $page,
+                //$this->get('request')->query->get('page', 1)/*page number*/,
+                3/*limit per page*/
+            );
+
+        return array( 
+            'pagination' => $pagination,
             //'form' => $form->createView(),
             //'total'=>count($entities),
             );
@@ -109,6 +124,33 @@ class JugadorController extends Controller {
             'formJugador' => $formJugador->createView(),
             'formUsuario' => $formUsuario->createView(),
             'rol' => $invitacion->getTipo(),
+        );
+    }
+
+    /**
+     * Displays a form to create a new Jugador entity.
+     *
+     * @Route("/edit", name="jugador_edit")
+     * @Template()
+     */
+    public function editAction() {
+        $request = $this->getRequest();
+        $idJugador = $request->request->get('idJugador');
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($idJugador);
+        $cliente = $em->getRepository('Area4ContableBundle:Cliente')->findOneByReferencia($idJugador);
+
+        $formJugador = $this->createForm(new JugadorType(), $jugador);
+        $formUsuario = $this->container->get('fos_user.registration.form');
+        $formUsuario->setData($jugador->getUsuario());
+
+        return array(
+            'formJugador' => $formJugador->createView(),
+            'formUsuario' => $formUsuario->createView(),
+            'rol' => $jugador->getUsuario()->getLastRole(),
+            'domicilio' => $cliente->getDomicilio(),
         );
     }
 
@@ -183,18 +225,8 @@ class JugadorController extends Controller {
         if ( !$usuario->equals($userSession) ) {
             throw new AccessDeniedException();
         }
-
-
-        if ($jugador->getUsuario()->hasRole('ROLE_ORG'))
-            $template = 'organizadorPerfil';
-        else {
-            if ($jugador->getUsuario()->hasRole('ROLE_ORG'))
-                $template = 'capitanPerfil';
-            else
-                $template = 'perfil';
-        }
-        $template = $template.'.html.twig';
-        return $this->render('Area4CampeonatoBundle:Jugador:'.$template, array(
+        
+        return $this->render('Area4CampeonatoBundle:Jugador:perfil.html.twig', array(
             'jugador' => $jugador,
             ));
     }
@@ -202,37 +234,40 @@ class JugadorController extends Controller {
     /**
      * Edits an existing Jugador entity.
      *
-     * @Route("/{id}/update", name="jugador_update")
+     * @Route("/update", name="jugador_update")
      * @Method("post")
-     * @Template("Area4CampeonatoBundle:Jugador:edit.html.twig")
+     * @Template("Area4CampeonatoBundle:Jugador:editJugador.html.twig")
      */
-    public function updateAction($id) {
+    public function updateAction() {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entity = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('No se encontro el Jugador buscado.');
-        }
-
-        $editForm = $this->createForm(new JugadorType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
         $request = $this->getRequest();
+        
 
-        $editForm->bindRequest($request);
+        $jugadroNew = new Jugador();
+        $formJugador = $this->createForm(new JugadorType(), $jugadroNew);
+        $formJugador->bindRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->persist($entity);
+        $jugadorActual = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($jugadroNew->getDni());
+        $formJugador = $this->createForm(new JugadorType(), $jugadorActual);
+        $formJugador->bindRequest($request);
+
+        if (!$jugadorActual) {
+            throw $this->createNotFoundException('No se encontro el Jugador buscado.');
+        }      
+
+        if ($formJugador->isValid()) {
+            $cliente = $em->getRepository('Area4ContableBundle:Cliente')->findOneByReferencia($jugadorActual->getDni());
+            $cliente->setDomicilio($request->request->get('domicilio'));
+            $em->persist($jugadorActual);
+            $em->persist($cliente);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('jugador_edit', array('id' => $id)));
+            return new Response('Se guardaron las modificaciones',200);
         }
 
         return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $jugadroNew,
+            'formJugador' => $formJugador->createView(),
+            'domicilio' => $request->request->get('domicilio'),
         );
     }
 
@@ -260,21 +295,6 @@ class JugadorController extends Controller {
                 ->add('id', 'hidden')
                 ->getForm()
         ;
-    }
-
-    /**
-     *
-     * @param date $fecha
-     * @return \Area4\CampeonatoBundle\Entity\Categoria
-     */
-    public function calcularCategoria($fecha) {
-        $fecha = \date_format($fecha, 'Y');
-        $em = $this->getDoctrine()->getEntityManager();
-        $cat = $em->getRepository('Area4CampeonatoBundle:Categoria')->catApropiada($fecha);
-        /* @var $cat  \Area4\CampeonatoBundle\Entity\Categoria */
-        if (!$cat)
-            throw $this->createNotFoundException('Unable to find Categoria entity.' . $fecha);
-        return $cat[0];
     }
 
     /**
@@ -313,63 +333,19 @@ class JugadorController extends Controller {
     }
 
     /**
-     * @Route("/limpiarDni/", name="limpiarDni")
+     * Carga el lateral del perfil
+     * @Route("/jugador_perfil_sidebar", name="jugador_perfil_sidebar")
      * @Template()
-     */
-    public function limpiarDniAction() {
+     * @return Response
+     * @author ezekiel
+     **/
+    public function sidebarPerfilAction()
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getEntityManager();
-        $jug = new \Doctrine\Common\Collections\ArrayCollection();
-        $jug = $em->getRepository('Area4CampeonatoBundle:Jugador')->findAll();
-        $count = 0;
-        foreach ($jug as $val) {
-            if(strpos($val->getDni(), ".")){
-                $val->setDni(
-                    str_replace('.', '', $val->getDni()) 
-                );    
-                ++$count;
-                echo $val;
-                echo '<br/>';
-                //
-                    $em->persist($val);
-            }
-            
-        }
-        echo $count."";
-        $em->flush();
+        $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
 
-        return array();
+        return array('jugador' => $jugador);
     }
-
-    /**
-     * @Route("/limpiarDni2/", name="limpiarDni2")
-     * @Template()
-     */
-    public function limpiarDni2Action() {
-        $em = $this->getDoctrine()->getEntityManager();
-        $jug = new \Doctrine\Common\Collections\ArrayCollection();
-        $jug = $em->getRepository('Area4CampeonatoBundle:Jugador')->findAll();
-        $count = 0;
-        foreach ($jug as $val) {
-            if(strpos($val->getDni(), " ")){
-                $val->setDni(
-                    str_replace(" ", "", $val->getDni()) 
-                );    
-                ++$count;
-                
-                $j = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByDni($val->getDni());
-                if(is_null($j)){
-                    echo "NO ENCONTRADO: ".$val;
-                    echo '<br/>';
-                    $em->persist($val);
-                }
-            }
-            
-        }
-        echo $count."";
-        $em->flush();
-
-        return array();
-    }
-
 
 }

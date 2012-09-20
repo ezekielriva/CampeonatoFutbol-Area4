@@ -1,0 +1,24 @@
+<h2 class="titulo_seccion">{{ jugador.apellido }}</h2>
+<h2 class="titulo_seccion">{{ jugador.nombre }}</h2>
+
+<hr class="barras_yellow">
+
+<span class="perfil-info">Rol:</span>
+{{ jugador.Usuario.getRoletoString }}
+<span class="perfil-info">Email:</span>
+{{ jugador.Usuario.email }}
+<span class="perfil-info">Fecha de nacimiento:</span>
+{{ jugador.FechadeNacimiento | date('d / m / Y') }}
+
+<span class="perfil-info">Equipo:</span>
+{% if jugador.Equipo %}
+<a href="javascript:equipoShow()">{{ jugador.Equipo }}</a> 
+{% else %}
+	{% if jugador.isCapitan %}
+		<a href="javascript:equipoShow()">Crear Equipo</a>
+	{% else %}
+		<span class="warring-msg">Usted no pertenece a ningun Equipo. Espere a ser invitador por alguno.</span>
+	{% endif %}
+{% endif %}
+
+{% if jugador.isCapitan %}[CAPITAN]{% endif %}

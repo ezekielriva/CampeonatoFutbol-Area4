@@ -1,0 +1,11 @@
+{% form_theme form theme %}
+
+<form {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+	<fieldset>
+        <legend>Datos del Usuario</legend>
+        {{ form_widget(form) }}
+        <p>
+    		<a href="javascript:submitForm('#dataUsuario','#formUsuario','{{ path('fos_user_profile_edit') }}')" class="button">Actualizar usuario</a>
+    	</p>
+    </fieldset>
+</form>

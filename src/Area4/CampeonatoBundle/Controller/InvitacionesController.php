@@ -124,7 +124,7 @@ class InvitacionesController extends Controller
     {
       $request = $request = $this->getRequest();
       $host = $request->headers->get('host');
-      $template = $tipo.'.txt.twig';
+      $template = $tipo.'.html.twig';
       foreach ($invitaciones as $invitacion) {
       $message = \Swift_Message::newInstance()
                                 ->setSubject('Not Reply: I y C')

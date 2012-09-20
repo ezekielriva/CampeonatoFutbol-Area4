@@ -16,6 +16,7 @@ use Area4\CampeonatoBundle\Form\SelectArbitroType;
  * Arbitro controller.
  *
  * @Route("/arbitro")
+ * 
  */
 class ArbitroController extends Controller
 {

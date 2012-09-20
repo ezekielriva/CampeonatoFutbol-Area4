@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * Area4\CampeonatoBundle\Entity\Campeonato
  *
  * @ORM\Table(name="Campeonato")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Area4\CampeonatoBundle\Entity\CampeonatoRepository")
  */
 class Campeonato
 {
+    static public $EN_JUEGO = 0;
+    static public $FINALIZADO = 1;
     /**
      * @var integer $id
      *
@@ -66,7 +68,7 @@ class Campeonato
 
     public function __construct()
     {
-        $this->finalizo = 0;
+        $this->finalizo = Campeonato::$EN_JUEGO;
         $this->provincia = 'TUCUMAN';
         $this->equipo = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -159,7 +161,7 @@ class Campeonato
      */
     public function getFinalizo()
     {
-        if ($this->finalizo === 0){
+        if ($this->finalizo === Campeonato::$EN_JUEGO){
             return false;
         }
         else {
@@ -214,5 +216,19 @@ class Campeonato
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Obtiene el string de finalizo
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function finalizoToString()
+    {
+        if ($this->finalizo === Campeonato::$EN_JUEGO)
+            return "JUGANDOSE";
+        else
+            return "FINALIZADO";
     }
 }

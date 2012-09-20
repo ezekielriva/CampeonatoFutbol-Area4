@@ -11,7 +11,7 @@ use Area4\CampeonatoBundle\Entity\Partido;
 use Area4\CampeonatoBundle\Entity\Equipo_has_Partido;
 use Area4\CampeonatoBundle\Form\CampeonatoType;
 use Symfony\Component\HttpFoundation\Response;
-
+use JMS\SecurityExtraBundle\Annotation\Secure;
 /**
  * Campeonato controller.
  *
@@ -278,6 +278,8 @@ class CampeonatoController extends Controller
         }
         $em->flush();
         
-        return new Response();
+        return new Response('<h2>Se crearon correctamente los partidos</h2>',200);
     }
+
+    
 }

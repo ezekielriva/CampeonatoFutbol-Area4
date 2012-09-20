@@ -1,0 +1,80 @@
+<link rel="stylesheet" type="text/css" href="{{asset('css/iyc.css')}}">
+<div id="mini-ficha">
+
+<table id="mini-ficha">
+    <tr>
+        <th>{{partido.local}} {{partido.resultadol}}</th>
+        <th>{{partido.resultadov}} {{partido.visitante}}</th>
+    </tr>
+    <tr>
+        <td>
+            GOLES<br>
+            {% if goles['Local'] is defined %}
+            {% for gol in goles['Local'] %}
+                <img src="{{asset('img/icons/soccer_icon.gif')}}">{{ gol.jugador.friendlyName }}
+            {% endfor %}
+            {% else %}
+                No hubo goles para este equipo
+            {% endif %}
+        </td>
+        <td>
+            GOLES<br>
+            {% if goles['Visitante'] is defined %}
+            {% for gol in goles['Visitante'] %}
+                <img src="{{asset('img/icons/soccer_icon.gif')}}">{{ gol.jugador.friendlyName }}
+            {% endfor %}
+            {% else %}
+                No hubo goles para este equipo
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Tarjetas amarillas <img src="{{asset('img/icons/yellow-card.gif')}}"><br>
+            {% if amarillas['Local'] is defined %}
+            {% for amarilla in amarillas['Local'] %}
+                <img src="{{asset('img/icons/yellow-card.gif')}}">{{amarilla.jugador.friendlyName}}
+            {% endfor %}
+            {% else %}
+                No hubo tarjetas amarillas para este equipo
+            {% endif %}
+        </td>
+        <td>
+            Tarjetas amarillas <img src="{{asset('img/icons/yellow-card.gif')}}"><br>
+            {% if amarillas['Local'] is defined %}
+            {% for amarilla in amarillas['Visitante'] %}
+                <img src="{{asset('img/icons/yellow-card.gif')}}">{{amarilla.jugador.friendlyName}}
+            {% endfor %}
+            {% else %}
+                No hubo tarjetas amarillas para este equipo
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Tarjetas rojas <img src="{{asset('img/icons/red-card.png')}}"><br>
+            {% if rojas['Local'] is defined %}
+            {% for roja in rojas['Local'] %}
+                <img src="{{asset('img/icons/red-card.png')}}">{{roja.jugador.friendlyName}}
+            {% endfor %}
+            {% else %}
+                No hubo tarjetas rojas para este equipo
+            {% endif %}
+        </td>
+        <td>
+            Tarjetas rojas <img src="{{asset('img/icons/red-card.png')}}"><br>
+            {% if rojas['Local'] is defined %}
+            {% for roja in rojas['Local'] %}
+                <img src="{{asset('img/icons/red-card.png')}}">{{roja.jugador.friendlyName}}
+            {% endfor %}
+            {% else %}
+                No hubo tarjetas rojas para este equipo
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+
+
+
+</div>

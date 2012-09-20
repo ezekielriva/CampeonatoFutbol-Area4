@@ -1,0 +1,30 @@
+<table class="general center">
+	<tr>
+		<th>Pos.</th>
+		<th>Equipo</th>
+		<th>PJ</th>
+		<th>PG</th>
+		<th>PE</th>
+		<th>PP</th>
+		<th>GF</th>
+		<th>GC</th>
+		<th>DIF</th>
+		<th>Pts.</th>
+	</tr>
+	{% set pos = 1 %}
+	{% for equipo, data in tabla %}
+	<tr>
+		<td>{{pos}}</td>
+		<td class="left">{{equipo}}</td>
+		<td>{{data.PJ}}</td>
+		<td>{{data.PG}}</td>
+		<td>{{data.PE}}</td>
+		<td>{{data.PP}}</td>
+		<td>{{data.GF}}</td>
+		<td>{{data.GC}}</td>
+		<td>{{data.DIF}}</td>
+		<td>{{data.Pts}}</td>
+	</tr>
+	{% set pos = pos + 1 %}
+	{% endfor %}
+</table>

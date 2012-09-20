@@ -3,7 +3,7 @@
 namespace Area4\CampeonatoBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-
+use Doctrine\ORM\Query;
 /**
  * partidoRepository
  *
@@ -34,4 +34,210 @@ class PartidoRepository extends EntityRepository
             ;
     }
 
+    /**
+     * Lista todos los partidos de un campeonato y los ordena
+     * por fecha
+     *
+     * @return Partido
+     * @author ezekiel
+     */
+    public function findByCampeonatoOrderByFechaAsc($idCampeonato)
+    {	
+    	return $this->createQueryBuilder('p')
+    			->join('p.campeonato','c')
+    			->where('c.id = '.$idCampeonato)
+                ->orderBy('p.fecha','ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+    }
+
+    /**
+     * Proximos partidos del equipo
+     *
+     * @return Partido
+     * @author ezekiel
+     **/
+    public function proximosCompromisos($idEquipo, $idCampeonato)
+    {
+        return $this->createQueryBuilder('p')
+                    ->join('p.local','l')
+                    ->join('p.visitante','v')
+                    ->where('l.id = '.$idEquipo)
+                    ->orWhere('v.id = '.$idEquipo)
+                    ->andWhere('p.estado = '.Partido::$POR_JUGARSE) //CAMBIAR ESTO LUEGO A POR_JUGARSE
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->orderBy('p.diahora','DESC')
+                    ->setMaxResults(10)
+                    ->getQuery()
+                    ->getResult()
+                ;
+    }
+
+    /**
+     * Devuelve los partidos jugados por el equipo
+     *
+     * @return Partido
+     * @author ezekiel  
+     **/
+    public function partidosJugados($idEquipo, $idCampeonato)
+    {
+        return $this->createQueryBuilder('p')
+                ->select('COUNT(p.id)')
+                ->join('p.local','l')
+                ->join('p.visitante','v')
+                ->where('l.id = '.$idEquipo)
+                ->orWhere('v.id = '.$idEquipo)
+                ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                ->andWhere('p.campeonato = '.$idCampeonato)
+                ->getQuery()
+                ->getSingleScalarResult()
+                ;
+    }
+
+    /**
+     * Devuelve los partidos ganados por el equipo
+     * SELECT COUNT(p.id) FROM Partido p WHERE (p.local = 1 OR p.visitante = 1) AND p.estado = 0 AND (p.resultadol > p.resultadov OR p.resultadov > p.resultadol)
+     * @return Partido
+     * @author ezekiel
+     **/
+    public function partidosGanados($idEquipo, $idCampeonato)
+    {
+        $victoriasLocales = (int) $this->createQueryBuilder('p')
+                    ->select('COUNT(p.id)')
+                    ->join('p.local','l')
+                    ->join('p.visitante','v')
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('l.id = '.$idEquipo)
+                    ->andWhere('p.resultadol > p.resultadov')
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->getQuery()
+                    ->getSingleScalarResult();
+
+        $victoriasVisitante = (int) $this->createQueryBuilder('p')
+                    ->select('COUNT(p.id)')
+                    ->join('p.local','l')
+                    ->join('p.visitante','v')
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('v.id = '.$idEquipo)
+                    ->andWhere('p.resultadov > p.resultadol')
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->getQuery()
+                    ->getSingleScalarResult();
+
+        return $victoriasLocales + $victoriasVisitante;
+    }
+
+    /**
+     * Devuelve los partidos perdidos por el equipo
+     *
+     * @return Partido
+     * @author ezekiel
+     **/
+    public function partidosPerdidos($idEquipo, $idCampeonato)
+    {
+        $derrotasLocal = (int) $this->createQueryBuilder('p')
+                    ->select('COUNT(p.id)')
+                    ->join('p.local','l')
+                    ->join('p.visitante','v')
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('l.id = '.$idEquipo)
+                    ->andWhere('p.resultadol < p.resultadov')
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->getQuery()
+                    ->getSingleScalarResult();
+
+        $derrotasVisitante = (int) $this->createQueryBuilder('p')
+                    ->select('COUNT(p.id)')
+                    ->join('p.local','l')
+                    ->join('p.visitante','v')
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('v.id = '.$idEquipo)
+                    ->andWhere('p.resultadov < p.resultadol')
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->getQuery()
+                    ->getSingleScalarResult();
+
+        return $derrotasLocal + $derrotasVisitante;
+    }
+
+    /**
+     * Devuelve los partidos perdidos por el equipo
+     *
+     * @return Partido
+     * @author ezekiel
+     **/
+    public function partidosEmpatados($idEquipo, $idCampeonato)
+    {
+        return (int) $this->createQueryBuilder('p')
+                    ->select('COUNT(p.id)')
+                    ->join('p.local','l')
+                    ->join('p.visitante','v')
+                    ->where('l.id = '.$idEquipo)
+                    ->orWhere('v.id = '.$idEquipo)
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('p.resultadol = p.resultadov')
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->getQuery()
+                    ->getSingleScalarResult();
+                ;
+    }
+
+    /**
+     * Cuenta los goles a favor que tiene el equipo
+     *
+     * @return int
+     * @author ezekiel
+     **/
+    public function golesFavor($idEquipo, $idCampeonato)
+    {
+        $golesFavorLocal = (int) $this->createQueryBuilder('p')
+                    ->select('SUM(p.resultadol)')
+                    ->join('p.local','l')
+                    ->where('l.id = '.$idEquipo)
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->groupBy('p.local')
+                    ->getQuery()
+                    ->getSingleScalarResult();
+        $golesFavorVisitante = (int) $this->createQueryBuilder('p')
+                    ->select('SUM(p.resultadov)')
+                    ->join('p.visitante','v')
+                    ->where('v.id = '.$idEquipo)
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->groupBy('p.visitante')
+                    ->getQuery()
+                    ->getSingleScalarResult();
+        return $golesFavorLocal + $golesFavorVisitante;
+    }
+
+    /**
+     * Cuenta los goles en contra que tiene el equipo
+     *
+     * @return int
+     * @author ezekiel
+     **/
+    public function golesContra($idEquipo, $idCampeonato)
+    {
+        $golesContraLocal = (int) $this->createQueryBuilder('p')
+                    ->select('SUM(p.resultadov)')
+                    ->join('p.local','l')
+                    ->where('l.id = '.$idEquipo)
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->groupBy('p.local')
+                    ->getQuery()
+                    ->getSingleScalarResult();
+        $golesContraVisitante = (int) $this->createQueryBuilder('p')
+                    ->select('SUM(p.resultadol)')
+                    ->join('p.visitante','v')
+                    ->where('v.id = '.$idEquipo)
+                    ->andWhere('p.estado = '.Partido::$FINALIZADO)
+                    ->andWhere('p.campeonato = '.$idCampeonato)
+                    ->groupBy('p.visitante')
+                    ->getQuery()
+                    ->getSingleScalarResult();
+        return $golesContraLocal + $golesContraVisitante;
+    }
 }

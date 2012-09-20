@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * Area4\CampeonatoBundle\Entity\Partido
  *
  * @ORM\Table(name="Partido")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Area4\CampeonatoBundle\Entity\PartidoRepository")
  */
 class Partido
 {
+    static public $FINALIZADO = 1;
+    static public $POR_JUGARSE = 0;
     /**
      * @var integer $id
      *
@@ -90,12 +92,20 @@ class Partido
      * @ORM\Column(name="resultadov", type="integer")
      */
     private $resultadov;
+    /**
+     * Estado del partido
+     * @ORM\Column(name="estado", type="integer", length="1")
+     *
+     * @var string
+     **/
+    private $estado;
 
     public function __construct()
     {
         $this->diaHora = new \DateTime('now');
         $this->resultadol = 0;
         $this->resultadov = 0;
+        $this->estado = Partio::$POR_JUGARSE;
     }
     
 
@@ -318,5 +328,51 @@ class Partido
     public function __toString()
     {
         return (string) sprintf('%s vs %s', $this->local, $this->visitante);
+    }
+
+    /**
+     * Retorna la citación al partido - 20 min antes
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function getCitacion()
+    {
+        $hora = strtotime(date_format($this->diahora,'H:i:s'));
+        return strtotime('-20 minute', $hora);
+    }
+
+    /**
+     * Set estado
+     *
+     * @param integer $estado
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return integer 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Get - string del estado
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function getEstadoToString()
+    {
+        if (Partido::$POR_JUGARSE === $this->estado) 
+            return "POR JUGARSE";
+        else 
+            return "FINALIZADO";
     }
 }

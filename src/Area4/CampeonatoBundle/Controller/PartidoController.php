@@ -37,12 +37,12 @@ class PartidoController extends Controller
     }
     /**
      * List por campeonato
-     * @Route("/partidoByCampeonato", name="partido_by_campeonato")
+     * @Route("/partidoByCampeonato/{page}",requirements={ "page" = "\d+" },defaults={"page"=1}, name="partido_by_campeonato")
      * @Template("Area4CampeonatoBundle:Partido:index.html.twig")
      * @return Partidos
      * @author ezekiel
      **/
-    public function listByCampeonatoAction()
+    public function listByCampeonatoAction($page)
     {
         $request = $this->get('request');
         $campeonato = $request->request->get('campeonato');
@@ -51,8 +51,15 @@ class PartidoController extends Controller
 
         $entities = $em->getRepository('Area4CampeonatoBundle:Partido')->findByCampeonato($campeonato);
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $entities, 
+                $page,
+                //$this->get('request')->query->get('page', 1)/*page number*/,
+                50/*limit per page*/
+            );
 
-        return array('entities' => $entities, 'campeonato' => $campeonato);
+        return array('pagination' => $pagination, 'campeonato' => $campeonato);
     }
 
     
@@ -86,9 +93,11 @@ class PartidoController extends Controller
             );
         }
 
-        echo "<h2>Debe de haber al menos 2 equipos en el Campeonato</h2>";
+        //echo "";
+        //throw new \Exception("Debe de haber al menos 2 equipos en el Campeonato", 1);
+        
         //throw $this->createNotFoundException('Debe de haber al menos 2 equipos en el Campeonato');
-        return new Response();
+        return new Response("<h2>Debe de haber al menos 2 equipos en el Campeonato</h2>",404);
     }
 
     /**

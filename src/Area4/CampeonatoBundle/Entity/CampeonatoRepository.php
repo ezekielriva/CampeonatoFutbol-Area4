@@ -36,4 +36,45 @@ class CampeonatoRepository extends EntityRepository
 	{
 		return array();
 	}
+
+	/**
+	 * Genera la tabla de posiciones de un campeonato
+	 *
+	 * @param $idCampeonato : campeonato en el que se realiza la tabla de posiciones
+	 * @return array
+	 * @author ezekiel
+	 **/
+	public function generarTablaPosiciones($idCampeonato)
+	{
+		$em = $this->getEntityManager();
+
+		$tabla = array();
+		$equipos = $em->getRepository('Area4CampeonatoBundle:Equipo')->findByCampeonato($idCampeonato);
+		
+		$repositoryPartido = $em->getRepository('Area4CampeonatoBundle:Partido');
+
+		foreach ($equipos as $equipo) {
+    		$nombre = $equipo->getNombre();
+    		$tabla[$nombre]['PJ'] = $repositoryPartido->partidosJugados($equipo->getId(), $idCampeonato);
+    		$tabla[$nombre]['PG'] = $repositoryPartido->partidosGanados($equipo->getId(), $idCampeonato);
+    		$tabla[$nombre]['PE'] = $repositoryPartido->partidosEmpatados($equipo->getId(), $idCampeonato);
+    		$tabla[$nombre]['PP'] = $repositoryPartido->partidosPerdidos($equipo->getId(), $idCampeonato);
+    		$tabla[$nombre]['GF'] = $repositoryPartido->golesFavor($equipo->getId(), $idCampeonato);
+    		$tabla[$nombre]['GC'] = $repositoryPartido->golesContra($equipo->getId(), $idCampeonato);
+    		$tabla[$nombre]['DIF'] = $tabla[$nombre]['GF'] - $tabla[$nombre]['GC'];
+    		$tabla[$nombre]['Pts'] = $tabla[$nombre]['PG'] * 3 + $tabla[$nombre]['PE'] * 2 + $tabla[$nombre]['PP'] * 1 ;
+    	}
+
+
+    	foreach ($tabla as $key => $row) {
+    		$PTS[$key] = $row['Pts'];
+    		$DIF[$key] = $row['DIF'];
+    	}
+
+    	array_multisort($PTS,SORT_DESC,$DIF,SORT_ASC,$tabla);
+
+
+		return $tabla;
+
+	}
 }

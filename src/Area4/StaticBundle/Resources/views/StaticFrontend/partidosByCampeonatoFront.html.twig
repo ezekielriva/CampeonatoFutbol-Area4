@@ -1,0 +1,81 @@
+<h1 class="titulo_seccion">{{title}}</h1>
+
+
+{% for key, fecha in fechas %}
+<table class="partidos">
+    <thead>
+        <tr class="{{categoria_class}}">
+            <th colspan="3">FECHA Nº {{key}}</th>
+            <th>Día</th>
+            <th>Citación</th>
+            <th>Horario</th>
+            <th>Estado</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    {% for partido in fecha %}
+        <tr>
+            <td class="equipos right">
+                <a href="javascript:proximosEncuentros({{partido.id}},{{partido.campeonato.id}})">
+                    {{ partido.local }}</a>
+            </td>
+            <td class="equipos">
+                <span class="resultado">{{ partido.resultadol }}</span>
+                    &nbsp;vs&nbsp;
+                <span class="resultado">{{ partido.resultadov }}</span>
+            </td>
+            <td class="equipos left">
+                 &nbsp; 
+                <a href="javascript:proximosEncuentros({{partido.id}},{{partido.campeonato.id}})">
+                    {{ partido.visitante }}
+                </a>
+            </td>
+            <td class="shadow">
+                {% if partido.diahora %}
+                    {{partido.diahora|date('d.m.Y')}}
+                {% else %}-{% endif%}
+            </td>
+            <td class="shadow">
+                {% if partido.diahora %}
+                    {{partido.getCitacion|date('H:i:s')}}
+                {% else %}-{% endif%}
+            </td>
+            <td class="shadow">
+                {% if partido.diahora %}
+                    {{ partido.diahora|date('H:i:s') }}
+                {% else %}-{% endif%}
+            </td>
+            <td class="shadow">
+                {{ partido.estadoToString }}
+            </td>
+            <td>
+                <a href="javascript:loadMiniPlanilla({{partido.id}})">
+                    <img src="{{asset('img/icons/newspaper.png')}}" alt="Planilla de Partido" title="Planilla de Partido">
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table><br>
+{% else %}
+<h2 class="title_error">NO HAY PARTIDOS REGISTRADOS</h2>
+{% endfor %}
+
+<script type="text/javascript">
+
+function loadMiniPlanilla (id) {
+    var dialog = new Dialog();
+    dialog.title = 'Ficha de partido';
+    $('#dialog').dialog(dialog);
+    var request = $.ajax({
+        type: "get",
+        url: "{{path('planilla_partidos_front')}}",
+        data: "id="+id,
+    });
+
+    request.done(function (html) {
+        $('#dialog').html(html);
+    });
+    abrirDialogo('#dialog');
+}
+
+</script>

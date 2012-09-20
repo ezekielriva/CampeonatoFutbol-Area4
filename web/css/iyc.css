@@ -1,3 +1,7 @@
+body {
+	font-family: Arial,Helvetica,sans-serif;
+}
+
 body#frontend {
 	background: #DDD url('../img/background_home.jpg') repeat-x;
 	font-family: Arial,Helvetica,sans-serif;
@@ -14,6 +18,9 @@ img#ajax_loader {
 	height: 19px;
 	width: 220px;
 	margin: 0px auto;
+}
+.warring-msg {
+	color: yellow;
 }
 /** Formularios **/
 form {
@@ -42,6 +49,9 @@ div.datetime select {
 	width: 100px;
 	text-align: center;
 }
+.yellow {
+	color: yellow;
+}
 /** Imagenes **/
 /* Logos */
 #logo-top {
@@ -64,6 +74,12 @@ h2.titulo_seccion {
 	font-weight: bold;
 	text-align: center;
 }
+h2.title_error {
+	color: red;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
 h3.titulo_seccion {
 	font-size: 14px;
 	font-weight: bold;
@@ -82,7 +98,7 @@ hr.barras_yellow {
 ***************************/
 table.general {
 	background-color: #EDEDED;
-	width: 60%;
+	width: 90%;
 	margin: 5px auto;
 }
 table.general caption {
@@ -146,41 +162,6 @@ form#login input.button {
 	width: 100px;
 }
 
-/** Menu top
----------------------------------------------- */
-nav#menu {
-	margin-top: 80px; 
-	margin-left: auto;
-	margin-right: auto;
-	width: 923px; 
-	height: 74px;
-	text-align: center;
-}
-nav#menu a, nav#menu a:hover { 
-	padding: 76px 76px 60px 76px;
-	background: transparent url('../img/sprite-menu.png') no-repeat
-}
-/* x y */
-#logoutBttn {background-position: 0px 0px !important;}
-#logoutBttn:hover {background-position: 0px -154px !important;}
-
-#partidosBttn {background-position: -153px 0px !important;}
-#partidosBttn:hover {background-position: -153px -154px !important;}
-
-#campeonatosBttn {background-position: -461px 0px !important;}
-#campeonatosBttn:hover {background-position: -461px -154px !important;}
-
-#equiposBttn {background-position: -307px 0px !important;}
-#equiposBttn:hover {background-position: -307px -154px !important;}
-
-#jugadoresBttn {background-position: -615px 0px !important;}
-#jugadoresBttn:hover {background-position: -615px -154px !important;}
-
-#estadisticasBttn {background-position: -769px 0px !important;}
-#estadisticasBttn:hover {background-position: -769px -154px !important;}
-/************************************************************************/
-
-
 /** HOME
 ---------------------------------------------- */
 div#body {
@@ -191,7 +172,7 @@ div#body {
 }
 
 nav#front {
-	width: 70%;
+	width: 75%;
 	height: 38px;
 	padding: 0;
 	margin: 0px auto;
@@ -226,6 +207,14 @@ nav#front li a {
 	background: linear-gradient(to bottom,  #535355 0%,#3c3c3e 48%,#545456 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#535355', endColorstr='#545456',GradientType=0 ); /* IE6-8 */
 
+}
+
+div#content {
+	width: 80%;
+	height: 800px;
+	overflow: auto;
+	display: block;
+	margin: 10px auto;
 }
 
 nav#front li a:hover {
@@ -303,6 +292,13 @@ a#logout {
 }
 a#logout:hover {
 	background-image: url('../img/logout_2.png');
+	border: 1px solid yellow;
+}
+a#jugadores {
+	background-image: url('../img/jugadores_1_s.png');
+}
+a#jugadores:hover {
+	background-image: url('../img/jugadores_2_s.png');
 	border: 1px solid yellow;
 }
 /*** Notificaciones
@@ -426,6 +422,158 @@ table.planilla tr td {
 	border: 1px solid black;
 }
 
+.left {
+	text-align: left;
+}
+.center {
+	text-align: center;
+}
+.right {
+	text-align: right;
+}
+
+
+/** PAGINADOR 
+------------------------------------ */
+div.navigation {
+    text-align:left;
+    float:none;
+    padding:10px;
+    padding-left:100px; 
+}
+
+div.navigation a.buttonPaginator {
+    background-color:transparent;
+    background-image: url( '../img/paginator/btn_right.png' );
+    background-repeat:no-repeat ;
+    background-position:top right;
+    color: #fff; 
+    display:block; /*opera*/ 
+    display:inline-block; /*ie*/ 
+    display:-moz-inline-box; /*ff*/    /*font: bold 12px arial, sans-serif;*/
+    font: normal 13px arial, sans-serif;
+    height: 32px;
+    margin-right: 0px;
+    padding-right: 10px;
+    text-decoration: none;
+} 
+
+div.navigation a.current {
+    background-color:transparent;
+    background-image: url( '../img/paginator/btn_hover_right.png' );
+    background-repeat:no-repeat ;
+    background-position:top right;
+    color: #000; 
+    display:block; /*opera*/ 
+    display:inline-block; /*ie*/ 
+    display:-moz-inline-box; /*ff*/    /*font: bold 12px arial, sans-serif;*/
+    font: normal 13px arial, sans-serif;
+    height: 32px;
+    margin-right: 0px;
+    padding-right: 10px;
+    text-decoration: none;
+} 
+
+div.navigation a.buttonPaginator span {
+    background-color:transparent;
+    background-image: url( '../img/paginator/btn.png' );
+    background-repeat:no-repeat ;
+    display: inline-block;
+    line-height: 21px;
+    padding: 3px 0 8px 10px;
+} 
+
+div.navigation a.current span {
+    background-color:transparent;
+    background-image: url( '../img/paginator/btn_hover.png' );
+    background-repeat:no-repeat ;
+    display: inline-block;
+    line-height: 21px;
+    padding: 3px 0 8px 10px;
+} 
+
+div.navigation a.buttonPaginator span img{
+    margin-left:-5px;
+    margin-top:-2px;
+    padding-right:5px;
+}
+div.navigation a.buttonPaginator:hover {
+    background-image: url( '../img/paginator/btn_hover_right.png' );
+    color: #fff;
+    outline: none;
+}
+
+div.navigation a.buttonPaginator:hover span {
+    background-image:url( '../img/paginator/btn_hover.png');
+} 
+
+div.navigation a.orange {
+    background-image: url( '../img/paginator/btn_right.png' ); 
+    display:block; /*opera*/ 
+    display:inline-block; /*ie*/ 
+    display:-moz-inline-box; /*ff*/}
+div.navigation a.orange span {
+    background-image: url( '../img/paginator/btn.png' );
+}
+
+div.navigation a.orange:hover {
+    background-image: url( '../img/paginator/btn_hover_right.png' );
+}
+div.navigation a.orange:hover span {
+    background-image: url( '../img/paginator/btn_hover.png' );
+}
+
+/** TABLE FRONT 
+--------------------------------- */
+
+table.partidos {
+	width: 100%;
+	text-align: center;
+	border: 1px solid #C6C8C7;
+	border-collapse: collapse;
+	background-color: white;
+}
+
+table.partidos th {
+	color: white;
+	font-weight: bold;
+	width: 10%;
+}
+
+table.partidos tr.A {
+	background-color: #0198C5;
+}
+table.partidos tr.B {
+	background-color: #17906F;
+}
+table.partidos tr.C {
+	background-color: #E10231;
+}
+
+table.partidos tr td.equipos {
+	width: 10%;
+}
+
+table.partidos span.resultado {
+	background-color: #BC9C00;
+	color: #3F2100;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	text-align: center;
+	font-weight: bold;
+}
+table.partidos .shadow {
+	background-color: #D6DCD8;
+}
+/* ------------------------------ */
+
+/** MINI FICHA PARTIDO 
+-------------------------------- */
+table#mini-ficha {
+	/*background-color: black;*/
+}
+/* ----------------------------- */
 @media print
 {
 #RazonSocial, #footer-factura {

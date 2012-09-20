@@ -43,14 +43,13 @@ class Usuario extends BaseUser
      **/
     public function getRoletoString()
     {
-        if ($this->hasRole('ROLE_ORG')) {
+        if ( $this->hasRole('ROLE_ADMIN') )
+            return "ADMINISTRADOR";
+        if ( $this->hasRole('ROLE_ORG') )
             return "ORGANIZADOR";
-        } else {
-            if ($this->hasRole('ROLE_CAP'))
-                return "CAPITAN";
-            else
-                return "JUGADOR";
-        }
+        if ( $this->hasRole('ROLE_CAP') )
+            return "CAPITAN";
+        return "JUGADOR";
     }
 
     /**
@@ -61,14 +60,13 @@ class Usuario extends BaseUser
      **/
     public function getLastRole()
     {
-        if ($this->hasRole('ROLE_ORG')) {
+        if ( $this->hasRole('ROLE_ADMIN') )
+            return "ROLE_ADMIN";
+        if ( $this->hasRole('ROLE_ORG') )
             return "ROLE_ORG";
-        } else {
-            if ($this->hasRole('ROLE_CAP'))
-                return "ROLE_CAP";
-            else
-                return "ROLE_JUG";
-        }
+        if ( $this->hasRole('ROLE_CAP') )
+            return "ROLE_CAP";
+        return "ROLE_JUG";
     }
 
     /**
@@ -81,11 +79,12 @@ class Usuario extends BaseUser
      **/
     public function getOneLessRole()
     {  
-        if ($this->hasRole('ROLE_ORG')) {
+        if ( $this->hasRole('ROLE_ADMIN') )
+            return "ROLE_ORG";
+        if ( $this->hasRole('ROLE_ORG') )
             return "ROLE_CAP";
-        } else {
-            if ($this->hasRole('ROLE_CAP'))
-                return "ROLE_JUG";
-        }
+        if ( $this->hasRole('ROLE_CAP') )
+            return "ROLE_JUG";
+        return "ROLE_JUG";
     }
 }

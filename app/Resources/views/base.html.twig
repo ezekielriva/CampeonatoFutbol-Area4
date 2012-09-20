@@ -3,12 +3,51 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Ideas y Competencias{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="{{asset('css/iyc.css')}}">
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{asset('css/iyc.css')}}">
+            <link rel="stylesheet" type="text/css" href="{{asset('css/sunny/jquery-ui-1.8.23.custom.css')}}">
+        {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body id="frontend">
+        <div id="dialog"></div>
+        {% block nav %}{% endblock %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block footer %}{% include '::footer_front.html.twig' %}{% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{asset('js/jquery-1.7.2.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/jquery-ui-1.8.23.custom.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/funcionesAux.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/jquery.history.js')}}"></script>
+            <script type="text/javascript">
+
+            (function($){
+            var origContent = "";
+
+            function loadContent(hash) {
+                if(hash != "") {
+                    if(origContent == "") {
+                        origContent = $('#content').html();
+                    }
+                    $('#content').load(hash +".html",
+                                       function(){ prettyPrint(); });
+                } else if(origContent != "") {
+                    $('#content').html(origContent);
+                }
+            }
+
+            $(document).ready(function() {
+                    $.history.init(loadContent);
+                    $('#navigation a').not('.external-link').click(function(e) {
+                            var url = $(this).attr('href');
+                            url = url.replace(/^.*#/, '');
+                            $.history.load(url);
+                            return false;
+                        });
+                });
+        })(jQuery);
+
+            </script>
+        {% endblock %}
     </body>
 </html>

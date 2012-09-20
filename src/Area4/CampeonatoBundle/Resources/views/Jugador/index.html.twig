@@ -1,37 +1,58 @@
-{% extends '::base_backend.html.twig' %}
-{% block body %}
 <h1 class="titulo_seccion">Lista de Jugadores</h1>
-<a href="{{ path('jugador_new') }}" class="button">Crear jugador</a>
+<a href="{{ path('jugador_new') }}" class="button-ui-plusthick">Crear jugador</a>
 
 <table class="general">
     <thead>
         <tr>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Dni</th>
+            <th>{{ pagination.sortable('DNI', 'j.dni')|raw }}</th>
             <th>Fecha de nacimiento</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-    {% for entity in entities %}
+    {% for entity in pagination %}
         <tr>
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.apellido }}</td>
             <td>{{ entity.dni }}</td>
-            <td>{{ entity.fechadeNacimiento|date('d-m-Y') }}</td>
+            <td>{{ entity.fechadeNacimiento|date('d/m/Y') }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('jugador_show', { 'id': entity.dni }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('jugador_edit', { 'dni': entity.dni }) }}">edit</a>
-                    </li>
-                </ul>
+                <a href="javascript:editJugador({{entity.dni}})">Editar</a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-{% endblock %}
+
+{# display navigation #}
+
+<div class="navigation">
+    {{ pagination.render()|raw }}
+</div>
+
+<script type="text/javascript">
+cargarBotonesDialog('#perfil-content');
+function editJugador (id) {
+    var request = $.ajax({
+        type: 'POST',
+        url: "{{path('jugador_edit')}}",
+        data: 'idJugador='+id
+    });
+
+    request.done(function (data) {
+        $('#perfil-content').html(data);
+    });
+}
+/** Usado en el knp bundle para cargar las paginas **/
+function index (route) {
+    var request = $.ajax({
+        url: route,
+    });
+
+    request.done(function (data) {
+        $('#perfil-content').html(data);
+    })
+}
+</script>

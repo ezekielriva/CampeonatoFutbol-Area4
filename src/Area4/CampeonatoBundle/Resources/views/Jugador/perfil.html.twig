@@ -3,33 +3,18 @@
 {% block notificationBar %}{% endblock %}
 <div id="perfil">
 <div class="sidebar-perfil">
-	<h2 class="titulo_seccion">{{ jugador.apellido }}</h2>
-	<h2 class="titulo_seccion">{{ jugador.nombre }}</h2>
-
-	<hr class="barras_yellow">
-	<span class="perfil-info">Rol:</span>
-	{{ jugador.Usuario.getRoletoString }}
-	<span class="perfil-info">Email:</span>
-	{{ jugador.Usuario.email }}
-	<span class="perfil-info">Fecha de nacimiento:</span>
-	{{ jugador.FechadeNacimiento | date('d-m-Y') }}
-	<span class="perfil-info">Equipo:</span>
-	{% if jugador.Equipo %}
-		<a href="javascript:equipoShow()">{{ jugador.Equipo }}</a> 
-	{%else%}
-		{% if jugador.isCapitan %}<a href="javascript:equipoShow()">Crear Equipo</a>{% endif %}
-	{%endif%}
-	
-	{% if jugador.isCapitan %}[CAPITAN]{% endif %}
-
+	{% render 'Area4CampeonatoBundle:Jugador:sidebarPerfil' %}
 </div>
 <article class="perfil">
 	<div>{% render 'Area4CampeonatoBundle:Notificaciones:index' with {'tipo':'Perfil'} %}</div>
 	<div id="perfil-menu">
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{path('documento')}}" class="img-button" id="moduloContable"></a>
+		{% endif %}
 		{% if is_granted('ROLE_ORG') %}
 			<a href="javascript:indexCampeonato()" class="img-button" id="gestionCampeonatos"></a>
 			<a href="javascript:seleccionarCampeonato()" id="gestionPartidos" class="img-button"></a>
-			<a href="{{path('documento')}}" class="img-button" id="moduloContable"></a>
+			<a href="javascript:indexJugador()" id="jugadores" class="img-button"></a>
 		{% endif %}
 		{% if is_granted('ROLE_CAP') %}
 			<a href="javascript:invitarJugadores()" id="invitarJugador" class="img-button"></a>
@@ -45,6 +30,19 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
+
+/** Recarga el sidebar-perfil **/
+function reloadSidebarPerfil () {
+	setAjaxLoader('.sidebar-perfil');
+	var request = $.ajax({
+		type: "POST",
+		url: "{{path('jugador_perfil_sidebar')}}"
+	});
+	request.done(function (data) {
+		$('.sidebar-perfil').html(data);
+	});
+}
+
 
 function indexCampeonato () {
 	setAjaxLoader('#perfil-content');
@@ -153,6 +151,16 @@ function equipoShow () {
 		function( html ) {
   			$("#perfil-content").html(html);
 		});
+}
+
+function indexJugador () {
+	setAjaxLoader('#perfil-content');
+	var request = $.ajax({
+		url: "{{ path('jugador')}}",
+	});
+	request.done(function (data) {
+		$('#perfil-content').html(data);
+	});
 }
 </script>
 

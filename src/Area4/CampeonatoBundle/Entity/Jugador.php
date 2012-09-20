@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Area4\CampeonatoBundle\Entity\Jugador
  *
  * @ORM\Table(name="Jugador")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Area4\CampeonatoBundle\Entity\JugadorRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Jugador
@@ -104,7 +104,7 @@ class Jugador
      */
     public function setNombre($nombre)
     {
-        $this->nombre = $nombre;
+        $this->nombre = strtoupper($nombre);
     }
 
     /**
@@ -124,7 +124,7 @@ class Jugador
      */
     public function setApellido($apellido)
     {
-        $this->apellido = $apellido;
+        $this->apellido = strtoupper($apellido);
     }
 
     /**
@@ -215,7 +215,7 @@ class Jugador
      **/
     public function getNombreCompleto()
     {
-        return (string) $this->apellido.', '.$this->nombre;
+        return (string) sprintf('%s, %s',$this->apellido,$this->nombre);
     }
 
     /**
@@ -280,6 +280,17 @@ class Jugador
      **/
     private function generateSlug()
     {
-        return (string) $this->nombre.'-'.$this->apellido.'-'.$this->dni;
+        return (string) sprintf("%d - %s, %s", $this->dni, $this->apellido, $this->nombre);
+    }
+
+    /**
+     * Retorna una versíon mas amigable del nombre
+     *
+     * @return string
+     * @author ezekiel
+     **/
+    public function friendlyName()
+    {
+        return (string) sprintf("%s %s", $this->nombre, $this->apellido);
     }
 }

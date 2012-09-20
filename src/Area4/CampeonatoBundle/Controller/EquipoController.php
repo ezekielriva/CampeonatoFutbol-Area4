@@ -265,4 +265,50 @@ class EquipoController extends Controller
         );
     }
 
+
+    /**
+            ACTIONS PARA EL FRONT
+    */
+    /**
+     * Finds and displays a Equipo entity.
+     *
+     * @Route("/mostrar", name="equipo_show_front")
+     * @Template("Area4CampeonatoBundle:Equipo:show.html.twig")
+     */
+    public function showEquipoFrontAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $request = $this->getRequest();
+        $id = $request->query->get('id');
+        $equipo = $em->getRepository('Area4CampeonatoBundle:Equipo')->find($id);
+
+        $jugadores = $em->getRepository('Area4CampeonatoBundle:Jugador')->findByEquipo($equipo->getId());
+        return array(
+            'entity'      => $equipo,
+            'jugadores'   => $jugadores, 
+            );
+    }
+
+    /**
+     * Lista todos los equipos
+     *
+     * @Route("/equipos", name="equipo_index_front")
+     * @Template()
+     */
+    public function indexEquipoFrontAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entities = $em->getRepository('Area4CampeonatoBundle:Equipo')->findAll();
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $entities, 
+                $this->get('request')->query->get('page', 1),/*page number*/
+                20/*limit per page*/
+            );
+
+        return array('pagination' => $pagination);
+    }
+
 }

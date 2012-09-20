@@ -61,7 +61,6 @@ function cargarBotonesDialog(tag){
                 primary: "ui-icon-plusthick"
             }});
 }
-
 /** Objeto dialog **/
 function Dialog() {
 		this.modal = true;
@@ -104,9 +103,8 @@ function submitForm (tag,datos,url) {
 			$(tag).html(datos);
 		}
 	);
-	request.fail(
-		function(datos){
-			$(tag).html(datos);
-		}
-	);
+
+	$(tag).ajaxError(function(event, xhr, request, settings){
+        $(tag).html(xhr.responseText );
+    });
 }

@@ -1,0 +1,14 @@
+<div id="dataJugador">
+<form action="" method="post" {{ form_enctype(formJugador) }} id="formJugador">
+    <fieldset>
+        <legend>Datos del Jugador</legend>
+        {{ form_widget(formJugador) }}
+        <label for="domicilio">Domicilio:</label><br>
+        <input id="domicilio" name="domicilio" type="text" value="{{domicilio}}">
+        <p>
+        	<a href="javascript:submitForm('#dataJugador','#formJugador','{{ path('jugador_update') }}')" class="button">Modificar</a>
+        </p>
+    </fieldset>
+    <br/>
+</form>
+</div>

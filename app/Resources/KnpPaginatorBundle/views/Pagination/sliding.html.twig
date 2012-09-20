@@ -1,0 +1,46 @@
+{# default Sliding pagination control implementation #}
+
+{% if pageCount > 1 %}
+<div class="pagination">
+    {% if first is defined and current != first %}
+        <span class="first">
+            <a href="javascript:index('{{ path(route, query|merge({(pageParameterName): first})) }}')" class="buttonPaginator">
+                <span>&lt;&lt;</span>
+            </a>
+        </span>
+    {% endif %}
+
+    {% if previous is defined %}
+        <span class="previous">
+            <a href="javascript:index('{{ path(route, query|merge({(pageParameterName): previous})) }}')" class="buttonPaginator">
+                <span>&lt;</span>
+            </a>
+        </span>
+    {% endif %}
+
+    {% for page in pagesInRange %}
+        {% if page != current %}
+            <span class="page">
+                <a href="javascript:index('{{ path(route, query|merge({(pageParameterName): page})) }}')" class="buttonPaginator">
+                    <span>{{ page }}</span>
+                </a>
+            </span>
+        {% else %}
+            <a href="javascript:index('{{ path(route, query|merge({(pageParameterName): page})) }}')" class="buttonPaginator current"><span>{{ page }}</span></a>
+        {% endif %}
+
+    {% endfor %}
+
+    {% if next is defined %}
+        <span class="next">
+            <a href="javascript:index('{{ path(route, query|merge({(pageParameterName): next})) }}')" class="buttonPaginator"><span>&gt;</span></a>
+        </span>
+    {% endif %}
+
+    {% if last is defined and current != last %}
+        <span class="last">
+            <a href="javascript:index('{{ path(route, query|merge({(pageParameterName): last})) }}')" class="buttonPaginator"><span>&gt;&gt;</span></a>
+        </span>
+    {% endif %}
+</div>
+{% endif %}

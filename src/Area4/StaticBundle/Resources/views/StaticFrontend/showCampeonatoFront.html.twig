@@ -1,0 +1,46 @@
+{# tabla #}
+<h1 class="titulo_seccion">Tabla de posiciones</h1>
+<div id="tablaPosiciones"></div>
+{# partidos #}
+<br>
+<a href="javascript:cargarPartidos('all')" class="yellow">Todos</a> | <a href="javascript:cargarPartidos('JUG')" class="yellow">Por Jugarse</a> | <a href="javascript:cargarPartidos('FIN')" class="yellow">Finalizados</a>
+<div id="partidos"></div>
+{# proxima fecha ?#}
+
+<script type="text/javascript">
+cargarTablaPosiciones();
+cargarPartidos();
+function cargarTablaPosiciones () {
+	var request = $.ajax({
+        type: "get",
+        url: "{{ path('campeonato_tabla_posiciones') }}",
+        data: "campeonato={{campeonato}}",
+    });
+
+    request.done(function (html) {
+        $('#tablaPosiciones').html(html);
+    });
+}
+function cargarPartidos (formato) {
+	var request = $.ajax({
+        type: "get",
+        url: "{{ path('index_partidos_front') }}",
+        data: "campeonato={{campeonato}}&formato="+formato,
+    });
+
+    request.done(function (html) {
+        $('#partidos').html(html);
+    });
+}
+function proximosEncuentros (equipo, campeonato) {
+	var request = $.ajax({
+        type: "get",
+        url: "{{ path('partidos_equipo_front') }}",
+        data: "equipo="+equipo+"&campeonato={{campeonato}}",
+    });
+
+    request.done(function (html) {
+        $('#partidos').html(html);
+    });
+}
+</script>

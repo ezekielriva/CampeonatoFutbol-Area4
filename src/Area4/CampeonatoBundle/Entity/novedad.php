@@ -156,6 +156,17 @@ class novedad {
         6 => 'Suspención de Partido',
         7 => 'Lesión',
         );
+    
+    static public $TipoNovedadArrayToString = array(
+        'Gol-Local' => 0,
+        'Gol-Visitante' => 1,
+        'Tarjeta Amarilla' => 2,
+        'Tarjeta Roja' => 3,
+        'Tarjeta Azul' => 4,
+        'Penal' => 5,
+        'Suspención de Partido' => 6,
+        'Lesión' => 7,
+        );
 
     /**
      * Set Partido
