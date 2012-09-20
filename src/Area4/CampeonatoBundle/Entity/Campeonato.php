@@ -128,10 +128,15 @@ class Campeonato
      * Add equipo
      *
      * @param Area4\CampeonatoBundle\Entity\Equipo $equipo
+     * @return false : si el no se puede agregar el equipo al campeonato
      */
     public function addEquipo(\Area4\CampeonatoBundle\Entity\Equipo $equipo)
     {
-        $this->equipo[] = $equipo;
+        if ( !in_array($equipo, $this->equipo->toArray(), true )) {
+            $this->equipo[] = $equipo;
+        }
+        else
+            return false;
     }
 
     /**
