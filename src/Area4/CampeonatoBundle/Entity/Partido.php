@@ -105,7 +105,7 @@ class Partido
         $this->diaHora = new \DateTime('now');
         $this->resultadol = 0;
         $this->resultadov = 0;
-        $this->estado = Partio::$POR_JUGARSE;
+        $this->estado = Partido::$POR_JUGARSE;
     }
     
 
@@ -283,10 +283,14 @@ class Partido
      * Set local
      *
      * @param Area4\CampeonatoBundle\Entity\Equipo $local
+     * @return false : si no se agrega el equipo local
      */
     public function setLocal(\Area4\CampeonatoBundle\Entity\Equipo $local)
     {
-        $this->local = $local;
+        if ( $local !== $this->visitante || is_null($this->visitante) )
+            $this->local = $local;
+        else
+            return false;
     }
 
     /**
@@ -303,10 +307,15 @@ class Partido
      * Set visitante
      *
      * @param Area4\CampeonatoBundle\Entity\Equipo $visitante
+     * @return false : si no se agrega el equipo visitante
      */
     public function setVisitante(\Area4\CampeonatoBundle\Entity\Equipo $visitante)
     {
-        $this->visitante = $visitante;
+        if ( $visitante !== $this->local || is_null($this->local) )
+            $this->visitante = $visitante;
+        else
+            return false;
+        
     }
 
     /**
@@ -338,8 +347,7 @@ class Partido
      **/
     public function getCitacion()
     {
-        $hora = strtotime(date_format($this->diahora,'H:i:s'));
-        return strtotime('-20 minute', $hora);
+        return date_sub( $this->diahora, date_interval_create_from_date_string('20 minute') );
     }
 
     /**
