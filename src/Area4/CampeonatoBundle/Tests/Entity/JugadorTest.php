@@ -106,25 +106,4 @@ class JugadorTest extends WebTestCase
 		*/
 
 	}
-
-	/**
-	 * Genera un jugador de prueba
-	 *
-	 * @return array
-	 * @author ezekiel <ezerivadeneiral@gmail.com>
-	 **/
-	protected function generarJugador()
-	{
-		$formJugador = new JugadorType();
-		return array(array(array(
-				$formJugador->getName().'[dni]' => '1234567890',
-				$formJugador->getName().'[nombre]' => 'Anonimo',
-				$formJugador->getName().'[apellido]' => 'Anonimo1',
-				$formJugador->getName().'[fechadeNacimiento]' => '00/00/0000',
-				$formJugador->getName().'[equipo]' => '1',
-				'fos_user_registration_form[email]' => 'anonimo'.uniqid().'@localhost.localdomain',
-				'fos_user_registration_form[plainPassword][first]' => 'anonimo1234',
-				'fos_user_registration_form[plainPassword][second]' => 'anonimo1234',
-			)));
-	}
 }

@@ -1,12 +1,97 @@
-<!-- // <?php
+<?php
 
-// namespace Area4\CampeonatoBundle\Tests\Controller;
+namespace Area4\CampeonatoBundle\Tests\Controller;
 
-// use Symfony\Bundle\FrameworkBundle\Test\WebTestCase,
-//     Area4\CampeonatoBundle\Entity\Jugador;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Area4\CampeonatoBundle\Entity\Jugador;
+use Area4\CampeonatoBundle\Form\JugadorType;
+// \PHPUnit_Extensions_SeleniumTestCase
+class JugadorControllerTest extends WebTestCase
+//
+{   
+	public function testBasico()
+    {
+        $this->assertEquals(1, 1, "TestBasico: Probar que 1 es igual a 1");
+    }
+// 	private $jugadores_key;
+// 	private $formJugador;
+// 	private $client;
 
-// class JugadorControllerTest extends \PHPUnit_Extensions_SeleniumTestCase
-// {   
+// 	/**
+// 	 * Setip
+// 	 *
+// 	 * @author ezekiel
+// 	 **/
+// 	public function setUp()
+// 	{
+// 		$this->client = static::createClient();
+// 		$this->formJugador = new JugadorType();
+// 		$this->jugadores_key = array();
+// 	}
+
+// 	/**
+// 	 * TearDown
+// 	 *
+// 	 * @author ezekiel
+// 	 **/
+// 	public function TearDown()
+// 	{
+// 		foreach ($this->jugadores_key as $key) {
+// 			$url = $this->client->getContainer()->get('router')->generate('jugador_delete',array('id'=>$key));
+// 			$this->client->request('POST', $url );
+// 		}
+// 	}
+// 	/**
+// 	 * Test Jugadro New Action
+// 	 *
+// 	 * @author ezekiel
+// 	 **/
+// 	public function testJugadorNew()
+// 	{
+// 		$jugador = $this->generarJugador();
+// 		//Test Creacion
+// 		$url = $this->client->getContainer()->get('router')->generate('jugador_new');
+// 		$crawler = $this->client->request('GET', $url, array('token' => '1467g61584w04gkcccgocowgw8csc08g0wwcccckccgs4c8gog'));
+
+// 		$this->assertEquals(2, $crawler->filter('legend')->count()); //Corroboración
+
+		
+// 		//$form = $crawler->filter('form')->form($jugador);
+// 		//var_dump($form);
+// 		$crawler = $this->client->request('POST', $url, $jugador );
+// 		//$crawler->followRedirect();
+// 		//var_dump($crawler->filter('div.text_exception')->text());
+// 		//$this->assertEquals(1, ->count());
+// 		//$this->assertTrue( $this->client->getResponse()->isSuccessful(), 'No se puede crear el jugador' );
+// 		//$this->assertEquals( 302, $this->client->getResponse()->getStatusCode() );
+// 		//Fin Test
+
+// 		$this->jugadores_key[] = $jugador[$this->formJugador->getName().'[dni]'];
+
+// 	}
+
+// 	/**
+// 	 * Genera un jugador de prueba
+// 	 *
+// 	 * @return array
+// 	 * @author ezekiel
+// 	 **/
+// 	private function generarJugador()
+// 	{
+// 		return array(
+// 				$this->formJugador->getName().'[dni]' => '1234567890',
+// 				$this->formJugador->getName().'[nombre]' => 'Anonimo',
+// 				$this->formJugador->getName().'[apellido]' => 'Anonimo1',
+// 				$this->formJugador->getName().'[fechadeNacimiento]' => '01/01/1900',
+// 				'domicilio' => 'SiempreViva 555',
+// 				'rol' => 'ROLE_JUG',
+// 				'fos_user_registration_form[email]' => 'anonimo'.uniqid().'@localhost.localdomain',
+// 				'fos_user_registration_form[plainPassword][first]' => 'anonimo1234',
+// 				'fos_user_registration_form[plainPassword][second]' => 'anonimo1234',
+// 			);
+// 	}
+
+}
 
 //     public function testRequirements()
 //     {

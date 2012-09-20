@@ -1,6 +1,5 @@
 {% extends '::base_backend.html.twig' %}
 {% block body %}
-{% form_theme form theme %}
 <form action="" method="post" {{ form_enctype(formJugador) }} id="form">
  	<fieldset>
 		<legend>Datos del Jugador</legend>
@@ -16,7 +15,7 @@
 	</fieldset>
 	<br/>
 </form>
-<a href="javascript:enviarTodo();" class="button">Inscribirse</a>
+<a href="javascript:enviarTodo();" id="submit" class="button">Inscribirse</a>
 {% endblock %}
 
 {% block javascripts %}
