@@ -25,6 +25,19 @@ class Documento {
         );
 
     /**
+     * Contiene los estados del documento
+     * string index
+     *
+     * @return integer
+     * @author ezekiel
+     **/
+    public static $estadosStrToInt = array(
+        'ABIERTO' => 1,
+        'CANCELADO' => 2,
+        'FINALIZADO' => 3,
+     );
+
+    /**
      * @var integer $id
      *
      * @ORM\Column(name="id", type="integer")
@@ -118,8 +131,7 @@ class Documento {
      * @return integer
      */
     public function getNumero() {
-        $cad = str_pad($this->numero, 12, "0", STR_PAD_LEFT);
-        return $cad;
+        return str_pad($this->numero, 12, "0", STR_PAD_LEFT);
     }
 
     /**
@@ -221,7 +233,7 @@ class Documento {
             $this->setTipo($tipo);
             $this->setNumero($tipo->numSig());
         }
-        $this->estado = 1;
+        $this->estado = Documento::$estadosStrToInt['ABIERTO'];
         $this->lineadeDocumento = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setFecha(new \DateTime());
         $this->total = 0;
