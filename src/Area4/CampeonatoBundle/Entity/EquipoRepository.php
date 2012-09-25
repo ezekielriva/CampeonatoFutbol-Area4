@@ -65,4 +65,20 @@ class EquipoRepository extends EntityRepository
                     ->getQuery();
         return $query->getResult();
     }
+
+    /**
+     * Busca los equipos que no juegan en dicho campeonato
+     *
+     * @return Array Equipos
+     * @author ezekiel
+     * @param $idCampeoanto : id del campeonato
+     **/
+    public function findNotPlayInCampeonato($idCampeonato)
+    {
+        $query = $this->createQueryBuilder('e')
+                    ->join('e.campeonato','c')
+                    ->where('c.id <> '.$idCampeonato)
+                    ;
+        return $query;
+    }
 }

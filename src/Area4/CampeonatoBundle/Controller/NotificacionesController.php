@@ -75,14 +75,17 @@ class NotificacionesController extends Controller
         $request = $this->getRequest();
         $idCampeonato = $request->request->get('idCampeonato');
         $em = $this->getDoctrine()->getEntityManager();
-        $campeonato = $em->getRepository('Area4CampeonatoBundle:Campeonato')->find($idCampeonato);
+        $campeonato = new Campeonato();
+        $campeonatoOld = $em->getRepository('Area4CampeonatoBundle:Campeonato')->find($idCampeonato);
 
-        $form    = $this->createForm(new NotificarEquipoType(), $campeonato);
+        $notificarEquipoType = new NotificarEquipoType();
+        $notificarEquipoType->setCampeonato($idCampeonato);
+        $form   = $this->createForm(new NotificarEquipoType(), $campeonato);
         $form->bindRequest($request);
        
         foreach ($campeonato->getEquipo() as $equipo) {
             $capitan = $equipo->getCapitan();
-            $this->sendNotificacion($em, $capitan->getUsuario(),'INVITE_TEAM',$campeonato);
+            $this->sendNotificacion($em, $capitan->getUsuario(),'INVITE_TEAM',$campeonatoOld);
         }
         $em->flush();
 
@@ -91,7 +94,7 @@ class NotificacionesController extends Controller
 
 
     /**
-     * undocumented function
+     * Envia las notificaciones
      *
      * @return void
      * @author ezekiel
@@ -139,12 +142,11 @@ class NotificacionesController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $equipos = $em->getRepository('Area4CampeonatoBundle:Equipo')->findAll();
-
-        $form   = $this->createForm(new NotificarEquipoType(), new Campeonato());
+        $notificarEquipoType = new NotificarEquipoType();
+        $notificarEquipoType->setCampeonato($idCampeonato);
+        $form   = $this->createForm($notificarEquipoType, new Campeonato());
 
         return array(
-            'equipos' => $equipos,
             'idCampeonato' => $idCampeonato,
             'form' => $form->createView(),
         );
@@ -328,11 +330,23 @@ class NotificacionesController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $notificacion = $em->getRepository('Area4CampeonatoBundle:Notificaciones')->find($id);
-        // Notificación para jugar en un equipo.
-        /*if ( 0 < $idEquipo && 0 > $idCampeonato ){
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
-        }*/
+
+        $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($id);
+
+        if ($idEquipo < 0 && $idCampeonato > 0) {
+            $campeonato = $em->getRepository('Area4CampeonatoBundle:Campeonato')->find($idCampeonato);
+            $equipo = $jugador->getEquipo();
+            $campeonato->addEquipo($equipo);
+            $em->persist($campeonato);
+        } else {
+            $equipo = $em->getRepository('Area4CampeonatoBundle:Equipo')->find($idEquipo);
+            $equipo->addJugador($jugador);
+            $jugador->setEquipo($equipo);
+            $em->persist($jugador);
+            $em->persist($equipo);
+        }
+        $em->flush();
+        
         return array('notificacion'=>$notificacion);
     }
 
@@ -357,21 +371,27 @@ class NotificacionesController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $notificacion = $em->getRepository('Area4CampeonatoBundle:Notificaciones')->find($id);
 
-
-
         $user = $this->container->get('security.context')->getToken()->getUser();
         $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
 
         if ($notificacion->getEquipo()) {
             //Si la notificación tiene un equipo la invitación es para un jugador
             $jugador->setEquipo($notificacion->getEquipo());
+            $equipo = $notificacion->getEquipo();
+            $equipo->addJugador($jugador);
             $em->persist($jugador);
+            $em->persist($equipo);
         }
         if ($notificacion->getCampeonato()) {
             //Si la notificacion tiene un campeonato es para invitar a un equipo
+            $campeonato = $notificacion->getCampeonato();
             $equipo = $jugador->getEquipo();
-            $equipo->addCampeonato($notificacion->getCampeonato());
+            
+            $campeonato->addEquipo($equipo);
+            $equipo->addCampeonato($campeonato);
+            
             $em->persist($equipo);
+            $em->persist($campeonato);
         }        
         $notificacion->setEnabled(false);
         $em->persist($notificacion);
