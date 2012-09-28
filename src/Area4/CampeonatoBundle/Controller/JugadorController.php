@@ -212,16 +212,20 @@ class JugadorController extends Controller {
      */
     public function perfilAction($dni) {
 
+        $userSession = $this->container->get('security.context')->getToken()->getUser();
+        
         $em = $this->getDoctrine()->getEntityManager();
 
         $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->find($dni);
 
         if (!$jugador) {
-            throw $this->createNotFoundException('No se encontro el Jugador buscado.');
+            $jugador = new Jugador();
+            $jugador->setUsuario($userSession);
+            //throw $this->createNotFoundException('No se encontro el Jugador buscado.');
         }
 
         $usuario = $jugador->getUsuario();
-        $userSession = $this->container->get('security.context')->getToken()->getUser();
+        
         if ( !$usuario->equals($userSession) ) {
             throw new AccessDeniedException();
         }
@@ -345,7 +349,12 @@ class JugadorController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
 
-        return array('jugador' => $jugador);
+        if (!$jugador) {
+            $jugador = new Jugador();
+            $jugador->setUsuario($user);
+        }
+
+        return array('jugador' => $jugador, 'isJugador' => ($user->hasRole('ROLE_ORG')) ? true : false, );
     }
 
 }

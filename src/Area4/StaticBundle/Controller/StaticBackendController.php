@@ -18,7 +18,7 @@ class StaticBackendController extends Controller
     	$jugador = $em->getRepository('Area4CampeonatoBundle:Jugador')->findOneByUsuario($user->getId());
 
         return $this->redirect($this->generateUrl('jugador_perfil',array(
-        	'dni' => (!$jugador) ? $jugador->getDni() : '0' ,
+        	'dni' => ($jugador) ? $jugador->getDni() : '0' ,
         	)));
     }
 }
